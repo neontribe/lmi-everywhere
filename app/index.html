@@ -1,0 +1,104 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="components/jquery-mobile/jquery.mobile-1.3.0.css">
+
+ <link rel="stylesheet" href="components/rickshaw.css">
+  </head>
+  <body ng-app="lmiApp">
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="components/es5-shim/es5-shim.js"></script>
+      <script src="components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-controller="SocView">
+      <section id="search" data-role="page" data-theme="a">
+        <header data-role="header" data-position="fixed"> 
+          <h1>LMI</h1>
+        </header>
+        <div data-role="content">
+          Discover your future. Type your dream job here:
+          <input type="text" ng-model="query" placeholder="I want to be a..."/>
+          <a ng-href="#list" ng-click="search()"
+            data-role="button"
+            data-transition="flow">Search</a>
+        </div>
+      </section>
+
+      <section id="list" data-role="page" data-theme="a">
+        <header data-role="header" data-position="fixed"> 
+          <h1>LMI</h1>
+        </header>
+        <div data-role="content">
+          <ul data-role="listview" data-inset="false">
+            <li ng-repeat="soc in results" >
+              <a data-ng-href="#info" 
+                data-transition="flow"
+                ng-click="choose(soc.soc)">
+                <h2>{{soc.title}}</h2>
+                <p>{{soc.description}}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="info" data-role="page" data-theme="a">
+        <header data-role="header" data-position="fixed">
+          <h1>LMI</h1>
+        </header>
+        <p style="padding: 10px;">Opportunites for {{ soc.title }} in East of England</p>
+        <div id="chart">
+        </div>
+        <footer data-role="footer" data-position="fixed">
+            <a href="#search">new search</a>
+            <a href="#settings">settings</a>
+        </footer>
+        
+        <div id="settings" data-role="panel" data-display="push">
+          <a href="#my-header" data-rel="close">Close panel</a>
+          <button ng-click="clear()">Clear my saved searches</button>
+        </div>
+      </section>
+    </div>
+    <script src="components/underscore/underscore.js"></script>
+    <script src="components/jquery-1.9.1/index.js"></script>
+    <script src="components/jquery-mobile/jquery.mobile-1.3.0.js"></script>
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular-resource/angular-resource.js"></script>
+    <script src="components/angular-cookies/angular-cookies.js"></script>
+    <script src="components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="components/d3/d3.min.js"></script>
+    <script src="components/rickshaw.js"></script>
+   <!-- <script src="components/jquery-mobile-angular-adapter.js"></script> -->
+
+    <!-- build:js scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
