@@ -41,5 +41,6 @@
     iframe.style.width = params.width || '250px';
     iframe.style.height = params.height || '300px';
     iframe.style.border = 'none';
+    iframe.scrolling = 'no';
     target.parentNode.insertBefore(iframe, target);
 })();
