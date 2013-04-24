@@ -256,11 +256,9 @@ function regionTrendData(data)
 
                         });
 
-                        var inverted_regions = _.invert(regions);
-
                         var html = '<ul>';
-                        $.each(inverted_regions, function(id, trend){
-                            html += '<li>Opportunities in ' + inverted_regions[id] + ' are ' + ((region_trends[id] > 0) ? 'increaing' : 'decreasing') + '</li>';
+                        $.each(regions, function(name, id){
+                            html += '<li>Opportunities in ' + getRegionName(id) + ' are ' + ((region_trends[id] > 0) ? 'increaing' : 'decreasing') + '</li>';
                         });
                         html += '</ul>';
 
