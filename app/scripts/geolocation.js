@@ -66,6 +66,21 @@ var regions = {
     'Yorkshire and the Humber': 7
 };
 
+var mapitRegions = {
+    '1':11806,
+    '6':11805,
+    '3':11804,
+    '9':11812,
+    '12':16869,
+    '8': 11807,
+    '11': 11808,
+    '2': 11811,
+    '4': 11814,
+    '10': 11813,
+    '5': 11809,
+    '7': 11810
+};
+
 function euroRegionToLMIregion(region) {
     return regions[region];
 }
