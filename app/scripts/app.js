@@ -34,6 +34,26 @@ function calculateTrend(data, raw)
     return ((a-b)/(c-d));
 }
 
+function regionTrendData(data)
+{
+    var regions = [];
+
+    $.each(data.predictedEmployment, function(){
+        var year = this.year;
+
+        $.each(this.breakdown, function(){
+
+            if (typeof regions[this.code] !== 'object') {
+                regions[this.code.toString()] = [];
+            }
+
+            regions[this.code.toString()].push({year:year, employment:this.employment});
+        });
+    });
+
+    return regions;
+}
+
 (function($, undefined){
     'use strict';
 
@@ -71,7 +91,7 @@ function calculateTrend(data, raw)
         var promise = $to.data('promise');
         if (promise) {
             $to.removeData('promise');
-            $.mobile.loading('show');                
+            $.mobile.loading('show');
             return promise.then(function() {
                 $.mobile.loading('hide');
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
@@ -79,7 +99,7 @@ function calculateTrend(data, raw)
         }
         return oldDefaultTransitionHandler(name, reverse, $to, $from);
     };
-    
+
     /**
      * Simple templte renderer
      * @param  {[Element]} target      [a jQuery wrapped element to accept the content]
@@ -105,7 +125,7 @@ function calculateTrend(data, raw)
     $('#list').on('click', 'a', function(evt){
         var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
         app.soc = soc.soc;
-        app.cache[app.soc] = soc; 
+        app.cache[app.soc] = soc;
     });
 
     /**
@@ -221,6 +241,26 @@ function calculateTrend(data, raw)
                             soc: app.soc
                         }
                     }).done(function(data){
+
+                        var region_years = regionTrendData(data);
+                        var region_trends = [];
+
+                        $.each(regions, function(k, v){
+
+                            region_trends[v] = calculateTrend(region_years[v.toString()]);
+
+                        });
+
+                        var inverted_regions = _.invert(regions);
+
+                        var html = '<ul>';
+                        $.each(inverted_regions, function(id, trend){
+                            html += '<li>Opportunities in ' + inverted_regions[id] + ' are ' + ((region_trends[id] > 0) ? 'increaing' : 'decreasing') + '</li>';
+                        });
+                        html += '</ul>';
+
+                        $('#trends').html(html);
+
                         d.resolve();
                     });
                 });
