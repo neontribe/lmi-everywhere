@@ -1,11 +1,14 @@
 <html>
 <head></head>
 <body>
-    <iframe 
-        height="300" 
-        width="200" 
-        src="http://localhost:9000?region=3"
-        frameborder="0"
-        scrolling="no"/>
+    <script>
+        (function() {
+            var script = document.createElement('script');
+            script.src = './lmi-everywhere.js?soc=5111';
+            script.async = true;
+            var entry = document.getElementsByTagName('script')[0];
+            entry.parentNode.insertBefore(script, entry);
+        })();
+    </script>
 </body>
 </html>
