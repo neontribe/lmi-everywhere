@@ -3,7 +3,7 @@
 
     var app = {
         search_term: null,
-        soc: null
+        soc: null,
     };
 
     /**
