@@ -258,7 +258,10 @@ function regionTrendData(data)
 
                         var html = '<ul>';
                         $.each(regions, function(name, id){
-                            html += '<li>Opportunities in ' + getRegionName(id) + ' are ' + ((region_trends[id] > 0) ? 'increaing' : 'decreasing') + '</li>';
+
+                            var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
+
+                            html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span></li>';
                         });
                         html += '</ul>';
 

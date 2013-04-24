@@ -4,6 +4,11 @@
     margin: auto;
 }
 
+#trends ul { list-style: none; padding-left: 0px; }
+#trends ul li + li { margin-top: 10px; }
+.increasing { color: #40F76B; }
+.decreasing { color: #F74040; }
+
 #list {
     background: #222;
 }
@@ -193,7 +198,7 @@
 }
 
 #info .chart {
-    position: absolute; 
-    bottom: 0; 
+    position: absolute;
+    bottom: 0;
     left: 0;
 }
