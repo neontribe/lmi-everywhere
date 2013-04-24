@@ -1,0 +1,9 @@
+{
+  "name": "bbq",
+  "main": "index.js",
+  "version": "0.0.0",
+  "repository": {
+    "type": "asset",
+    "url": "https://raw.github.com/cowboy/jquery-bbq/v1.2.1/jquery.ba-bbq.js"
+  }
+}
