@@ -4,15 +4,19 @@
     var app = {
         search_term: null,
         soc: null,
-        region: 3
+        region: 3,
+        cache: {}
     };
 
     // Grab config from our URL
     $.extend(true, app, $.deparam.querystring());
 
-    // Pick a starting page
+    // Pick a starting page TODO: de-uglify this.
     if (app.search_term) {
         window.location.hash = 'list';
+    }
+    if (app.soc) {
+        window.location.hash = 'info';
     }
     // Init jQM
     $.mobile.initializePage();
@@ -23,10 +27,8 @@
      */
     var oldDefaultTransitionHandler = $.mobile.defaultTransitionHandler;
     $.mobile.defaultTransitionHandler = function(name, reverse, $to, $from) {
-        console.log('defaultTransitionHandler invoked');
         var promise = $to.data('promise');
         if (promise) {
-            console.log('found promise on page ' + $to.prop('id'));
             $to.removeData('promise');
             $.mobile.loading('show');                
             return promise.then(function() {
@@ -60,7 +62,9 @@
     });
 
     $('#list').on('click', 'a', function(evt){
-        app.soc = _.findWhere(app.search_results, { soc: $(this).data('soc')}); 
+        var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
+        app.soc = soc.soc;
+        app.cache[app.soc] = soc; 
     });
 
     /**
@@ -87,47 +91,66 @@
         $page.data('promise', promise);
     });
 
+    function fetchSOC(code) {
+        var d = $.Deferred();
+        if (!app.cache[code]) {
+            $.ajax({
+                url: 'http://api.lmiforall.org.uk/api/soc/code/' + code,
+                method: 'GET',
+                dataType: 'json',
+            }).done(function(soc){
+                app.cache[code] = soc;
+                d.resolve();
+            });
+        } else {
+            d.resolve();
+        }
+        return d.promise();
+    }
+
     /**
      * Fetch working futures predictions and prepare the info view
      */
     $(document).on('pagebeforeshow', '#info', function(){
         var $page = $(this),
             promise = $.Deferred(function(d){
-                $.ajax({
-                    url: 'http://api.lmiforall.org.uk/api/wf/predict',
-                    method: 'GET',
-                    dataType: 'json',
-                    data: {
-                        soc: app.soc.soc,
-                        region: app.region
-                    }
-                }).done(function(data){
-                    var chart_data, chart, axes;
-                    render($page.find('div[data-role=content]'), 'info_content', {
-                        soc: app.soc
-                    });
-                    // mangle the data for the rickshaw chart
-                    chart_data = $.map(data.predictedEmployment, function(v){
-                        return {
-                            x: new Date(v.year.toString()).getTime() / 1000,
-                            y: v.employment
+                fetchSOC(app.soc).then(function(){
+                    $.ajax({
+                        url: 'http://api.lmiforall.org.uk/api/wf/predict',
+                        method: 'GET',
+                        dataType: 'json',
+                        data: {
+                            soc: app.soc,
+                            region: app.region
                         }
+                    }).done(function(data){
+                        var chart_data, chart, axes;
+                        render($page.find('div[data-role=content]'), 'info_content', {
+                            soc: app.cache[app.soc]
+                        });
+                        // mangle the data for the rickshaw chart
+                        chart_data = $.map(data.predictedEmployment, function(v){
+                            return {
+                                x: new Date(v.year.toString()).getTime() / 1000,
+                                y: v.employment
+                            }
+                        });
+                        // Clear any previous chart. This is less than elegant...
+                        $page.find('.chart').empty();
+                        chart = new Rickshaw.Graph( {
+                            element: $page.find('.chart')[0],
+                            min: 'auto',
+                            width: $('body').width(),
+                            height: $(window).height() * 0.45,
+                            series: [{
+                                color: 'steelblue',
+                                data: chart_data
+                            }]
+                        });
+                        axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                        chart.render();
+                        d.resolve();
                     });
-                    // Clear any previous chart. This is less than elegant...
-                    $page.find('.chart').empty();
-                    chart = new Rickshaw.Graph( {
-                        element: $page.find('.chart')[0],
-                        min: 'auto',
-                        width: $('body').width(),
-                        height: $(window).height() * 0.45,
-                        series: [{
-                            color: 'steelblue',
-                            data: chart_data
-                        }]
-                    });
-                    axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
-                    chart.render();
-                    d.resolve();
                 });
             }).promise();
         $page.data('promise', promise);
