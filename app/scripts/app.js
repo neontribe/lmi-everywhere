@@ -4,12 +4,17 @@
     var app = {
         search_term: null,
         soc: null,
-        region: 3,
+        region: null,
         cache: {}
     };
 
     // Grab config from our URL
-    $.extend(true, app, $.deparam.querystring());
+    $.extend(true, app, $.deparam.querystring(true));
+    if (app.region !== null) {
+        app.region = app.region || getUsersLocation(function(region){
+            app.region = region;
+        });
+    }
 
     // Pick a starting page TODO: de-uglify this.
     if (app.search_term) {
@@ -121,7 +126,7 @@
                         dataType: 'json',
                         data: {
                             soc: app.soc,
-                            region: app.region
+                            region: app.region || ''
                         }
                     }).done(function(data){
                         var chart_data, chart, axes;
@@ -149,6 +154,31 @@
                         });
                         axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
                         chart.render();
+                        d.resolve();
+                    });
+                });
+            }).promise();
+        $page.data('promise', promise);
+    });
+
+    /**
+     * Fetch working futures predictions and prepare the info view
+     */
+    $(document).on('pagebeforeshow', '#moreinfo', function(){
+        var $page = $(this),
+            promise = $.Deferred(function(d){
+                fetchSOC(app.soc).then(function(){
+                    $.ajax({
+                        url: 'http://api.lmiforall.org.uk/api/wf/predict/breakdown/region',
+                        method: 'GET',
+                        dataType: 'json',
+                        data: {
+                            soc: app.soc
+                        }
+                    }).done(function(data){
+                        render($page.find('div[data-role=content]'), 'moreinfo_content', {
+                            soc: app.cache[app.soc]
+                        });
                         d.resolve();
                     });
                 });

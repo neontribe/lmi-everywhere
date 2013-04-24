@@ -51,37 +51,30 @@ function LatLongToOSGrid(p) {
     return [E, N];
 }
 
+var regions = {
+    'London': 1,
+    'East Midlands': 6,
+    'Eastern': 3,
+    'North East': 9,
+    'Northern Ireland': 12,
+    'North West': 8,
+    'Scotland': 11,
+    'South East': 2,
+    'South West': 4,
+    'Wales': 10,
+    'West Midlands': 5,
+    'Yorkshire and the Humber': 7
+};
+
 function euroRegionToLMIregion(region) {
-    switch (region)
-    {
-        case 'London':
-            return 1;
-        case 'East Midlands':
-            return 6;
-        case 'Eastern':
-            return 3;
-        case 'North East':
-            return 9;
-        case '"Northern Ireland':
-            return 12;
-        case 'North West':
-            return 8;
-        case 'Scotland':
-            return 11;
-        case 'South East':
-            return 2;
-        case 'South West':
-            return 4;
-        case 'Wales':
-            return 10;
-        case 'West Midlands':
-            return 5;
-        case 'Yorkshire and the Humber':
-            return 7;
-    }
+    return regions[region];
 }
 
-function getUsersLocation()
+function getRegionName(id) {
+    return _.invert(regions)[id.toString()];
+};
+
+function getUsersLocation(cb)
 {
     if ('geolocation' in navigator) {
 
@@ -90,12 +83,10 @@ function getUsersLocation()
         navigator.geolocation.getCurrentPosition(function(pos){
 
             EN = LatLongToOSGrid(pos.coords);
-            getRegionFromLatLong(EN);
+            getRegionFromLatLong(EN, cb);
 
         }, function(error){
-
-            console.log((error.code === error.PERMISSION_DENIED) ? 'You denied geolocation' : 'Couldn\'t find your location');
-
+            cb(null);
         });
 
     } else {
@@ -103,11 +94,11 @@ function getUsersLocation()
     }
 }
 
-function getRegionFromLatLong(coords)
+function getRegionFromLatLong(coords, cb)
 {
     $.getJSON('http://mapit.mysociety.org/point/27700/'+coords[0]+','+coords[1]+'?type=EUR', function(data){
         $.each(data, function(){
-            console.log('Users region code is = ' + euroRegionToLMIregion(this.name));
+            cb(euroRegionToLMIregion(this.name));
         });
     });
 }
