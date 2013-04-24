@@ -1,0 +1,24 @@
+{   
+    "predictedEmployment": [
+        {
+            "year": 2009,
+            "employment": 20
+        },
+        {
+            "year": 2010,
+            "employment": 30
+        },
+        {
+            "year": 2011,
+            "employment": 40
+        },
+        {
+            "year": 2012,
+            "employment": 50
+        },
+        {
+            "year": 2013,
+            "employment": 60
+        }
+    ]
+}
