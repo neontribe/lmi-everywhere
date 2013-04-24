@@ -101,10 +101,10 @@ function euroRegionToLMIregion(region) {
 }
 
 function getRegionName(id) {
-    if (id !== null && id !== '') {
+    if (id) {
         return _.invert(saneRegions)[id.toString()];
     } else {
-        return "UK";
+        return "the UK";
     }
 
 };
