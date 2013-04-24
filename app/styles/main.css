@@ -92,14 +92,15 @@
     #list .ui-listview .ui-li-heading {
         margin: 0;
         padding: 20px;
-        bottom: 50%;
+        height: 60px;
     }
     #list .ui-listview .ui-li-desc {
         margin: 0;
         padding: 0 20px;
-        min-height: 50%;
-        bottom: 0;
+        height: 110px;
+        bottom: 20px;
         line-height: 1.5;
+        overflow: hidden;
     }
     /* Semi transparent background and different position if there is a thumb */
     .ui-listview .ui-li-has-thumb .ui-li-heading,
