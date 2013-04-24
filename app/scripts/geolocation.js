@@ -5,6 +5,8 @@ Number.prototype.toRad = function() {
 
 /*
  * Convert latitude and longitude coordinates into OS grid references
+ *
+ * Code adapted from http://www.movable-type.co.uk/scripts/latlong-gridref.html
  */
 function LatLongToOSGrid(p) {
     var lat = p.latitude.toRad(), lon = p.longitude.toRad();
