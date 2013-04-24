@@ -221,9 +221,6 @@ function calculateTrend(data, raw)
                             soc: app.soc
                         }
                     }).done(function(data){
-                        render($page.find('div[data-role=content]'), 'moreinfo_content', {
-                            soc: app.cache[app.soc]
-                        });
                         d.resolve();
                     });
                 });
