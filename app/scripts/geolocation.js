@@ -50,3 +50,64 @@ function LatLongToOSGrid(p) {
 
     return [E, N];
 }
+
+function euroRegionToLMIregion(region) {
+    switch (region)
+    {
+        case 'London':
+            return 1;
+        case 'East Midlands':
+            return 6;
+        case 'Eastern':
+            return 3;
+        case 'North East':
+            return 9;
+        case '"Northern Ireland':
+            return 12;
+        case 'North West':
+            return 8;
+        case 'Scotland':
+            return 11;
+        case 'South East':
+            return 2;
+        case 'South West':
+            return 4;
+        case 'Wales':
+            return 10;
+        case 'West Midlands':
+            return 5;
+        case 'Yorkshire and the Humber':
+            return 7;
+    }
+}
+
+function getUsersLocation()
+{
+    if ('geolocation' in navigator) {
+
+        var EN = null;
+
+        navigator.geolocation.getCurrentPosition(function(pos){
+
+            EN = LatLongToOSGrid(pos.coords);
+            getRegionFromLatLong(EN);
+
+        }, function(error){
+
+            console.log((error.code === error.PERMISSION_DENIED) ? 'You denied geolocation' : 'Couldn\'t find your location');
+
+        });
+
+    } else {
+        console.log('No geolocation');
+    }
+}
+
+function getRegionFromLatLong(coords)
+{
+    $.getJSON('http://mapit.mysociety.org/point/27700/'+coords[0]+','+coords[1]+'?type=EUR', function(data){
+        $.each(data, function(){
+            console.log('Users region code is = ' + euroRegionToLMIregion(this.name));
+        });
+    });
+}
