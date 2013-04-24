@@ -2,6 +2,16 @@ LMI Everywhere
 ============== 
 A prototype widget for distributing information from http://api.lmiforall.org.uk
 
+Modding Day! Getting started:
+
+    git clone git@github.com:marxian/lmi-everywhere.git
+    cd lmi-everywhere
+    npm install && bower install --dev
+    grunt server
+
+Requires node.js http://nodejs.org
+Don't want node? It's only being used for dependency management and build tasks, we'll work something out...
+
 LMI Everywhere is a responsive application designed for easy resuse. Currently it prompts the viewer to imagine their future profession and then fetches and visualises data about the projected job market in an area.
 
 It can either detect the viewers location or be configured to show data relevant to a specific area.
