@@ -23,34 +23,37 @@
       <script src="components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <section id="gen" data-role="page" data-theme="a">
+    <section id="gen" data-role="page" data-theme="c">
       <header data-role="header" data-position="fixed"> 
         <h1>LMI Everywhere Generator</h1>
       </header>
       <div data-role="content">
-        <form class="generator">
-          <input type="text" placeholder="Search Term" name="search_term"/>
-          <input type="text" placeholder="SOC" name="soc"/>
-          <select name="region">
-            <option value="">Visitor's Region</option>
-            <option value="null">All UK</option>
-            <option value="1">London</option>
-            <option value="6">East Midlands</option>
-            <option value="3">Eastern</option>
-            <option value="9">North East</option>
-            <option value="12">Northern Ireland</option>
-            <option value="8">North West</option>
-            <option value="11">Scotland</option>
-            <option value="2">South East</option>
-            <option value="4">South West</option>
-            <option value="10">Wales</option>
-             <option value="5">West Midlands</option>
-            <option value="7">Yorkshire and the Humber</option>
-          </select>
-          <button class="generate">Build Widget</button>
-        </form>
-        <textarea id="output" rows="9"></textarea>
-        <div id="demo"></div>
+        <div id="demo" style="width: 45%;float:right;"></div>
+        <div style="width:45%">
+          <form class="generator">
+            <input type="text" placeholder="Search Term" name="search_term"/>
+            <input type="text" placeholder="SOC" name="soc"/>
+            <select name="region">
+              <option value="">Visitor's Region</option>
+              <option value="null">All UK</option>
+              <option value="1">London</option>
+              <option value="6">East Midlands</option>
+              <option value="3">Eastern</option>
+              <option value="9">North East</option>
+              <option value="12">Northern Ireland</option>
+              <option value="8">North West</option>
+              <option value="11">Scotland</option>
+              <option value="2">South East</option>
+              <option value="4">South West</option>
+              <option value="10">Wales</option>
+               <option value="5">West Midlands</option>
+              <option value="7">Yorkshire and the Humber</option>
+            </select>
+            <button class="generate">Build Widget</button>
+          </form>
+          <textarea id="output" style="height: 250px;"></textarea>
+        </div>
+        
       </div>
     </section>
 

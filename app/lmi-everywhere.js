@@ -38,8 +38,8 @@
     var target = document.getElementsByTagName('script')[0]
 
     iframe.src = "./index.html?" + url.replace(/^.*\?/, '');
-    iframe.style.width = params.width || '250px';
-    iframe.style.height = params.height || '300px';
+    iframe.style.width = params.width || '300px';
+    iframe.style.height = params.height || '400px';
     iframe.style.border = 'none';
     iframe.scrolling = 'no';
     target.parentNode.insertBefore(iframe, target);
