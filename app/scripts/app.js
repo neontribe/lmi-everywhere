@@ -60,10 +60,9 @@ function regionTrendData(data)
     var app = {
         search_term: null,
         soc: null,
-        region: null,
         cache: {}
     };
-
+    $.mobile.defaultPageTransition = 'flow';
     // Grab config from our URL
     $.extend(true, app, $.deparam.querystring(true));
     if (app.region !== null) {
@@ -118,6 +117,12 @@ function regionTrendData(data)
     /**
      * Set app.search_term when the search button is clicked
      */
+    $('#search').on('keyup', 'input', function(evt){
+        if (evt.which === 13) {
+            app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
+            $.mobile.changePage('#list');
+        }
+    });
     $('#search').on('click', 'a', function(evt){
         app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
     });
@@ -189,7 +194,7 @@ function regionTrendData(data)
                         var trend = calculateTrend(data.predictedEmployment);
                         var raw_trend = calculateTrend(data.predictedEmployment, true);
 
-                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in the UK are '+((trend > 0)? 'increasing':'decreasing');
+                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trend > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trend[1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trend[0])) + ' this will '+((trend > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trend[1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
 
                        render($page.find('div[data-role=content]'), 'info_content', {
