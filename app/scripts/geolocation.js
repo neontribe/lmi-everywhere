@@ -66,12 +66,32 @@ var regions = {
     'Yorkshire and the Humber': 7
 };
 
+var saneRegions = {
+    'London': 1,
+    'the East Midlands': 6,
+    'the Eastern Region': 3,
+    'the North East': 9,
+    'Northern Ireland': 12,
+    'the North West': 8,
+    'Scotland': 11,
+    'the South East': 2,
+    'the South West': 4,
+    'Wales': 10,
+    'the West Midlands': 5,
+    'Yorkshire and the Humber': 7
+}
+
 function euroRegionToLMIregion(region) {
     return regions[region];
 }
 
 function getRegionName(id) {
-    return _.invert(regions)[id.toString()];
+    if (id !== null && id !== '') {
+        return _.invert(saneRegions)[id.toString()];
+    } else {
+        return "UK";
+    }
+    
 };
 
 function getUsersLocation(cb)
