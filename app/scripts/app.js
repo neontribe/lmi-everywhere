@@ -4,7 +4,18 @@
     var app = {
         search_term: null,
         soc: null,
+        region: 3
     };
+
+    // Grab config from our URL
+    $.extend(true, app, $.deparam.querystring());
+
+    // Pick a starting page
+    if (app.search_term) {
+        window.location.hash = 'list';
+    }
+    // Init jQM
+    $.mobile.initializePage();
 
     /**
      * Provide a custom transistion handler to let us load and render api data before page show
@@ -68,7 +79,7 @@
                 }).done(function(data){
                     app.search_results = data;
                     render($page.find('ul'), 'list_content', {jobs: data});
-                    $page.find('ul').listview();
+                    $page.find('ul').listview('refresh');
                     d.resolve();
                 });
             }).promise();
@@ -88,7 +99,7 @@
                     dataType: 'json',
                     data: {
                         soc: app.soc.soc,
-                        region: 3 //Fix this with geomagic!
+                        region: app.region
                     }
                 }).done(function(data){
                     var chart_data, chart, axes;
