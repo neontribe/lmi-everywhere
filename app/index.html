@@ -58,24 +58,32 @@
 
     <section id="info" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
+      	<a href="#search">New Search</a>
         <h1>LMI</h1>
       </header>
       <div data-role="content"></div>
 
       <footer data-role="footer" data-position="fixed">
-          <a href="#search">new search</a>
-          <a href="#settings">settings</a>
+        <a href="#moreinfo">Visualise on a map</a>
       </footer>
-
-      <div id="settings" data-role="panel" data-display="push">
-        <a href="#my-header" data-rel="close">Close panel</a>
-        <button class="clear_search">Clear my saved searches</button>
-      </div>
     </section>
     <script id="info_content" type="text/template">
-      <p>Opportunites for <%= soc.title %></p>
+      <h2><%= header %></h2>
+      <p><%= explain %></p>
       <div class="chart"></div>
     </script>
+
+    <section id="moreinfo" data-role="page" data-position="fixed">
+    	<header data-role="header" data-position="fixed">
+    		  <a href="#info">Back</a>
+    			<h1>LMI</h1>
+    	</header>
+
+    	<div data-role="content">
+    		<p>Map here!</p>
+    	</div>
+    </section>
+
 
     <!-- build:js scripts/scripts.js -->
     <script src="components/underscore/underscore.js"></script>

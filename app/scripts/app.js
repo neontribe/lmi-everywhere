@@ -1,3 +1,39 @@
+function calculateTrend(data, raw)
+{
+    var x = [];
+    var y = [];
+
+    $.each(data, function(){
+        x.push(this.year);
+        y.push(this.employment);
+    });
+
+    var a = 0;
+    var b = 0;
+    var b_x = 0;
+    var b_y = 0;
+    var c = 0;
+    var d = 0;
+
+    for (var i = 0; i < x.length; i++) {
+        a = a + (x[i] * y[i]);
+        b_x = b_x + x[i];
+        b_y = b_y + y[i];
+        c = c + (x[i] ^ 2);
+        d = d + x[i];
+    }
+    a = a*x.length;
+    b = b_x * b_y;
+    c = x.length * c;
+    d = d ^ 2;
+
+    if (raw !== undefined) {
+        return [x, y];
+    }
+
+    return ((a-b)/(c-d));
+}
+
 (function($, undefined){
     'use strict';
 
@@ -129,10 +165,19 @@
                             region: app.region || ''
                         }
                     }).done(function(data){
+
+                        var trend = calculateTrend(data.predictedEmployment);
+                        var raw_trend = calculateTrend(data.predictedEmployment, true);
+
+                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in the UK are '+((trend > 0)? 'increasing':'decreasing');
+                        var explain = 'Currently there are approximately ' + Math.ceil(raw_trend[1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trend[0])) + ' this will '+((trend > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trend[1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
+
+                       render($page.find('div[data-role=content]'), 'info_content', {
+                           header: header,
+                           explain: explain
+                       });
+
                         var chart_data, chart, axes;
-                        render($page.find('div[data-role=content]'), 'info_content', {
-                            soc: app.cache[app.soc]
-                        });
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(data.predictedEmployment, function(v){
                             return {
