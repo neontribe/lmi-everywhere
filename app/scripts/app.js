@@ -1,12 +1,13 @@
 function calculateTrend(data, raw)
 {
+    'use strict';
     var x = [];
     var y = [];
 
     $.each(data, function(){
         x.push(this.year);
         y.push(this.employment);
-    });
+      });
 
     var a = 0;
     var b = 0;
@@ -140,7 +141,7 @@ function regionTrendData(data)
         var $page = $(this),
             promise = $.Deferred(function(d){
                 $.ajax({
-                    url: 'http://api.lmiforall.org.uk/api/soc/search',
+                    url: 'http://api.lmiforall.org.uk/api/v1/soc/search',
                     method: 'GET',
                     dataType: 'json',
                     data: {
@@ -161,7 +162,7 @@ function regionTrendData(data)
         var d = $.Deferred();
         if (!app.cache[code]) {
             $.ajax({
-                url: 'http://api.lmiforall.org.uk/api/soc/code/' + code,
+                url: 'http://api.lmiforall.org.uk/api/v1/soc/code/' + code,
                 method: 'GET',
                 dataType: 'json',
             }).done(function(soc){
@@ -182,7 +183,7 @@ function regionTrendData(data)
             promise = $.Deferred(function(d){
                 fetchSOC(app.soc).then(function(){
                     $.ajax({
-                        url: 'http://api.lmiforall.org.uk/api/wf/predict',
+                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict',
                         method: 'GET',
                         dataType: 'json',
                         data: {
@@ -239,7 +240,7 @@ function regionTrendData(data)
             promise = $.Deferred(function(d){
                 fetchSOC(app.soc).then(function(){
                     $.ajax({
-                        url: 'http://api.lmiforall.org.uk/api/wf/predict/breakdown/region',
+                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
                         method: 'GET',
                         dataType: 'json',
                         data: {
