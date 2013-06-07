@@ -975,7 +975,7 @@
     
     // IE6/7 specifically need some special love when it comes to back-button
     // support, so let's do a little browser sniffing..
-    browser = $.browser || {},
+    browser = $.browser,
     mode = document.documentMode,
     is_old_ie = browser.msie && ( mode === undefined || mode < 8 ),
     

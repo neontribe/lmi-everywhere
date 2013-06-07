@@ -53,7 +53,7 @@ checkout this list:
 * `$.mockjax(options)`
   * Sets up a mockjax handler.
   * `options`: An object literal which defines the settings to use for the mocked request.
-      * `url`: A string or regular expression specifying the url of the request that the data should be mocked for. If the url is a string and contains an asterisk ( * ), it is treated as a wildcard, by translating to a regular expression, replacing the asterisk with `.+`.
+      * `url`: A string or regular expression specifying the url of the request that the data should be mocked for. If the url is a string and contains any asterisks ( * ), they will be treated as a wildcard by translating to a regular expression. Any `*` will be replaced with `.+`. If you run into trouble with this shortcut, switch to using a full regular expression instead of a string and asterisk combination.
       * `data`: In addition to the URL, match parameters.
       * `type`: Specify what HTTP method to match, usually GET or POST. Case-insensitive, so `get` and `post` also work.
       * `headers`: An object literal whose keys will be simulated as additional headers returned from the server for the request.
@@ -205,6 +205,21 @@ You can also match against the data option in addition to url:
         data: { action: "bar" },
         responseText: { bar: "hello world 2" }
     });
+
+To capture URL parameters, use a capturing regular expression for the URL and a `urlParams` array to indicate, ordinally, the names of the paramters that will be captured.
+
+```javascript
+$.mockjax({
+  // matches /author/1234/isbn/1234-5678-9012-0
+  url: /^\/author\/([\d]+)\/isbn\/([\d\-]+)$/,
+  urlParams: ['authorID', 'isbnNumber'],
+  response: function (settings) {
+    var authorID = settings.urlParams.authorID;
+    var isbnNumber = settigns.urlParams.isbnNumber;
+    //etc.
+  }
+});
+```
 
 ### Step 2. Define the Response
 
