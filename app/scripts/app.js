@@ -55,6 +55,19 @@ function regionTrendData(data)
     return regions;
 }
 
+function getRegionEmployment(data)
+{
+	var region_emp = [];
+
+	$.each(data.predictedEmployment, function(){
+	  var year = this.year;
+	
+	region_emp[year] = year;
+	});
+
+	return region_emp;
+}
+
 (function($, undefined){
     'use strict';
 
@@ -202,8 +215,9 @@ function regionTrendData(data)
                         var raw_trend = calculateTrend(data.predictedEmployment, true);
 
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trend > 0)? 'increasing':'decreasing');
-                        var explain = 'Currently there are approximately ' + Math.ceil(raw_trend[1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trend[0])) + ' this will '+((trend > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trend[1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-
+                        var //explain = 'Currently there are approximately ' + Math.ceil(raw_trend[1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trend[0])) + ' this will '+((trend > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trend[1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
+											 explain = getRegionEmployment(data);
+											 explain = explain[2014];
                        render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
                            explain: explain
@@ -265,7 +279,6 @@ function regionTrendData(data)
 
                         var html = '<ul>';
                         $.each(regions, function(name, id){
-
                             var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
                             html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span></li>';
