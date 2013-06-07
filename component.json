@@ -5,6 +5,7 @@
     "json3": "~3.2.4",
     "es5-shim": "~2.0.5",
     "underscore": "~1.4.4",
+    "jquery-migrate": "~1.2.0",
     "rickshaw": "~1.2.1",
     "d3": "~3.1.5",
     "bbq": "https://raw.github.com/cowboy/jquery-bbq/v1.2.1/jquery.ba-bbq.js"

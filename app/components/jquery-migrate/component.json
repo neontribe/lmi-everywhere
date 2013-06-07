@@ -1,0 +1,13 @@
+{
+  "name": "jquery-migrate",
+  "version": "1.2.0",
+  "gitHead": "3ad9e3e96b45f58e7ed7ca5d460d4c5b0faabb63",
+  "readme": "jquery-migrate\n===============\n\nshim repo for jQuery Migrate package \n\nInstall via [bower](http://twitter.github.com/bower/):\n\n    $ bower install jquery-migrate\n    \nbower package info:\n\n    $ bower info jquery-migrate\n",
+  "readmeFilename": "README.md",
+  "_id": "jquery-migrate@1.2.0",
+  "description": "jquery-migrate ===============",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/appleboy/jquery-migrate.git"
+  }
+}
