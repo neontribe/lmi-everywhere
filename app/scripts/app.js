@@ -63,31 +63,31 @@ function regionTrendData(data)
         soc: null,
         cache: {}
     };
-    $.mobile.defaultPageTransition = 'flow';
-    // Grab config from our URL
-    $.extend(true, app, $.deparam.querystring(true));
-    if (app.region !== null) {
-        app.region = app.region || getUsersLocation(function(region){
-            app.region = region;
-        });
-    }
 
-    // Pick a starting page TODO: de-uglify this.
-    if (app.search_term) {
-        window.location.hash = 'list';
-    }
-    if (app.soc) {
-        window.location.hash = 'info';
-    }
-    // Init jQM
     $(document).ready(function() {
-      $.mobile.initializePage();
-    });
+        $.mobile.defaultPageTransition = 'flow';
+        // Grab config from our URL
+        $.extend(true, app, $.deparam.querystring(true));
+        if (app.region !== null) {
+            app.region = app.region || getUsersLocation(function(region){
+                app.region = region;
+            });
+        }
 
-		/**
-		 * Add region information.
-		 */
-     render($('p#region_information'), 'region_info', {regionName: getRegionName(app.region) });
+        // Pick a starting page TODO: de-uglify this.
+        if (app.search_term) {
+            window.location.hash = 'list';
+        }
+        if (app.soc) {
+            window.location.hash = 'info';
+        }
+
+        // Init jQM
+        $.mobile.initializePage();
+
+        // Add region information.
+        render($('p#region_information'), 'region_info', {regionName: getRegionName(app.region) });
+    });
 
 
     /**
