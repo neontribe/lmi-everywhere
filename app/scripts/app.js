@@ -82,6 +82,12 @@ function regionTrendData(data)
     // Init jQM
     $.mobile.initializePage();
 
+		/**
+		 * Add region information.
+		 */
+     render($('p#region_information'), 'region_info', {regionName: getRegionName(app.region) });
+
+
     /**
      * Provide a custom transistion handler to let us load and render api data before page show
      * I'm always surprised that tis sort of thing is necessary with jQuery Mobile. I'm probably missing something :-)
