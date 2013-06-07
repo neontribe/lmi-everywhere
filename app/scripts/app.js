@@ -80,7 +80,9 @@ function regionTrendData(data)
         window.location.hash = 'info';
     }
     // Init jQM
-    $.mobile.initializePage();
+    $(document).ready(function() {
+      $.mobile.initializePage();
+    });
 
 		/**
 		 * Add region information.
