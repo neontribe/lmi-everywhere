@@ -202,3 +202,15 @@
     bottom: 0;
     left: 0;
 }
+
+.region { fill: #ddc; }
+.trendIncreasing { fill: green; }
+.trendDecreasing { fill: red; }
+.trendStable { fill: orange; }
+
+.region-boundary {
+  fill: none;
+  stroke: #777;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
+}

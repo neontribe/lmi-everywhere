@@ -54,7 +54,7 @@ function LatLongToOSGrid(p) {
 var regions = {
     'London': 1,
     'East Midlands': 6,
-    'Eastern': 3,
+    'East': 3,
     'North East': 9,
     'Northern Ireland': 12,
     'North West': 8,

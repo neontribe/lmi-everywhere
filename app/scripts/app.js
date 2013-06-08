@@ -35,26 +35,6 @@ function calculateTrend(data, raw)
     return ((a-b)/(c-d));
 }
 
-function regionTrendData(data)
-{
-    var regions = [];
-
-    $.each(data.predictedEmployment, function(){
-        var year = this.year;
-
-        $.each(this.breakdown, function(){
-
-            if (typeof regions[this.code] !== 'object') {
-                regions[this.code.toString()] = [];
-            }
-
-            regions[this.code.toString()].push({year:year, employment:this.employment});
-        });
-    });
-
-    return regions;
-}
-
 (function($, undefined){
     'use strict';
 
@@ -247,26 +227,69 @@ function regionTrendData(data)
                             soc: app.soc
                         }
                     }).done(function(data){
+                        /* Calculate trends per-region */
+                        var trends = function(data) {
+                            var out = {};
+                            $.each(data.predictedEmployment, function(){
+                                var self = this;
+                                $.each(this.breakdown, function(){
+                                    // Normalise fucking region names
+                                    var region = _.invert(regions)[this.code].toLowerCase();
+                                    out[region] = out[region] || {data:[]};
+                                    out[region].data.push({year:self.year, employment:this.employment});
+                                });
+                            });
+                            $.each(out, function(k,v){
+                                v.trend = calculateTrend(v.data);
+                            });
+                            return out;
+                        }(data);
 
-                        var region_years = regionTrendData(data);
-                        var region_trends = [];
+                        // Connect a resizer
+                        // Can we not replace this mechanism with cunning CSS?
+                        d3.select(window)
+                            .on("resize", sizeChange);
 
-                        $.each(regions, function(k, v){
+                        // Build our base svg
+                        var svg = d3.select("#trends").append("svg").append("g");
 
-                            region_trends[v] = calculateTrend(region_years[v.toString()]);
+                        // Fetch a topojson file of UK EU regions
+                        d3.json("uk_euregions.json", function(error, uk) {
+                            var regions = topojson.feature(uk, uk.objects.uk_regions);
+                            var projection = d3.geo.albers()
+                                .center([0, 55.4])
+                                .rotate([4.4, 0])
+                                .parallels([50, 60])
+                                .scale(2100);
+                                //.translate([width / 2, height / 2]);
+                            var path = d3.geo.path()
+                                .projection(projection);
 
+                            svg.append("path")
+                                .datum(regions)
+                                .attr("d", path);
+
+                            svg.selectAll(".region")
+                                .data(topojson.feature(uk, uk.objects.uk_regions).features)
+                                .enter().append("path")
+                                .attr("class", function(d) { 
+                                    // Calculate trend class here - better to use d3 scale?
+                                    var trend = trends[d.id.toLowerCase()].trend,
+                                        trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
+                                    return "region trend" + trendClass; 
+                                })
+                                .attr("d", path);
+                            // Draw some boundaries
+                            svg.append("path")
+                                .datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
+                                .attr("d", path)
+                                .attr("class", "region-boundary");
                         });
 
-                        var html = '<ul>';
-                        $.each(regions, function(name, id){
-
-                            var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
-
-                            html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span></li>';
-                        });
-                        html += '</ul>';
-
-                        $('#trends').html(html);
+                        function sizeChange() {
+                            d3.select("g").attr("transform", "scale(" + $("#trends").width()/900 + ")");
+                            $("svg").height($("#trends").height());
+                        }
 
                         d.resolve();
                     });
