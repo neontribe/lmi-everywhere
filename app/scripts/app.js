@@ -31,13 +31,14 @@ function calculateTrend(data, raw)
     if (raw !== undefined) {
         return [x, y];
     }
-
+    
     return ((a-b)/(c-d));
 }
 
 function regionTrendData(data)
 {
     var regions = [];
+    regions['0'] = []; // for all UK
 
     $.each(data.predictedEmployment, function(){
         var year = this.year;
@@ -50,8 +51,14 @@ function regionTrendData(data)
 
             regions[this.code.toString()].push({year:year, employment:this.employment});
         });
+        // Add all regions (UK) as 0 to regions
+        ukEmployment = 0;
+        //for each region employment, sum of employments
+      
+        regions['0'].push({year:year, employment:ukEmployment});
     });
-
+    console.log (data.predictedEmployment, 'predicted Emp');
+    console.log (regions, 'regions');
     return regions;
 }
 
@@ -274,7 +281,7 @@ function getRegionEmployment(data)
                         $.each(regions, function(k, v){
 
                             region_trends[v] = calculateTrend(region_years[v.toString()]);
-
+                          
                         });
 
                         var html = '<ul>';
