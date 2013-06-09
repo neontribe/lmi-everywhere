@@ -39,6 +39,7 @@ function regionTrendData(data)
 {
     var regions = [];
     regions['0'] = []; // for all UK
+    ukEmployment = [];
 
     $.each(data.predictedEmployment, function(){
         var year = this.year;
@@ -52,28 +53,20 @@ function regionTrendData(data)
             regions[this.code.toString()].push({year:year, employment:this.employment});
         });
         // Add all regions (UK) as 0 to regions
-        ukEmployment = 0;
-        //for each region employment, sum of employments
-      
-        regions['0'].push({year:year, employment:ukEmployment});
+        ukEmployment[year] = 0;// sum of all regions;
+        $.each(regions, function(key, value){ //for each region
+          $.each (value, function(k, v){ //for each year
+            if (v.year == year) {
+              //for each region employment, sum of employments
+              ukEmployment[year] += v.employment;
+            }
+          });
+        });
+        regions['0'].push({year:year, employment:ukEmployment[year]});
     });
-    console.log (data.predictedEmployment, 'predicted Emp');
-    console.log (regions, 'regions');
     return regions;
 }
 
-function getRegionEmployment(data)
-{
-	var region_emp = [];
-
-	$.each(data.predictedEmployment, function(){
-	  var year = this.year;
-	
-	region_emp[year] = year;
-	});
-
-	return region_emp;
-}
 
 (function($, undefined){
     'use strict';
