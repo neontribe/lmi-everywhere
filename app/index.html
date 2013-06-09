@@ -33,7 +33,11 @@
         <input type="text" placeholder="I want to be a..."/>
         <a href="#list"
           data-role="button"
-          data-transition="flow">Search</a>
+					data-transition="flow">Search</a>
+				<p id="region_information">Region Placeholder</p>
+				<script id="region_info" type="text/template">
+					Searching in <%= regionName %>.  
+				</script>
       </div>
     </section>
 
@@ -93,6 +97,7 @@
       });
     </script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+    <script src="components/jquery-migrate/jquery-migrate.min.js"></script>
     <script src="components/bbq/index.js"></script>
     <script src="components/d3/d3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
