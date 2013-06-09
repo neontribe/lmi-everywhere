@@ -3,12 +3,10 @@ function calculateTrend(data, raw)
     'use strict';
     var x = [];
     var y = [];
-
     $.each(data, function(){
         x.push(this.year);
         y.push(this.employment);
       });
-
     var a = 0;
     var b = 0;
     var b_x = 0;
@@ -202,7 +200,7 @@ function regionTrendData(data)
             promise = $.Deferred(function(d){
                 fetchSOC(app.soc).then(function(){
                     $.ajax({
-                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict',
+                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
                         method: 'GET',
                         dataType: 'json',
                         data: {
@@ -210,22 +208,25 @@ function regionTrendData(data)
                             region: app.region || ''
                         }
                     }).done(function(data){
-
-                        var trend = calculateTrend(data.predictedEmployment);
-                        var raw_trend = calculateTrend(data.predictedEmployment, true);
-
-                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trend > 0)? 'increasing':'decreasing');
-                        var //explain = 'Currently there are approximately ' + Math.ceil(raw_trend[1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trend[0])) + ' this will '+((trend > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trend[1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-											 explain = getRegionEmployment(data);
-											 explain = explain[2014];
+                        var trendByRegion = regionTrendData(data);
+                        var trends = [];
+                        var raw_trends = [];
+                        $.each(trendByRegion, function(k, v) {
+                          trends[k] = calculateTrend(v);
+                          raw_trends[k] = calculateTrend(v, true);
+                        });
+                        // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
+                        var regionID = ((app.region) ? app.region : 0);
+                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
+                        var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
                        render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
                            explain: explain
                        });
-
-                        var chart_data, chart, axes;
+                        
+                       var chart_data, chart, axes;
                         // mangle the data for the rickshaw chart
-                        chart_data = $.map(data.predictedEmployment, function(v){
+                        chart_data = $.map(trendByRegion[regionID], function(v){
                             return {
                                 x: new Date(v.year.toString()).getTime() / 1000,
                                 y: v.employment
