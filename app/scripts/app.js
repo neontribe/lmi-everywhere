@@ -67,7 +67,7 @@ function regionTrendData(data)
 
 function getWageInfo(soc) {
   var d = $.Deferred();
-	var wagesByRegion = [];
+	var wagesByRegion = {year:'', breakdown:[]};
 
 	/* TODO cache wage data by soc */
 	var filter = 'soc=' + soc + '&course=false&breakdown=region';
@@ -76,12 +76,15 @@ function getWageInfo(soc) {
 		method: 'GET',
 		dataType: 'json',
 	}).done(function(wages){
+		var year = wages.series[0].year;
 		$.each(wages.series[0].breakdown, function(k,v) {
-				wagesByRegion[v.region] = v.estpay;
+			wagesByRegion.year = year;
+			wagesByRegion.breakdown[v.region] = v.estpay;
 			});
-		  var sum = wagesByRegion.reduce(function(a,b) { return a+b });
-			var avg = sum/(wagesByRegion.length - 1);
-		  wagesByRegion[0] = Math.round(avg); // Avg for all UK.
+		  var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
+			var avg = sum/(wagesByRegion.breakdown.length - 1);
+		  wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
+			console.log(wagesByRegion, 'all wages');
 			d.resolve(wagesByRegion);
 		});
 	return d.promise();
@@ -282,8 +285,8 @@ function getWageInfo(soc) {
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-											 var wages = wdata;
-											 var wage = 'The average weekly wage is £' + wages[regionID] + '.';
+											 var wages = wdata.breakdown;
+											 var wage = 'The average weekly wage in ' + wdata.year +  ' was £' + wages[regionID] + '.';
 											render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
                            explain: explain,
@@ -339,7 +342,7 @@ function getWageInfo(soc) {
 
 							var region_years = regionTrendData(data);
 							var region_trends = [];
-							var region_wages = wdata;
+							var region_wages = wdata.breakdown;
 
 							$.each(regions, function(k, v){
 								region_trends[v] = calculateTrend(region_years[v.toString()]);
@@ -348,7 +351,7 @@ function getWageInfo(soc) {
 							$.each(regions, function(name, id){
 								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
-							html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span>. The average weekly wage in ' + '2012' + ' was £'+ region_wages[id]  + '.</li>';
+							html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span>. The average weekly wage in ' + wdata.year  + ' was £'+ region_wages[id]  + '.</li>';
 						});
 						html += '</ul>';
 
