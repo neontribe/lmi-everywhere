@@ -84,7 +84,6 @@ function getWageInfo(soc) {
 		  var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
 			var avg = sum/(wagesByRegion.breakdown.length - 1);
 		  wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
-			console.log(wagesByRegion, 'all wages');
 			d.resolve(wagesByRegion);
 		});
 	return d.promise();
