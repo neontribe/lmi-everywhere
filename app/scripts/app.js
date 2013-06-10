@@ -65,6 +65,38 @@ function regionTrendData(data)
     return regions;
 }
 
+function getWageInfo(soc) {
+/*	var d = $.Deferred();
+	if (!app.cache[code]) {
+		$.ajax({
+			url: 'http://api.lmiforall.org.uk/api/v1/soc/code/' + code,
+			method: 'GET',
+			dataType: 'json',
+		}).done(function(soc){
+			app.cache[code] = soc;
+			d.resolve();
+		});
+	} else {
+		d.resolve();
+	}
+	return d.promise(); */
+  var d = $.Deferred();
+	var wagesByRegion = [];
+	/* TODO cache wage data by soc */
+	var filter = 'soc=' + soc + '&course=false&breakdown=region';
+	$.ajax({
+		url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?' + filter,
+		method: 'GET',
+		dataType: 'json',
+	}).done(function(wages){
+		$.each(wages.series[0].breakdown, function(k,v) {
+				wagesByRegion[v.region] = v.estpay;
+			});
+			d.resolve(wagesByRegion);
+		});
+	return d.promise();
+}
+
 
 (function($, undefined){
     'use strict';
@@ -207,9 +239,10 @@ function regionTrendData(data)
                         dataType: 'json',
                         data: {
                             soc: app.soc,
-                            region: app.region || ''
+                            region: app.region || '',
                         }
                     }).done(function(data){
+												getWageInfo(app.soc).then(function(wdata){
                         var trendByRegion = regionTrendData(data);
                         var trends = [];
                         var raw_trends = [];
@@ -221,9 +254,12 @@ function regionTrendData(data)
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-                       render($page.find('div[data-role=content]'), 'info_content', {
+											 var wages = wdata;
+											 var wage = 'The average weekly wage is £' + wages[app.region] + '.';
+											render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
-                           explain: explain
+                           explain: explain,
+												   wage: wage
                        });
                         
                        var chart_data, chart, axes;
@@ -242,14 +278,15 @@ function regionTrendData(data)
                             width: $('body').width(),
                             height: $(window).height() * 0.45,
                             series: [{
-                                color: 'steelblue',
-                                data: chart_data
-                            }]
-                        });
-                        axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
-                        chart.render();
-                        d.resolve();
-                    });
+															color: 'steelblue',
+															data: chart_data
+														}]
+												});
+												axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+												chart.render();
+												d.resolve();
+												});
+										});
                 });
             }).promise();
         $page.data('promise', promise);
