@@ -75,6 +75,10 @@ function regionTrendData(data)
         cache: {}
     };
 
+    $(document).bind("mobileinit", function(){
+        $.mobile.touchOverflowEnabled = true;
+    });
+
     $(document).ready(function() {
         $.mobile.defaultPageTransition = 'flow';
         // Grab config from our URL
