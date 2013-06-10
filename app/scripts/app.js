@@ -97,6 +97,10 @@ function getWageInfo(soc) {
         cache: {}
     };
 
+    $(document).bind("mobileinit", function(){
+        $.mobile.touchOverflowEnabled = true;
+    });
+
     $(document).ready(function() {
         $.mobile.defaultPageTransition = 'flow';
         // Grab config from our URL
@@ -156,17 +160,48 @@ function getWageInfo(soc) {
         target.html(content);
     }
 
+    function validateString(value, message) {
+        if (value.length > 0 && value.match(/[a-z]/gi)) {
+            return true;
+        }
+
+        if (!message) {
+            showMessage('Invalid string value.');
+        }
+        else {
+            showMessage(message);
+        }
+    }
+
+    function showMessage(message) {
+        // Show error message.
+        $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
+        // Hide after delay.
+        setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
+    }
+
     /**
      * Set app.search_term when the search button is clicked
      */
     $('#search').on('keyup', 'input', function(evt){
         if (evt.which === 13) {
-            app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
+            var val = $(evt.delegateTarget).find('input[type=text]').val();
+            if (!validateString(val, 'Invalid search term.')) {
+                return false;
+            }
+
+            app.search_term = val;
             $.mobile.changePage('#list');
         }
     });
     $('#search').on('click', 'a', function(evt){
-        app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
+        var val = $(evt.delegateTarget).find('input[type=text]').val();
+        if (!validateString(val, 'Invalid search term.')) {
+            return false;
+        }
+
+        app.search_term = val;
     });
 
     $('#list').on('click', 'a', function(evt){
@@ -193,6 +228,9 @@ function getWageInfo(soc) {
                     render($page.find('ul'), 'list_content', {jobs: data});
                     $page.find('ul').listview('refresh');
                     d.resolve();
+                }).fail(function(){
+                    d.reject();
+                    window.location.href = window.location.protocol + "//" + window.location.host;
                 });
             }).promise();
         // Save promise on page so the transition handler can find it.
