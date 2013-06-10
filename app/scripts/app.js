@@ -68,6 +68,7 @@ function regionTrendData(data)
 function getWageInfo(soc) {
   var d = $.Deferred();
 	var wagesByRegion = [];
+
 	/* TODO cache wage data by soc */
 	var filter = 'soc=' + soc + '&course=false&breakdown=region';
 	$.ajax({
@@ -78,6 +79,9 @@ function getWageInfo(soc) {
 		$.each(wages.series[0].breakdown, function(k,v) {
 				wagesByRegion[v.region] = v.estpay;
 			});
+		  var sum = wagesByRegion.reduce(function(a,b) { return a+b });
+			var avg = sum/(wagesByRegion.length - 1);
+		  wagesByRegion[0] = Math.round(avg); // Avg for all UK.
 			d.resolve(wagesByRegion);
 		});
 	return d.promise();
@@ -241,7 +245,7 @@ function getWageInfo(soc) {
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
 											 var wages = wdata;
-											 var wage = 'The average weekly wage is £' + wages[app.region] + '.';
+											 var wage = 'The average weekly wage is £' + wages[regionID] + '.';
 											render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
                            explain: explain,
