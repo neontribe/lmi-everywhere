@@ -66,20 +66,6 @@ function regionTrendData(data)
 }
 
 function getWageInfo(soc) {
-/*	var d = $.Deferred();
-	if (!app.cache[code]) {
-		$.ajax({
-			url: 'http://api.lmiforall.org.uk/api/v1/soc/code/' + code,
-			method: 'GET',
-			dataType: 'json',
-		}).done(function(soc){
-			app.cache[code] = soc;
-			d.resolve();
-		});
-	} else {
-		d.resolve();
-	}
-	return d.promise(); */
   var d = $.Deferred();
 	var wagesByRegion = [];
 	/* TODO cache wage data by soc */
@@ -292,50 +278,50 @@ function getWageInfo(soc) {
         $page.data('promise', promise);
     });
 
-    /**
-     * Fetch working futures predictions and prepare the info view
-     */
-    $(document).on('pagebeforeshow', '#moreinfo', function(){
-        var $page = $(this),
-            promise = $.Deferred(function(d){
-                fetchSOC(app.soc).then(function(){
-                    $.ajax({
-                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
-                        method: 'GET',
-                        dataType: 'json',
-                        data: {
-                            soc: app.soc
-                        }
-                    }).done(function(data){
+		/**
+		 * Fetch working futures predictions and prepare the info view
+		 */
+		$(document).on('pagebeforeshow', '#moreinfo', function(){
+			var $page = $(this),
+			promise = $.Deferred(function(d){
+				fetchSOC(app.soc).then(function(){
+					$.ajax({
+						url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
+					method: 'GET',
+					dataType: 'json',
+					data: {
+						soc: app.soc
+					}
+					}).done(function(data){
+						getWageInfo(app.soc).then(function(wdata){
 
-                        var region_years = regionTrendData(data);
-                        var region_trends = [];
+							var region_years = regionTrendData(data);
+							var region_trends = [];
+							var region_wages = wdata;
 
-                        $.each(regions, function(k, v){
+							$.each(regions, function(k, v){
+								region_trends[v] = calculateTrend(region_years[v.toString()]);
+							});
+							var html = '<ul>';
+							$.each(regions, function(name, id){
+								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
-                            region_trends[v] = calculateTrend(region_years[v.toString()]);
-                          
-                        });
+							html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span>. The average weekly wage in ' + '2012' + ' was £'+ region_wages[id]  + '.</li>';
+						});
+						html += '</ul>';
 
-                        var html = '<ul>';
-                        $.each(regions, function(name, id){
-                            var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
+						$('#trends').html(html);
 
-                            html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span></li>';
-                        });
-                        html += '</ul>';
+						d.resolve();
+						});
+					});
+				});
+			}).promise();
+		$page.data('promise', promise);
+		});
 
-                        $('#trends').html(html);
-
-                        d.resolve();
-                    });
-                });
-            }).promise();
-        $page.data('promise', promise);
-    });
-
-    // debug
-    window.app = app;
+		// debug
+		window.app = app;
 
 })(jQuery);
 
