@@ -346,7 +346,7 @@ function getWageInfo(soc) {
 							$.each(regions, function(k, v){
 								region_trends[v] = calculateTrend(region_years[v.toString()]);
 							});
-							var html = '<ul>';
+							var html = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2><ul>';
 							$.each(regions, function(name, id){
 								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
