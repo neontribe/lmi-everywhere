@@ -80,7 +80,6 @@ function getWageInfo(soc) {
 		$.each(wages.series[0].breakdown, function(k,v) {
 			wagesByRegion.year = year;
 			wagesByRegion.breakdown[v.region] = v.estpay;
-      console.log(v.estpay);
     });
     var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
     var avg = sum/(wagesByRegion.breakdown.length - 1);
@@ -195,6 +194,8 @@ function getWageInfo(soc) {
             }
 
             app.search_term = val;
+            app.region = $(evt.delegateTarget).find('select[name=region]').val();
+
             $.mobile.changePage('#list');
         }
     });
@@ -205,12 +206,22 @@ function getWageInfo(soc) {
         }
 
         app.search_term = val;
+        app.region = $(evt.delegateTarget).find('select[name=region]').val() || '';
     });
 
-    $('#list').on('click', 'a', function(evt){
+    $('#list').on('click', '.content a', function(evt){
         var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
         app.soc = soc.soc;
         app.cache[app.soc] = soc;
+    });
+
+    /**
+     * Initialise region selection on pageinit.
+     */
+    $('#search').on('pageinit', function(){
+        var $page = $(this);
+        render($page.find('select'), 'region_select', {regions: regions});
+        $page.find('select').selectmenu('refresh');
     });
 
     /**

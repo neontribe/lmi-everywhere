@@ -32,6 +32,15 @@
       <div data-role="content">
         <span id="search_form_intro">Discover your future. Type your dream job here:</span>
         <input type="text" placeholder="I want to be a..."/>
+        <select name="region">
+          <script id="region_select" type="text/template">
+            <option value>Region</option>
+            <option value="">All UK</option>
+            <% _.each(regions, function(id, region){ %>
+              <option value="<%= id %>"><%= region %></option>
+            <% }) %>
+          </script> 
+        </select>
         <a href="#list"
           data-role="button"
 					data-transition="flow">Search</a>
