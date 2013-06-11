@@ -12,6 +12,7 @@ section .ui-header .ui-btn-up-a {
   border: 0;
   margin: 2px 0 0;
   color: #fff;
+  text-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -34,10 +35,30 @@ div.ui-input-text textarea.ui-input-text,
   line-height: 1.3;
 }
 
-.ui-footer {
-  padding: 10px 0;
+footer.ui-footer {
+  padding: 115px 0 15px;
+  font-size: 0.85em;
   font-weight: normal;
   text-align: center;
+  color: #222;
+  border-color: #ccc;
+  text-indent: -10px;
+  background: url('images/ukces-logo.png') center no-repeat;
+}
+
+#powered-by {
+  border: none;
+  background: none;
+}
+
+#powered-by:hover .ui-btn-text {
+  color: #0AB487;
+}
+
+#search .ui-btn {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 /* Vertical scroll fix */
