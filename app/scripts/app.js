@@ -209,7 +209,7 @@ function getWageInfo(soc) {
         app.region = $(evt.delegateTarget).find('select[name=region]').val() || '';
     });
 
-    $('#list').on('click', '.content a', function(evt){
+    $('#list').on('click', '.ui-content a', function(evt){
         var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
         app.soc = soc.soc;
         app.cache[app.soc] = soc;
