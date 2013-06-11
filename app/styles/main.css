@@ -35,7 +35,8 @@ div.ui-input-text textarea.ui-input-text,
 }
 
 .ui-footer {
-  padding: 10px;
+  padding: 10px 0;
+  font-weight: normal;
   text-align: center;
 }
 
