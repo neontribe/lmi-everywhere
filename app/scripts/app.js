@@ -70,7 +70,7 @@ function getWageInfo(soc) {
 	var wagesByRegion = {year:'', breakdown:[]};
 
 	/* TODO cache wage data by soc */
-	var filter = 'soc=' + soc + '&course=false&breakdown=region';
+	var filter = 'soc=' + soc + '&coarse=false&breakdown=region';
 	$.ajax({
 		url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?' + filter,
 		method: 'GET',
@@ -80,12 +80,13 @@ function getWageInfo(soc) {
 		$.each(wages.series[0].breakdown, function(k,v) {
 			wagesByRegion.year = year;
 			wagesByRegion.breakdown[v.region] = v.estpay;
-			});
-		  var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
-			var avg = sum/(wagesByRegion.breakdown.length - 1);
-		  wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
-			d.resolve(wagesByRegion);
-		});
+      console.log(v.estpay);
+    });
+    var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
+    var avg = sum/(wagesByRegion.breakdown.length - 1);
+    wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
+    d.resolve(wagesByRegion);
+  });
 	return d.promise();
 }
 
@@ -288,7 +289,7 @@ function getWageInfo(soc) {
 
                         var wage = 'No wage info available.';
                         if (wages[regionID]) {
-											    wage = 'The average weekly wage in ' + wdata.year +  ' was £' + wages[regionID] + '.';
+											    wage = 'The average weekly wage in ' + wdata.year +  ' was &pound;' + wages[regionID] + '.';
                         }
 
 											  render($page.find('div[data-role=content]'), 'info_content', {
