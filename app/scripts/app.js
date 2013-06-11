@@ -115,9 +115,26 @@ function regionTrendData(data)
         if (promise) {
             $to.removeData('promise');
             $.mobile.loading('show');
-            return promise.then(function() {
+            return promise.done(function() {
                 $.mobile.loading('hide');
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
+            })
+            .fail(function(err){
+                app.ajax_error = err;
+                $.mobile.loading('hide');
+
+                // Show any ajax error messages.
+                showMessages();
+
+                // Redirect to search page if you have just opened the app.
+                if ($from === undefined) {
+                  redirect();
+                }
+
+                $.mobile.navigate('#search');
+                //$.mobile.changePage('#search', { reverse: true, pageContainer: '#search', reloadPage: true, changeHash: false });
+
+                return oldDefaultTransitionHandler(name, reverse, $from, $to);
             });
         }
         return oldDefaultTransitionHandler(name, reverse, $to, $from);
@@ -136,8 +153,10 @@ function regionTrendData(data)
             data
         );
         target.html(content);
-    }
 
+        showMessages();
+    }
+ 
     function validateString(value, message) {
         if (value.length > 0 && value.match(/[a-z]/gi)) {
             return true;
@@ -151,6 +170,17 @@ function regionTrendData(data)
         }
     }
 
+    function showMessages() {
+        // Check for logged messages.
+        if (app.ajax_error !== undefined) {
+            var message = $.parseJSON(app.ajax_error.responseText).error;
+            showMessage(message);
+
+            // Clear any messages.
+            app.ajax_error = undefined;
+        }
+    }
+
     function showMessage(message) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
@@ -159,12 +189,19 @@ function regionTrendData(data)
         setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
     }
 
+    function redirect(page) {
+        console.log('redirect');
+        window.location.href = (page) ? page : window.location.protocol + "//" + window.location.host;
+    }
+
     /**
      * Set app.search_term when the search button is clicked
      */
     $('#search').on('keyup', 'input', function(evt){
+        //$.mobile.changePage('#search');
         if (evt.which === 13) {
             var val = $(evt.delegateTarget).find('input[type=text]').val();
+
             if (!validateString(val, 'Invalid search term.')) {
                 return false;
             }
@@ -192,6 +229,8 @@ function regionTrendData(data)
      * Fetch search results and render a template before showing the list view
      */
     $(document).on('pagebeforeshow', '#list', function() {
+        console.log('pagebeforeshow');
+
         var $page = $(this),
             promise = $.Deferred(function(d){
                 $.ajax({
@@ -206,9 +245,8 @@ function regionTrendData(data)
                     render($page.find('ul'), 'list_content', {jobs: data});
                     $page.find('ul').listview('refresh');
                     d.resolve();
-                }).fail(function(){
-                    d.reject();
-                    window.location.href = window.location.protocol + "//" + window.location.host;
+                }).fail(function(err){
+                    d.reject(err);
                 });
             }).promise();
         // Save promise on page so the transition handler can find it.
@@ -248,6 +286,10 @@ function regionTrendData(data)
                             region: app.region || ''
                         }
                     }).done(function(data){
+                        if (!data) {
+                            redirect();
+                        }
+
                         var trendByRegion = regionTrendData(data);
                         var trends = [];
                         var raw_trends = [];
@@ -308,6 +350,9 @@ function regionTrendData(data)
                             soc: app.soc
                         }
                     }).done(function(data){
+                        if (!data) {
+                            redirect();
+                        }
 
                         var region_years = regionTrendData(data);
                         var region_trends = [];
