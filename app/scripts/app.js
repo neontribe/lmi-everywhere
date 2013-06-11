@@ -313,7 +313,7 @@ function getWageInfo(soc) {
                             width: $('body').width(),
                             height: $(window).height() * 0.45,
                             series: [{
-															color: '#189472',
+															color: '#FF6600',
 															data: chart_data
 														}]
 												});

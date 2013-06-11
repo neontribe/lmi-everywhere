@@ -1,5 +1,5 @@
 h2 {
-  color: #0AB487;
+  color: #FF6600;
 }
 
 section .ui-header .ui-btn-hover-a {
@@ -8,10 +8,8 @@ section .ui-header .ui-btn-hover-a {
 }
 
 section .ui-header .ui-btn-up-a {
-  background: #222;
   border: 0;
   margin: 2px 0 0;
-  color: #fff;
   text-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
@@ -36,29 +34,30 @@ div.ui-input-text textarea.ui-input-text,
 }
 
 footer.ui-footer {
-  padding: 115px 0 15px;
   font-size: 0.85em;
-  font-weight: normal;
   text-align: center;
-  color: #222;
-  border-color: #ccc;
-  text-indent: -10px;
-  background: url('images/ukces-logo.png') center no-repeat;
 }
 
 #powered-by {
+  color: #fff;
+  padding: 7px 0;
+  font-weight: normal;
   border: none;
   background: none;
 }
 
-#powered-by:hover .ui-btn-text {
-  color: #0AB487;
+#powered-by .ui-btn-inner {
+  border: 0;
 }
 
 #search .ui-btn {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.ui-btn-hover-a h2 {
+	color: #FF6600 /*{a-bhover-color}*/;
 }
 
 /* Vertical scroll fix */
@@ -88,7 +87,7 @@ div[data-role="content"] {
 
 #trends ul { list-style: none; padding-left: 0px; }
 #trends ul li + li { margin-top: 10px; }
-.increasing { color: #0AB487; }
+.increasing { color: #FF6600; }
 .decreasing { color: #F74040; }
 
 #list {
@@ -233,9 +232,9 @@ div[data-role="content"] {
   }
   /* Images mask the hover bg color so we give desktop users feedback by applying the focus style on hover as well. */
   #list .ui-listview .ui-btn:hover {
-    -moz-box-shadow: 0px 0px 12px #0AB487;
-    -webkit-box-shadow: 0px 0px 12px #0AB487;
-    box-shadow: 0px 0px 12px #0AB487;
+    -moz-box-shadow: 0px 0px 12px #FF6600;
+    -webkit-box-shadow: 0px 0px 12px #FF6600;
+    box-shadow: 0px 0px 12px #FF6600;
   }
   /* Animate focus and hover style, and resizing. */
   #list .ui-listview .ui-btn {
