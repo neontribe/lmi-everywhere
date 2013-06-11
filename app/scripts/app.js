@@ -308,7 +308,7 @@ function getWageInfo(soc) {
                             width: $('body').width(),
                             height: $(window).height() * 0.45,
                             series: [{
-															color: 'steelblue',
+															color: '#189472',
 															data: chart_data
 														}]
 												});
