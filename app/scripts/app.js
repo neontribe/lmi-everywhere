@@ -284,15 +284,20 @@ function getWageInfo(soc) {
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-											 var wages = wdata.breakdown;
-											 var wage = 'The average weekly wage in ' + wdata.year +  ' was £' + wages[regionID] + '.';
-											render($page.find('div[data-role=content]'), 'info_content', {
+ 											  var wages = wdata.breakdown;
+
+                        var wage = 'No wage info available.';
+                        if (wages[regionID]) {
+											    wage = 'The average weekly wage in ' + wdata.year +  ' was £' + wages[regionID] + '.';
+                        }
+
+											  render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
                            explain: explain,
 												   wage: wage
-                       });
+                        });
                         
-                       var chart_data, chart, axes;
+                        var chart_data, chart, axes;
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(trendByRegion[regionID], function(v){
                             return {
@@ -350,9 +355,17 @@ function getWageInfo(soc) {
 							$.each(regions, function(name, id){
 								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
-							html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> are <span class="' + trend + '">'+trend+'</span>. The average weekly wage in ' + wdata.year  + ' was £'+ region_wages[id]  + '.</li>';
+							html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> ';
+              html += 'are <span class="' + trend + '">' + trend + '</span>. ';
+
+              if (region_wages[id]) {
+                html += 'The average weekly wage in ' + wdata.year + ' was £' + region_wages[id] + '.';
+              }
+              else {
+                html += 'No wage info available.';
+              }
 						});
-						html += '</ul>';
+						html += '</li></ul>';
 
 						$('#trends').html(html);
 
