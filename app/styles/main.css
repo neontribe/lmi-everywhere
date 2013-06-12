@@ -102,6 +102,12 @@ div[data-role="content"] {
   margin: auto;
 }
 
+/* Set default height and width values. This is overidden in browsers except IE7 */
+.chart {
+  height: 250px;
+  width: 100%;
+}
+
 .chart div {
   overflow: visible !important;
 }

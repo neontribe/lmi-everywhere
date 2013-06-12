@@ -365,13 +365,11 @@ function getWageInfo(soc) {
                             grid: { show: false }
                           }
 
-                          if (typeof window !== undefined) {
-                            var width = $('body').width(),
-                                height = $(window).height() * 0.45;
+                          var width = $('body').width(),
+                              height = $(window).height() * 0.45;
 
-                            $placeholder.setAttribute("style", "width:" + width + "px; height:" + height + "px");
-                            $.plot($placeholder, plot_data, options);
-                          }
+                          $placeholder.setAttribute("style", "width:" + width + "px; height:" + height + "px");
+                          $.plot($placeholder, plot_data, options);
                         }
 
                         d.resolve();
