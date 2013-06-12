@@ -5,22 +5,36 @@
   zoom: 1;
 }
 
+#list ul li a {
+  display: block;
+  background: url('images/hIEfix.png') repeat; /* Fix result listing anchors for IE8 */
+}
+
 h2 {
   color: #FF6600;
 }
 
-section .ui-header .ui-btn-hover-a {
+.ui-header .ui-btn-hover-a {
   border: 0;
   margin: 2px 0 0;
+  background: #fff;
 }
 
-section .ui-header .ui-btn-up-a {
+.ui-header .ui-btn-hover-a:hover {
+  color: #FF6600;
+}
+
+.ui-header .ui-btn-up-a {
   border: 0;
   margin: 2px 0 0;
   text-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.ui-btn-hover-a h2 {
+  color: #fff;
 }
 
 div.ui-input-text input.ui-input-text,
@@ -63,10 +77,6 @@ footer.ui-footer {
   box-shadow: none;
 }
 
-.ui-btn-hover-a h2 {
-	color: #FF6600 /*{a-bhover-color}*/;
-}
-
 /* Vertical scroll fix */
 div[data-role="content"] {
   position: absolute;
@@ -90,6 +100,16 @@ div[data-role="content"] {
 /* A bit custom styling */
 #chart {
   margin: auto;
+}
+
+/* Set default height and width values. This is overidden in browsers except IE7 */
+.flot-chart {
+  height: 250px;
+  width: 100%;
+}
+
+.flot-chart div {
+  overflow: visible !important;
 }
 
 #trends ul { list-style: none; padding-left: 0px; }

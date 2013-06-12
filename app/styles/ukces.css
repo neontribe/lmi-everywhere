@@ -112,17 +112,17 @@
 	font-weight: bold;
 	color: #fff /*{a-bhover-color}*/;
 	text-shadow: 0 /*{a-bhover-shadow-x}*/ 0px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #fff /*{a-bhover-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #fff /*{a-bhover-background-start}*/), to( #fff /*{a-bhover-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/);
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #FF6600 /*{a-bhover-background-start}*/), to( #FF6600 /*{a-bhover-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #FF6600 /*{a-bhover-background-start}*/, #FF6600 /*{a-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #FF6600 /*{a-bhover-background-start}*/, #FF6600 /*{a-bhover-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #FF6600 /*{a-bhover-background-start}*/, #FF6600 /*{a-bhover-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #FF6600 /*{a-bhover-background-start}*/, #FF6600 /*{a-bhover-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #FF6600 /*{a-bhover-background-start}*/, #FF6600 /*{a-bhover-background-end}*/);
 }
 .ui-btn-hover-a:visited,
 .ui-btn-hover-a:hover,
 .ui-btn-hover-a a.ui-link-inherit {
-	color: #FF6600 /*{a-bhover-color}*/;
+	color: #fff /*{a-bhover-color}*/;
 }
 .ui-btn-down-a {
 	border: 1px solid #bbbbbb /*{a-bdown-border}*/;
