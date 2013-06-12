@@ -107,10 +107,10 @@
 	color: #5B504E /*{a-bup-color}*/;
 }
 .ui-btn-hover-a {
-	border: 1px solid #bbbbbb /*{a-bhover-border}*/;
-	background: #FF6600 /*{a-bhover-background-color}*/;
+	border: 1px solid #FF6600 /*{a-bhover-border}*/;
+	background: #FF6600 !important /*{a-bhover-background-color}*/;
 	font-weight: bold;
-	color: #FF6600 /*{a-bhover-color}*/;
+	color: #fff !important /*{a-bhover-color}*/;
 	text-shadow: 0 /*{a-bhover-shadow-x}*/ 0px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #fff /*{a-bhover-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #fff /*{a-bhover-background-start}*/), to( #fff /*{a-bhover-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #fff /*{a-bhover-background-start}*/, #fff /*{a-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */

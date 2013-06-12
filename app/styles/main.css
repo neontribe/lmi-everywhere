@@ -1,3 +1,10 @@
+* {
+  font-family: Arial, Sans-Serif;
+  letter-spacing: 0;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/hIEfix.png,sizingMethod=crop);
+  zoom: 1;
+}
+
 h2 {
   color: #FF6600;
 }
