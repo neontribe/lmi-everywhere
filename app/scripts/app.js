@@ -74,7 +74,7 @@ function getWageInfo(soc) {
 	$.ajax({
 		url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?' + filter,
 		method: 'GET',
-		dataType: 'json'
+		dataType: 'jsonp'
 	}).done(function(wages){
 		var year = wages.series[0].year;
 		$.each(wages.series[0].breakdown, function(k,v) {
@@ -233,7 +233,7 @@ function getWageInfo(soc) {
                 $.ajax({
                     url: 'http://api.lmiforall.org.uk/api/v1/soc/search',
                     method: 'GET',
-                    dataType: 'json',
+                    dataType: 'jsonp',
                     data: {
                         q: app.search_term
                     }
@@ -257,7 +257,7 @@ function getWageInfo(soc) {
             $.ajax({
                 url: 'http://api.lmiforall.org.uk/api/v1/soc/code/' + code,
                 method: 'GET',
-                dataType: 'json'
+                dataType: 'jsonp'
             }).done(function(soc){
                 app.cache[code] = soc;
                 d.resolve();
@@ -278,7 +278,7 @@ function getWageInfo(soc) {
                     $.ajax({
                         url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
                         method: 'GET',
-                        dataType: 'json',
+                        dataType: 'jsonp',
                         data: {
                             soc: app.soc,
                             region: app.region || ''
@@ -349,7 +349,7 @@ function getWageInfo(soc) {
 					$.ajax({
 						url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
 					method: 'GET',
-					dataType: 'json',
+					dataType: 'jsonp',
 					data: {
 						soc: app.soc
 					}
