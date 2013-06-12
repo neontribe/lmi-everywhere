@@ -92,6 +92,10 @@ div[data-role="content"] {
   margin: auto;
 }
 
+.chart div {
+  overflow: visible !important;
+}
+
 #trends ul { list-style: none; padding-left: 0px; }
 #trends ul li + li { margin-top: 10px; }
 .increasing { color: #FF6600; }

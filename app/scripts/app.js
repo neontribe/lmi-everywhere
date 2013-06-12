@@ -310,6 +310,7 @@ function getWageInfo(soc) {
                         });
                         
                         var chart_data, chart, axes;
+
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(trendByRegion[regionID], function(v){
                             return {
@@ -317,26 +318,68 @@ function getWageInfo(soc) {
                                 y: v.employment
                             }
                         });
+
                         // Clear any previous chart. This is less than elegant...
                         $page.find('.chart').empty();
-                        chart = new Rickshaw.Graph( {
-                            element: $page.find('.chart')[0],
-                            min: 'auto',
-                            width: $('body').width(),
-                            height: $(window).height() * 0.45,
-                            series: [{
-															color: '#FF6600',
-															data: chart_data
-														}]
-												});
-												axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
-												chart.render();
-												d.resolve();
-												});
-										});
-                });
-            }).promise();
-        $page.data('promise', promise);
+
+                        // Draw graph.
+                        if (typeof Rickshaw !== 'undefined') {
+                          // Use Rickshaw for supported browsers.
+                          chart = new Rickshaw.Graph( {
+                              element: $page.find('.chart')[0],
+                              min: 'auto',
+                              width: $('body').width(),
+                              height: $(window).height() * 0.45,
+                              series: [{
+                                color: '#FF6600',
+                                data: chart_data
+                              }]
+                          });
+                          axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          chart.render();
+                        }
+                        else {
+                          // Use flot graph.
+                          var $placeholder = $page.find('.chart')[0];
+
+                          var x = [];
+                          $.each( chart_data, function(k, v) {
+                            x[k] = [v.x, v.y];
+                          });
+
+                          var plot_data = [
+                            { data: x, label: "Data" }
+                          ];
+
+                          var options = {
+                            series: {
+                              lines: { show: true },
+                              points: { show: true },
+                              fill: true,
+                              color: "#FF6600"
+                            },
+                            canvas: true,
+                            xaxes: [ { position: "top" } ],
+                            yaxes: [ { }, { position: "right", alignTicksWithAxis: 1 } ],
+                            legend: { show: false },
+                            grid: { show: false }
+                          }
+
+                          if (typeof window !== undefined) {
+                            var width = $('body').width(),
+                                height = $(window).height() * 0.45;
+
+                            $placeholder.setAttribute("style", "width:" + width + "px; height:" + height + "px");
+                            $.plot($placeholder, plot_data, options);
+                          }
+                        }
+
+                        d.resolve();
+                     });
+                  });
+              });
+          }).promise();
+      $page.data('promise', promise);
     });
 
 		/**
