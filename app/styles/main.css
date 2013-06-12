@@ -103,12 +103,12 @@ div[data-role="content"] {
 }
 
 /* Set default height and width values. This is overidden in browsers except IE7 */
-.chart {
+.flot-chart {
   height: 250px;
   width: 100%;
 }
 
-.chart div {
+.flot-chart div {
   overflow: visible !important;
 }
 

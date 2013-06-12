@@ -340,6 +340,10 @@ function getWageInfo(soc) {
                         }
                         else {
                           // Use flot graph.
+
+                          // Add flot-chart class for CSS styling.
+                          $('.chart').addClass('flot-chart');
+
                           var $placeholder = $page.find('.chart')[0];
 
                           var x = [];
@@ -365,6 +369,10 @@ function getWageInfo(soc) {
                             grid: { show: false }
                           }
 
+                          /**
+                           * TODO Currently the dimention style overriding does not work in IE7 and
+                           * instead relies on the CSS values.
+                           */
                           var width = $('body').width(),
                               height = $(window).height() * 0.45;
 
