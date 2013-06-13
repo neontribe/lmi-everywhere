@@ -15,7 +15,7 @@
         '11810': '7'
     };
 
-    var base = "http://localhost:9000";
+    var base = "http://lmi-everywhere.herokuapp.com";
 
     //make an attempt to sniff the lat/lon from the google  map
     var map = $('#minimapwrapper img'), point;
