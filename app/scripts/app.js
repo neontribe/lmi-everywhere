@@ -235,7 +235,8 @@ function getWageInfo(soc) {
                     method: 'GET',
                     dataType: 'jsonp',
                     data: {
-                        q: app.search_term
+                        // Format our query as an instersected AND
+                        q: app.search_term.split(' ').join(' AND ')
                     }
                 }).done(function(data){
                     app.search_results = data;
