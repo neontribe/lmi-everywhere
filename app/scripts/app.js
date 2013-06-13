@@ -411,13 +411,21 @@ function getWageInfo(soc) {
 									// Normalise fucking region names
 									var region = _.invert(regions)[this.code].toLowerCase();
 									out[region] = out[region] || {data:[]};
+                  out[region].id = this.code; // Add region code to get wage info
+                  out[region].soc = data.soc;
 									out[region].data.push({year:self.year, employment:this.employment});
 								});
 							});
-							$.each(out, function(k,v){
+							$.each(out, function(k,v) {
 								v.trend = calculateTrend(v.data);
-                v.soc = data.soc;
+                getWageInfo(v.soc).then(function(wdata){
+                  wages = wdata;
+                  return wages;
+                }); // TODO get wages for next step!
+                console.log(wages, 'wgs');
+                v.wage = {year:wages.year, wage:wages.breakdown[v.id]};
 							});
+              console.log(out, 'out');
 							return out;
 						}(data);
 
@@ -425,7 +433,6 @@ function getWageInfo(soc) {
 							var trend = trends[name.toLowerCase()];
               getWageInfo(trend.soc).then(function(wdata){
                 var wageInfo = wdata;
-                console.log(wageInfo);
               });
 							return name + ' ' + trend.trend + ' '  +  trend.soc;
 						}
