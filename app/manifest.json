@@ -2,7 +2,7 @@
     "name": "lmipredict",
     "version": "0.1",
     "manifest_version": 2,
-    "description": "Demo the LMI predictor",
+    "description": "Demonstrate the LMI widget on rightmove property pages",
     "content_scripts": [
         {
             "matches": [
