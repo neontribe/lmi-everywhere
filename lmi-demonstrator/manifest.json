@@ -1,19 +1,25 @@
 {
-    "name": "lmipredict",
-    "version": "0.1",
+    "name": "LMI Demonstrator",
+    "version": "0.2",
     "manifest_version": 2,
     "description": "Demonstrate the LMI widget on rightmove property pages",
     "content_scripts": [
         {
             "matches": [
                 "http://www.rightmove.co.uk/property-to-rent/property*",
-                "http://www.rightmove.co.uk/property-to-buy/property*"
+                "http://www.rightmove.co.uk/property-to-buy/property*",
+                "http://www.rightmove.co.uk/property-for-sale/property*"
+            ],
+            "permissions": [
+                "http://mapit.mysociety.org/*"
             ],
             "all_frames": true,
             "run_at": "document_end",
             "css": [],
             "js": [
-                "components/jquery-1.9.1/index.js",
+                "jquery.js",
+                "jquery-migrate.js",
+                "bbq.js",
                 "sabot.js"
             ]
         }

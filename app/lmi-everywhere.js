@@ -1,5 +1,5 @@
 (function(){
-    function getScriptUrl() {
+    function getScript(urlOnly) {
         var scripts = document.getElementsByTagName('script');
         var element;
         var src;
@@ -8,7 +8,7 @@
             src = element.src;
 
             if (src && /lmi-everywhere\.js/.test(src)) {
-                return src;
+                return urlOnly ? src : element;
             }
         }
         return null;
@@ -32,13 +32,13 @@
         return params;
     }
 
-    var url = getScriptUrl();
+    var url = getScript(true);
     var params = getQueryParameters(url.replace(/^.*\?/, ''));
     var iframe = document.createElement('iframe');
-    var target = document.getElementsByTagName('script')[0]
+    var target = getScript();
 
     iframe.src = "./index.html?" + url.replace(/^.*\?/, '');
-    iframe.style.width = params.width || '300px';
+    iframe.style.width = params.width || '290px';
     iframe.style.height = params.height || '400px';
     iframe.style.border = 'none';
     iframe.scrolling = 'no';
