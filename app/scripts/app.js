@@ -416,13 +416,18 @@ function getWageInfo(soc) {
 							});
 							$.each(out, function(k,v){
 								v.trend = calculateTrend(v.data);
+                v.soc = data.soc;
 							});
 							return out;
 						}(data);
 
 						function getTrendOutput(name){
 							var trend = trends[name.toLowerCase()];
-							return name + ' ' + trend.trend;
+              getWageInfo(trend.soc).then(function(wdata){
+                var wageInfo = wdata;
+                console.log(wageInfo);
+              });
+							return name + ' ' + trend.trend + ' '  +  trend.soc;
 						}
 
 						// Connect a resizer
@@ -465,7 +470,6 @@ function getWageInfo(soc) {
 							return "region trend" + trendClass; 
 							})
 						.attr("d", path).on('click', function(d){
-							console.log(d);
 							showMessage(getTrendOutput(d.id));
 						});
 						// Draw some boundaries
