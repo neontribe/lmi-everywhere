@@ -46,9 +46,7 @@
             <% }) %>
           </script> 
         </select>
-        <a href="#list"
-          data-role="button"
-					data-transition="flow">Search</a>
+        <a href="#list" data-role="button" data-transition="flow">Search</a>
 				<p id="region_information">Region Placeholder</p>
 				<script id="region_info" type="text/template">
 					Searching in <%= regionName %>.  
@@ -61,7 +59,7 @@
 
     <section id="list" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <a href="#search" data-role="button" data-icon="search">New Search</a>
+        <a href="#search" data-role="button" data-icon="search">Search</a>
         <h1>LMI</h1>
       </header>
       <div data-role="content">
@@ -81,7 +79,7 @@
 
     <section id="info" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <a href="#search" data-role="button" data-icon="search">New Search</a>
+        <a href="#list" data-role="button">Back</a>
         <h1>LMI</h1>
         <a href="#moreinfo">Compare regions</a>
       </header>
@@ -98,7 +96,7 @@
 
     <section id="moreinfo" data-role="page" data-position="fixed" data-theme="a">
     	<header data-role="header" data-position="fixed">
-    		  <a href="#info">Back</a>
+    		  <a href="#info" data-role="button">Back</a>
     			<h1>LMI</h1>
     	</header>
 
