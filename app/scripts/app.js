@@ -468,7 +468,7 @@ function getWageInfo(soc) {
 						});
 							function sizeChange() {
 								d3.select("g").attr("transform", "scale(" + $("#region-map").width()/900 + ")");
-								$("svg").height($("#regionmap").height());
+								$("svg").height($("#region-map").height());
 							};
 
 						getWageInfo(app.soc).then(function(wdata){
