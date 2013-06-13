@@ -112,8 +112,8 @@ footer.ui-footer {
   overflow: visible !important;
 }
 
-#trends ul { list-style: none; padding-left: 0px; }
-#trends ul li + li { margin-top: 10px; }
+#trends-text ul { list-style: none; padding-left: 0px; }
+#trends-text ul li + li { margin-top: 10px; }
 .increasing { color: #FF6600; }
 .decreasing { color: #F74040; }
 

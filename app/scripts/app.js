@@ -425,10 +425,14 @@ function getWageInfo(soc) {
 						d3.select(window)
 							.on("resize", sizeChange);
 
-						// Clear existing html
-						$("#trends").html();
+						// Add title with job title info
+						var pagetitle = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2>';
+					
+						// Clear existing html and add page title to regionmap div
+						$("#region-map").html(pagetitle);
+
 						// Build our base svg
-						var svg = d3.select("#trends").append("svg").append("g");
+						var svg = d3.select("#region-map").append("svg").append("g");
 
 						// Fetch a topojson file of UK EU regions
 						d3.json("uk_euregions.json", function(error, uk) {
@@ -463,8 +467,8 @@ function getWageInfo(soc) {
 							.attr("class", "region-boundary");
 						});
 							function sizeChange() {
-								d3.select("g").attr("transform", "scale(" + $("#trends").width()/900 + ")");
-								$("svg").height($("#trends").height());
+								d3.select("g").attr("transform", "scale(" + $("#region-map").width()/900 + ")");
+								$("svg").height($("#regionmap").height());
 							};
 
 						getWageInfo(app.soc).then(function(wdata){
@@ -476,7 +480,7 @@ function getWageInfo(soc) {
 							$.each(regions, function(k, v){
 								region_trends[v] = calculateTrend(region_years[v.toString()]);
 							});
-							var html = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2><ul>';
+							var html = '<ul>';
 							$.each(regions, function(name, id){
 								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
 
@@ -492,7 +496,7 @@ function getWageInfo(soc) {
 							});
 							html += '</li></ul>';
 
-							$('#trends').append(html);
+							$('#trends-text').html(html);
 
 							d.resolve();
 						});
