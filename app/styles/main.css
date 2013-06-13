@@ -78,7 +78,7 @@ footer.ui-footer {
 }
 
 /* Vertical scroll fix */
-div[data-role="content"] {
+#moreinfo .scrollable {
   position: absolute;
   top: 41px;
   bottom: 0;
@@ -304,6 +304,6 @@ div[data-role="content"] {
 
 #info .chart {
   position: absolute;
-  bottom: 71px;
+  bottom: 0;
   left: 0;
 }
