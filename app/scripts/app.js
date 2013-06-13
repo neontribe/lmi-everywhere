@@ -65,6 +65,30 @@ function regionTrendData(data)
     return regions;
 }
 
+function getWageInfo(soc) {
+  var d = $.Deferred();
+	var wagesByRegion = {year:'', breakdown:[]};
+
+	/* TODO cache wage data by soc */
+	var filter = 'soc=' + soc + '&coarse=false&breakdown=region';
+	$.ajax({
+		url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?' + filter,
+		method: 'GET',
+		dataType: 'jsonp'
+	}).done(function(wages){
+		var year = wages.series[0].year;
+		$.each(wages.series[0].breakdown, function(k,v) {
+			wagesByRegion.year = year;
+			wagesByRegion.breakdown[v.region] = v.estpay;
+    });
+    var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
+    var avg = sum/(wagesByRegion.breakdown.length - 1);
+    wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
+    d.resolve(wagesByRegion);
+  });
+	return d.promise();
+}
+
 
 (function($, undefined){
     'use strict';
@@ -74,6 +98,10 @@ function regionTrendData(data)
         soc: null,
         cache: {}
     };
+
+    $(document).bind("mobileinit", function(){
+        $.mobile.touchOverflowEnabled = true;
+    });
 
     $(document).ready(function() {
         $.mobile.defaultPageTransition = 'flow';
@@ -134,23 +162,66 @@ function regionTrendData(data)
         target.html(content);
     }
 
+    function validateString(value, message) {
+        if (value.length > 0 && value.match(/[a-z]/gi)) {
+            return true;
+        }
+
+        if (!message) {
+            showMessage('Invalid string value.');
+        }
+        else {
+            showMessage(message);
+        }
+    }
+
+    function showMessage(message) {
+        // Show error message.
+        $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
+        // Hide after delay.
+        setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
+    }
+
     /**
      * Set app.search_term when the search button is clicked
      */
     $('#search').on('keyup', 'input', function(evt){
         if (evt.which === 13) {
-            app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
+            var val = $(evt.delegateTarget).find('input[type=text]').val();
+            if (!validateString(val, 'Invalid search term.')) {
+                return false;
+            }
+
+            app.search_term = val;
+            app.region = $(evt.delegateTarget).find('select[name=region]').val();
+
             $.mobile.changePage('#list');
         }
     });
     $('#search').on('click', 'a', function(evt){
-        app.search_term = $(evt.delegateTarget).find('input[type=text]').val();
+        var val = $(evt.delegateTarget).find('input[type=text]').val();
+        if (!validateString(val, 'Invalid search term.')) {
+            return false;
+        }
+
+        app.search_term = val;
+        app.region = $(evt.delegateTarget).find('select[name=region]').val() || '';
     });
 
-    $('#list').on('click', 'a', function(evt){
+    $('#list').on('click', '.ui-content a', function(evt){
         var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
         app.soc = soc.soc;
         app.cache[app.soc] = soc;
+    });
+
+    /**
+     * Initialise region selection on pageinit.
+     */
+    $('#search').on('pageinit', function(){
+        var $page = $(this);
+        render($page.find('select'), 'region_select', {regions: regions});
+        $page.find('select').selectmenu('refresh');
     });
 
     /**
@@ -162,7 +233,7 @@ function regionTrendData(data)
                 $.ajax({
                     url: 'http://api.lmiforall.org.uk/api/v1/soc/search',
                     method: 'GET',
-                    dataType: 'json',
+                    dataType: 'jsonp',
                     data: {
                         q: app.search_term
                     }
@@ -171,6 +242,9 @@ function regionTrendData(data)
                     render($page.find('ul'), 'list_content', {jobs: data});
                     $page.find('ul').listview('refresh');
                     d.resolve();
+                }).fail(function(){
+                    d.reject();
+                    window.location.href = window.location.protocol + "//" + window.location.host;
                 });
             }).promise();
         // Save promise on page so the transition handler can find it.
@@ -183,7 +257,7 @@ function regionTrendData(data)
             $.ajax({
                 url: 'http://api.lmiforall.org.uk/api/v1/soc/code/' + code,
                 method: 'GET',
-                dataType: 'json',
+                dataType: 'jsonp'
             }).done(function(soc){
                 app.cache[code] = soc;
                 d.resolve();
@@ -204,12 +278,13 @@ function regionTrendData(data)
                     $.ajax({
                         url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
                         method: 'GET',
-                        dataType: 'json',
+                        dataType: 'jsonp',
                         data: {
                             soc: app.soc,
                             region: app.region || ''
                         }
                     }).done(function(data){
+												getWageInfo(app.soc).then(function(wdata){
                         var trendByRegion = regionTrendData(data);
                         var trends = [];
                         var raw_trends = [];
@@ -221,12 +296,21 @@ function regionTrendData(data)
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
                         var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
-                       render($page.find('div[data-role=content]'), 'info_content', {
+ 											  var wages = wdata.breakdown;
+
+                        var wage = 'No wage info available.';
+                        if (wages[regionID]) {
+											    wage = 'The average weekly wage in ' + wdata.year +  ' was &pound;' + wages[regionID] + '.';
+                        }
+
+											  render($page.find('div[data-role=content]'), 'info_content', {
                            header: header,
-                           explain: explain
-                       });
+                           explain: explain,
+												   wage: wage
+                        });
                         
-                       var chart_data, chart, axes;
+                        var chart_data, chart, axes;
+
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(trendByRegion[regionID], function(v){
                             return {
@@ -234,114 +318,192 @@ function regionTrendData(data)
                                 y: v.employment
                             }
                         });
+
                         // Clear any previous chart. This is less than elegant...
                         $page.find('.chart').empty();
-                        chart = new Rickshaw.Graph( {
-                            element: $page.find('.chart')[0],
-                            min: 'auto',
-                            width: $('body').width(),
-                            height: $(window).height() * 0.45,
-                            series: [{
-                                color: 'steelblue',
+
+                        // Draw graph.
+                        if (typeof Rickshaw !== 'undefined') {
+                          // Use Rickshaw for supported browsers.
+                          chart = new Rickshaw.Graph( {
+                              element: $page.find('.chart')[0],
+                              min: 'auto',
+                              width: $('body').width(),
+                              height: $(window).height() * 0.45,
+                              series: [{
+                                color: '#FF6600',
                                 data: chart_data
-                            }]
-                        });
-                        axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
-                        chart.render();
-                        d.resolve();
-                    });
-                });
-            }).promise();
-        $page.data('promise', promise);
+                              }]
+                          });
+                          axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          chart.render();
+                        }
+                        else {
+                          // Use flot graph.
+
+                          // Add flot-chart class for CSS styling.
+                          $('.chart').addClass('flot-chart');
+
+                          var $placeholder = $page.find('.chart')[0];
+
+                          var x = [];
+                          $.each( chart_data, function(k, v) {
+                            x[k] = [v.x, v.y];
+                          });
+
+                          var plot_data = [
+                            { data: x, label: "Data" }
+                          ];
+
+                          var options = {
+                            series: {
+                              lines: { show: true },
+                              points: { show: true },
+                              fill: true,
+                              color: "#FF6600"
+                            },
+                            canvas: true,
+                            xaxes: [ { position: "top" } ],
+                            yaxes: [ { }, { position: "right", alignTicksWithAxis: 1 } ],
+                            legend: { show: false },
+                            grid: { show: false }
+                          }
+
+                          /**
+                           * TODO Currently the dimention style overriding does not work in IE7 and
+                           * instead relies on the CSS values.
+                           */
+                          var width = $('body').width(),
+                              height = $(window).height() * 0.45;
+
+                          $placeholder.setAttribute("style", "width:" + width + "px; height:" + height + "px");
+                          $.plot($placeholder, plot_data, options);
+                        }
+                       d.resolve();
+                     });
+                  });
+              });
+          }).promise();
+      $page.data('promise', promise);
     });
 
-    /**
-     * Fetch working futures predictions and prepare the info view
-     */
-    $(document).on('pagebeforeshow', '#moreinfo', function(){
-        var $page = $(this),
-            promise = $.Deferred(function(d){
-                fetchSOC(app.soc).then(function(){
-                    $.ajax({
-                        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
-                        method: 'GET',
-                        dataType: 'json',
-                        data: {
-                            soc: app.soc
-                        }
-                    }).done(function(data){
-                        /* Calculate trends per-region */
-                        var trends = function(data) {
-                            var out = {};
-                            $.each(data.predictedEmployment, function(){
-                                var self = this;
-                                $.each(this.breakdown, function(){
-                                    // Normalise fucking region names
-                                    var region = _.invert(regions)[this.code].toLowerCase();
-                                    out[region] = out[region] || {data:[]};
-                                    out[region].data.push({year:self.year, employment:this.employment});
-                                });
-                            });
-                            $.each(out, function(k,v){
-                                v.trend = calculateTrend(v.data);
-                            });
-                            return out;
-                        }(data);
+		/**
+		 * Fetch working futures predictions and prepare the info view
+		 */
+		$(document).on('pagebeforeshow', '#moreinfo', function(){
+			var $page = $(this),
+			promise = $.Deferred(function(d){
+				fetchSOC(app.soc).then(function(){
+					$.ajax({
+						url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region',
+					method: 'GET',
+					dataType: 'jsonp',
+					data: {
+						soc: app.soc
+					}
+					}).done(function(data){
+						/* Calculate trends per-region */
+						var trends = function(data) {
+							var out = {};
+							$.each(data.predictedEmployment, function(){
+								var self = this;
+								$.each(this.breakdown, function(){
+									// Normalise fucking region names
+									var region = _.invert(regions)[this.code].toLowerCase();
+									out[region] = out[region] || {data:[]};
+									out[region].data.push({year:self.year, employment:this.employment});
+								});
+							});
+							$.each(out, function(k,v){
+								v.trend = calculateTrend(v.data);
+							});
+							return out;
+						}(data);
 
-                        // Connect a resizer
-                        // Can we not replace this mechanism with cunning CSS?
-                        d3.select(window)
-                            .on("resize", sizeChange);
+						// Connect a resizer
+						// Can we not replace this mechanism with cunning CSS?
+						d3.select(window)
+							.on("resize", sizeChange);
 
-                        // Build our base svg
-                        var svg = d3.select("#trends").append("svg").append("g");
+						// Clear existing html
+						$("#trends").html();
+						// Build our base svg
+						var svg = d3.select("#trends").append("svg").append("g");
 
-                        // Fetch a topojson file of UK EU regions
-                        d3.json("uk_euregions.json", function(error, uk) {
-                            var regions = topojson.feature(uk, uk.objects.uk_regions);
-                            var projection = d3.geo.albers()
-                                .center([0, 55.4])
-                                .rotate([4.4, 0])
-                                .parallels([50, 60])
-                                .scale(2100);
-                                //.translate([width / 2, height / 2]);
-                            var path = d3.geo.path()
-                                .projection(projection);
+						// Fetch a topojson file of UK EU regions
+						d3.json("uk_euregions.json", function(error, uk) {
+							var regions = topojson.feature(uk, uk.objects.uk_regions);
+							var projection = d3.geo.albers()
+							.center([0, 55.4])
+							.rotate([4.4, 0])
+							.parallels([50, 60])
+							.scale(2100);
+						//.translate([width / 2, height / 2]);
+						var path = d3.geo.path()
+							.projection(projection);
 
-                            svg.append("path")
-                                .datum(regions)
-                                .attr("d", path);
+						svg.append("path")
+							.datum(regions)
+							.attr("d", path);
 
-                            svg.selectAll(".region")
-                                .data(topojson.feature(uk, uk.objects.uk_regions).features)
-                                .enter().append("path")
-                                .attr("class", function(d) { 
-                                    // Calculate trend class here - better to use d3 scale?
-                                    var trend = trends[d.id.toLowerCase()].trend,
-                                        trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
-                                    return "region trend" + trendClass; 
-                                })
-                                .attr("d", path);
-                            // Draw some boundaries
-                            svg.append("path")
-                                .datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
-                                .attr("d", path)
-                                .attr("class", "region-boundary");
-                        });
+						svg.selectAll(".region")
+							.data(topojson.feature(uk, uk.objects.uk_regions).features)
+							.enter().append("path")
+							.attr("class", function(d) { 
+								// Calculate trend class here - better to use d3 scale?
+								var trend = trends[d.id.toLowerCase()].trend,
+								trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
+							return "region trend" + trendClass; 
+							})
+						.attr("d", path);
+						// Draw some boundaries
+						svg.append("path")
+							.datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
+							.attr("d", path)
+							.attr("class", "region-boundary");
+						});
+							function sizeChange() {
+								d3.select("g").attr("transform", "scale(" + $("#trends").width()/900 + ")");
+								$("svg").height($("#trends").height());
+							};
 
-                        function sizeChange() {
-                            d3.select("g").attr("transform", "scale(" + $("#trends").width()/900 + ")");
-                            $("svg").height($("#trends").height());
-                        }
-                        d.resolve();
-                    });
-                });
-            }).promise();
-        $page.data('promise', promise);
-    });
+						getWageInfo(app.soc).then(function(wdata){
 
-    // debug
-    window.app = app;
+							var region_years = regionTrendData(data);
+							var region_trends = [];
+							var region_wages = wdata.breakdown;
+
+							$.each(regions, function(k, v){
+								region_trends[v] = calculateTrend(region_years[v.toString()]);
+							});
+							var html = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2><ul>';
+							$.each(regions, function(name, id){
+								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
+
+								html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> ';
+								html += 'are <span class="' + trend + '">' + trend + '</span>. ';
+
+								if (region_wages[id]) {
+									html += 'The average weekly wage in ' + wdata.year + ' was £' + region_wages[id] + '.';
+								}
+								else {
+									html += 'No wage info available.';
+								}
+							});
+							html += '</li></ul>';
+
+							$('#trends').append(html);
+
+							d.resolve();
+						});
+					});
+				});
+			}).promise();
+		$page.data('promise', promise);
+		});
+
+		// debug
+		window.app = app;
 
 })(jQuery);
 

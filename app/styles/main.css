@@ -1,206 +1,311 @@
+* {
+  font-family: Arial, Sans-Serif;
+  letter-spacing: 0;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/hIEfix.png,sizingMethod=crop);
+  zoom: 1;
+}
+
+#list ul li a {
+  display: block;
+  background: url('images/hIEfix.png') repeat; /* Fix result listing anchors for IE8 */
+}
+
+h2 {
+  color: #FF6600;
+}
+
+.ui-header .ui-btn-hover-a {
+  border: 0;
+  margin: 2px 0 0;
+  background: #fff;
+}
+
+.ui-header .ui-btn-hover-a:hover {
+  color: #FF6600;
+}
+
+.ui-header .ui-btn-up-a {
+  border: 0;
+  margin: 2px 0 0;
+  text-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui-btn-hover-a h2 {
+  color: #fff;
+}
+
+div.ui-input-text input.ui-input-text,
+div.ui-input-text textarea.ui-input-text,
+.ui-input-search input.ui-input-text {
+  padding: .4em 10px;
+}
+
+#region_information,
+#search_form_intro {
+  display: block;
+  text-align: center;
+}
+
+.rubric > p {
+  font-size: 0.95em;
+  line-height: 1.3;
+}
+
+footer.ui-footer {
+  font-size: 0.85em;
+  text-align: center;
+}
+
+#powered-by {
+  color: #fff;
+  padding: 7px 0;
+  font-weight: normal;
+  border: none;
+  background: none;
+}
+
+#powered-by .ui-btn-inner {
+  border: 0;
+}
+
+#search .ui-btn {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Vertical scroll fix */
+#moreinfo .scrollable {
+  position: absolute;
+  top: 41px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* iOS specific fix, don't use it on Android devices */
+.scrollable > * {
+  -webkit-transform: translateZ(0px);
+}
+
 /* Will be compiled down to a single stylesheet with your sass files */
 /* A bit custom styling */
 #chart {
-    margin: auto;
+  margin: auto;
+}
+
+/* Set default height and width values. This is overidden in browsers except IE7 */
+.flot-chart {
+  height: 250px;
+  width: 100%;
+}
+
+.flot-chart div {
+  overflow: visible !important;
 }
 
 #trends ul { list-style: none; padding-left: 0px; }
 #trends ul li + li { margin-top: 10px; }
-.increasing { color: #40F76B; }
+.increasing { color: #FF6600; }
 .decreasing { color: #F74040; }
 
 #list {
-    background: #222;
+  background: #222;
 }
 /* Link to the Google webfont is in the head */
 #list .ui-title, #list .ui-li-aside {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
 }
 #list .ui-header {
-    color: white;
+  color: white;
 }
 #list .ui-footer {
-    color: #666;
-}
-#list .ui-li-desc {
-    color: #c0c0c0;
+  color: #666;
 }
 #list .ui-li-aside {
-    color: #990099;
+  color: #990099;
 }
-#list .ui-listview .ui-li.ui-btn {
-    background-image: none;
-    border-color: #222;
+/* Graph */
+.rickshaw_graph .x_tick .title {
+  color: #000;
 }
 /* First breakpoint is 768px. 3 column layout. Tiles 250x250 pixels at the breakpoint. */
 @media all and (min-width: 768px){
-    #list .ui-content {
-        padding: 9px;
-    }
-    #list .ui-listview .ui-li.ui-btn {
-        float: left;
-        width: 30.9333%; /* 33.3333% incl. 2 x 1.2% margin */
-        height: 232px;
-        margin: 9px 1.2%;
-        border-width: 0; /* The 1px border would break the layout so we set it on .ui-btn-inner instead. */
-    }
-    /* If you don't want a border at all, just set "border: none;" here to negate the semi white top border */
-    #list .ui-listview .ui-li.ui-btn-inner {
-        border: inherit;
-        border-width: 1px;
-        margin: -1px;
-    }
-    #list .ui-listview .ui-btn-inner,
-    #list .ui-listview .ui-btn-text,
-    #list .ui-listview .ui-link-inherit,
-    #list .ui-listview .ui-li-thumb {
-        width: 100%;
-        height: 100%;
-        display: block;
-        overflow: hidden;
-    }
-    #list .ui-listview .ui-link-inherit {
-        padding: 0 !important;
-        position: relative;
-    }
-    /* Inherit the border-radius from the UL that has class .ui-corner-all in case of an inset listview. */
-    #list .ui-listview .ui-li,
-    #list .ui-listview .ui-btn-text,
-    #list .ui-listview .ui-link-inherit,
-    #list .ui-listview .ui-li-thumb {
-        -webkit-border-radius: inherit;
-        border-radius: inherit;
-    }
-    #list .ui-listview .ui-li-thumb {
-        height: auto; /* To keep aspect ratio. */
-        max-width: 100%;
-        max-height: none;
-        margin: 0;
-        left: 0;
-        z-index: -1;
-    }
-    /* Hide the icon */
-    #list .ui-listview .ui-icon {
-        display: none;
-    }
-    /* Make text wrap. */
-    #list .ui-listview .ui-li-heading,
-    #list .ui-listview .ui-li-desc {
-        white-space: normal;
-        overflow: visible;
-        position: absolute;
-        left: 0;
-        right: 0;
-    }
-    /* Text position */
-    #list .ui-listview .ui-li-heading {
-        margin: 0;
-        padding: 20px;
-        height: 60px;
-    }
-    #list .ui-listview .ui-li-desc {
-        margin: 0;
-        padding: 0 20px;
-        height: 110px;
-        bottom: 20px;
-        line-height: 1.5;
-        overflow: hidden;
-    }
-    /* Semi transparent background and different position if there is a thumb */
-    .ui-listview .ui-li-has-thumb .ui-li-heading,
-    .ui-listview .ui-li-has-thumb .ui-li-desc {
-        background: #111;
-        background: rgba(0,0,0,.8);
-        -webkit-background-clip: padding;
-        background-clip: padding-box;
-    }
-    .ui-listview .ui-li-has-thumb .ui-li-heading {
-        padding: 10px;
-        bottom: 20%;
-    }
-    .ui-listview .ui-li-has-thumb .ui-li-desc {
-        padding: 0 10px;
-        min-height: 20%;
-        -webkit-border-bottom-left-radius: inherit;
-        border-bottom-left-radius: inherit;
-        -webkit-border-bottom-right-radius: inherit;
-        border-bottom-right-radius: inherit;
-    }
-    /* ui-li-aside has class .ui-li-desc as well so we have to override some things. */
-    #list .ui-listview .ui-li-desc.ui-li-aside {
-        padding: 2px 10px;
-        width: auto;
-        min-height: 0;
-        top: 0;
-        left: auto;
-        bottom: auto;
-        /* Custom styling. */
-        color: #c0c0c0;
-        background: #990099;
-        background: rgba(153,0,153,.85);
-        -webkit-border-top-right-radius: inherit;
-        border-top-right-radius: inherit;
-        -webkit-border-bottom-left-radius: inherit;
-        border-bottom-left-radius: inherit;
-        -webkit-border-bottom-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-    /* If you want to add shadow, don't kill the focus style. */
-    #list .ui-listview .ui-btn:not(.ui-focus) {
-        -moz-box-shadow: 0px 0px 9px #111;
-        -webkit-box-shadow: 0px 0px 9px #111;
-        box-shadow: 0px 0px 9px #111;
-    }
-    /* Images mask the hover bg color so we give desktop users feedback by applying the focus style on hover as well. */
-    #list .ui-listview .ui-btn:hover {
-        -moz-box-shadow: 0px 0px 12px #387bbe;
-        -webkit-box-shadow: 0px 0px 12px #387bbe;
-        box-shadow: 0px 0px 12px #387bbe;
-    }
-    /* Animate focus and hover style, and resizing. */
-    #list .ui-listview .ui-btn {
-        -webkit-transition: all 500ms ease;
-        -moz-transition: all 500ms ease;
-        -o-transition: all 500ms ease;
-        -ms-transition: all 500ms ease;
-        transition: all 500ms ease;
-    }
+  #list .ui-content {
+    padding: 9px;
+  }
+  #list .ui-listview .ui-li.ui-btn {
+    float: left;
+    width: 30.9333%; /* 33.3333% incl. 2 x 1.2% margin */
+    height: 232px;
+    margin: 9px 1.2%;
+    border-width: 0; /* The 1px border would break the layout so we set it on .ui-btn-inner instead. */
+  }
+  /* If you don't want a border at all, just set "border: none;" here to negate the semi white top border */
+  #list .ui-listview .ui-li.ui-btn-inner {
+    border: inherit;
+    border-width: 1px;
+    margin: -1px;
+  }
+  #list .ui-listview .ui-btn-inner,
+  #list .ui-listview .ui-btn-text,
+  #list .ui-listview .ui-link-inherit,
+  #list .ui-listview .ui-li-thumb {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+  }
+  #list .ui-listview .ui-link-inherit {
+    padding: 0 !important;
+    position: relative;
+  }
+  /* Inherit the border-radius from the UL that has class .ui-corner-all in case of an inset listview. */
+  #list .ui-listview .ui-li,
+  #list .ui-listview .ui-btn-text,
+  #list .ui-listview .ui-link-inherit,
+  #list .ui-listview .ui-li-thumb {
+    -webkit-border-radius: inherit;
+    border-radius: inherit;
+  }
+  #list .ui-listview .ui-li-thumb {
+    height: auto; /* To keep aspect ratio. */
+    max-width: 100%;
+    max-height: none;
+    margin: 0;
+    left: 0;
+    z-index: -1;
+  }
+  /* Hide the icon */
+  #list .ui-listview .ui-icon {
+    display: none;
+  }
+  /* Make text wrap. */
+  #list .ui-listview .ui-li-heading,
+  #list .ui-listview .ui-li-desc {
+    white-space: normal;
+    overflow: visible;
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  /* Text position */
+  #list .ui-listview .ui-li-heading {
+    margin: 0;
+    padding: 20px;
+    height: 60px;
+  }
+  #list .ui-listview .ui-li-desc {
+    margin: 0;
+    padding: 0 20px;
+    height: 110px;
+    bottom: 20px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  /* Semi transparent background and different position if there is a thumb */
+  .ui-listview .ui-li-has-thumb .ui-li-heading,
+  .ui-listview .ui-li-has-thumb .ui-li-desc {
+    background: #111;
+    background: rgba(0,0,0,.8);
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+  }
+  .ui-listview .ui-li-has-thumb .ui-li-heading {
+    padding: 10px;
+    bottom: 20%;
+  }
+  .ui-listview .ui-li-has-thumb .ui-li-desc {
+    padding: 0 10px;
+    min-height: 20%;
+    -webkit-border-bottom-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    -webkit-border-bottom-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+  /* ui-li-aside has class .ui-li-desc as well so we have to override some things. */
+  #list .ui-listview .ui-li-desc.ui-li-aside {
+    padding: 2px 10px;
+    width: auto;
+    min-height: 0;
+    top: 0;
+    left: auto;
+    bottom: auto;
+    /* Custom styling. */
+    color: #c0c0c0;
+    background: #990099;
+    background: rgba(153,0,153,.85);
+    -webkit-border-top-right-radius: inherit;
+    border-top-right-radius: inherit;
+    -webkit-border-bottom-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  /* If you want to add shadow, don't kill the focus style. */
+  #list .ui-listview .ui-btn:not(.ui-focus) {
+    -moz-box-shadow: 0px 0px 9px #111;
+    -webkit-box-shadow: 0px 0px 9px #111;
+    box-shadow: 0px 0px 9px #111;
+  }
+  /* Images mask the hover bg color so we give desktop users feedback by applying the focus style on hover as well. */
+  #list .ui-listview .ui-btn:hover {
+    -moz-box-shadow: 0px 0px 12px #FF6600;
+    -webkit-box-shadow: 0px 0px 12px #FF6600;
+    box-shadow: 0px 0px 12px #FF6600;
+  }
+  /* Animate focus and hover style, and resizing. */
+  #list .ui-listview .ui-btn {
+    -webkit-transition: all 500ms ease;
+    -moz-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
+    -ms-transition: all 500ms ease;
+    transition: all 500ms ease;
+  }
 }
 /* Second breakpoint. 4 column layout. Tiles will be 250x250 pixels again at the breakpoint. */
 @media all and (min-width: 1020px){
-    #list .ui-content {
-        padding: 10px;
-    }
-    /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
-    By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
-    #list .ui-listview {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
-    but we stick to percentage values for demo purposes. */
-    #list .ui-listview .ui-li.ui-btn {
-        width: 23%;
-        height: 230px;
-        margin: 10px 1%;
-    }
+  #list .ui-content {
+    padding: 10px;
+  }
+  /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
+  By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
+  #list .ui-listview {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
+  but we stick to percentage values for demo purposes. */
+  #list .ui-listview .ui-li.ui-btn {
+    width: 23%;
+    height: 230px;
+    margin: 10px 1%;
+  }
 }
 
 #info .content {
-    height: 100%;
+  height: 100%;
 }
 
 #info .rubric {
-    position: absolute;
-    z-index: 999;
-    padding: 20;
+  position: absolute;
+  z-index: 999;
+  margin-right: 20px;
 }
 
 #info .chart {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .region { fill: #ddc; }
