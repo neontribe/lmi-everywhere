@@ -78,15 +78,13 @@ footer.ui-footer {
 }
 
 /* Vertical scroll fix */
-#moreinfo .scrollable {
+.scrollable {
   position: absolute;
   top: 41px;
   bottom: 0;
   left: 0;
   right: 0;
-}
 
-.scrollable {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
