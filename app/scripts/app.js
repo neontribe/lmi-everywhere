@@ -420,6 +420,11 @@ function getWageInfo(soc) {
 							return out;
 						}(data);
 
+						function getTrendOutput(name){
+							var trend = trends[name.toLowerCase()];
+							return name + ' ' + trend.trend;
+						}
+
 						// Connect a resizer
 						// Can we not replace this mechanism with cunning CSS?
 						d3.select(window)
@@ -459,7 +464,10 @@ function getWageInfo(soc) {
 								trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
 							return "region trend" + trendClass; 
 							})
-						.attr("d", path);
+						.attr("d", path).on('click', function(d){
+							console.log(d);
+							showMessage(getTrendOutput(d.id));
+						});
 						// Draw some boundaries
 						svg.append("path")
 							.datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
