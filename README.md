@@ -8,7 +8,7 @@ It can either detect the viewers location or be configured to show data relevant
 
 The widget can be seen [here](http://lmi-everywhere.herokuapp.com) or you can play with the [configurator and demonstrator](http://lmi-everywhere.herokuapp.com/generator.html)
 
-To see how the widget might look on a third-party webside you can use a Chrome Extension to inject it into Rightmove property pages. [Download LMI Demonstrator for Google Chrome](https://raw.github.com/marxian/lmi-everywhere/develop/lmi-demonstrator.crx)
+To see how the widget might look on a third-party webside you can use a Chrome Extension to inject it into Rightmove property pages. [Download LMI Demonstrator for Google Chrome](https://raw.github.com/marxian/lmi-everywhere/develop/lmi-demonstrator.crx). Once you've downloaded the extension visit [chrome://extensions](chrome://extensions) with Chrome and drag and drop lmi-demonstrator.crx onto the page from your downloads folder.
 
 Here's a shot of the Chrome Browser extension version embedding the first version widget on www.rightmove.co.uk
 
