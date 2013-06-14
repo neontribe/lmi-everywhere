@@ -68,10 +68,13 @@
         <ul data-role="listview">
           <% _.each(jobs, function(job, index){ %>
             <li>
-              <a href="#info" data-transition="flow" data-soc="<%= job.soc %>">
+              <a class="result-view" href="#info" data-transition="flow" data-soc="<%= job.soc %>">
                 <h2><%= job.title %></h2>
-                <p><%= job.description %></p>
               </a>
+              <a href="#" data-role="button" data-icon="info" title="Show job description" onclick="$(this).parent().find('.job-description').toggle();"></a>
+              <p class="job-description">
+                <%= job.description %>
+              </p>
             </li>
           <% }) %>
         </ul>
