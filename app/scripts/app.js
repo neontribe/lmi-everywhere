@@ -115,7 +115,11 @@ function getWageInfo(soc) {
         app.region = region;
       }
       render($('#search').find('#region'), 'region_select', {regions: regions, sel: app.region});
-      $('#search').find('select').selectmenu('refresh');
+      if ($('#search').find('.ui-select').length) {
+        $('#search').find('select').selectmenu('refresh');
+      } else {
+        $('#search').find('select').selectmenu();
+      }
     }
 
     $(document).ready(function() {
@@ -132,10 +136,14 @@ function getWageInfo(soc) {
 
         // Pick a starting page TODO: de-uglify this.
         if (app.search_term) {
-            window.location.hash = 'list';
+          window.location.hash = 'list';
         }
         if (app.soc) {
-            window.location.hash = 'info';
+          window.location.hash = 'info';
+        }
+
+        if (!app.soc && !app.search_term) {
+          window.location.hash = 'search';
         }
 
         // Init jQM
@@ -262,8 +270,8 @@ function getWageInfo(soc) {
                     }
                 }).done(function(data){
                     app.search_results = data;
-                    render($page.find('.content'), 'list_content', {jobs: data});
-                    $page.find('.ui-listview').listview('refresh');
+                    render($page.find('div[data-role="content"]'), 'list_content', {jobs: data});
+                    $page.find('div[data-role="content"] ul').listview();
                     d.resolve();
                 }).fail(function(){
                     d.reject();
