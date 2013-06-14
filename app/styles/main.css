@@ -335,13 +335,6 @@ footer.ui-footer {
     max-width: 1000px;
     margin: 0 auto;
   }
-  /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
-  but we stick to percentage values for demo purposes. */
-  #list .ui-listview .ui-li.ui-btn {
-    width: 23%;
-    height: 230px;
-    margin: 10px 1%;
-  }
 }
 
 #info .rubric {
