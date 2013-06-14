@@ -239,7 +239,7 @@ function getWageInfo(soc) {
         app.region = $(evt.delegateTarget).find('select[name=region]').val() || '';
     });
 
-    $('#list').on('click', '.ui-content a', function(evt){
+    $('#list').on('click', '.ui-content a.result-view', function(evt){
         var soc = _.findWhere(app.search_results, { soc: $(this).data('soc')});
         app.soc = soc.soc;
         app.cache[app.soc] = soc;
@@ -252,6 +252,12 @@ function getWageInfo(soc) {
         var $page = $(this);
         updateRegion();
     });
+
+    function showJobDescription() {
+        console.log( 'xxx' );
+        console.log( $(this).siblings('.job-description'), 'siblings' );
+        $(this).find('.job-description').toggle();
+    };
 
     /**
      * Fetch search results and render a template before showing the list view
