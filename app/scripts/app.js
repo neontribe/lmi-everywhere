@@ -248,8 +248,8 @@ function getWageInfo(soc) {
                     }
                 }).done(function(data){
                     app.search_results = data;
-                    render($page.find('ul'), 'list_content', {jobs: data});
-                    $page.find('ul').listview('refresh');
+                    render($page.find('.ui-listview'), 'list_content', {jobs: data});
+                    $page.find('.ui-listview').listview('refresh');
                     d.resolve();
                 }).fail(function(){
                     d.reject();
@@ -464,6 +464,9 @@ function getWageInfo(soc) {
 
 						// Build our base svg
 						var svg = d3.select("#region-map").append("svg").append("g");
+
+            // Resize svg element to show widget correctly in Firefox browser.
+            $('svg', '#region-map').attr("width", window.innerWidth).attr("height", window.innerHeight)
 
 						// Fetch a topojson file of UK EU regions
 						d3.json("uk_euregions.json", function(error, uk) {

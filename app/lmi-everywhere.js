@@ -40,7 +40,7 @@
     iframe.src = "./index.html?" + url.replace(/^.*\?/, '');
     iframe.style.width = params.width || '290px';
     iframe.style.height = params.height || '400px';
-    iframe.style.border = 'none';
+    iframe.style.border = '3px solid #222';
     iframe.scrolling = 'no';
     target.parentNode.insertBefore(iframe, target);
 })();

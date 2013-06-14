@@ -59,9 +59,13 @@
 
     <section id="list" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <a href="#search" data-role="button" data-icon="search">Search</a>
         <h1>LMI</h1>
       </header>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#search" data-role="button">Search</a></li>
+        </ul>
+      </div>
       <div data-role="content" class="scrollable">
         <ul data-role="listview"></ul>
       </div>
@@ -79,10 +83,14 @@
 
     <section id="info" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <a href="#list" data-role="button">Back</a>
         <h1>LMI</h1>
-        <a href="#moreinfo">Compare regions</a>
       </header>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#list" data-role="button">Back</a></li>
+          <li><a href="#moreinfo" data-role="button">Compare regions</a></li>
+        </ul>
+      </div>
       <div class="content" data-role="content"></div>
     </section>
     <script id="info_content" type="text/template">
@@ -96,11 +104,15 @@
 
     <section id="moreinfo" data-role="page" data-position="fixed" data-theme="a">
     	<header data-role="header" data-position="fixed">
-    		  <a href="#info" data-role="button">Back</a>
-    			<h1>LMI</h1>
+    	  <h1>LMI</h1>
     	</header>
 
-			<div data-role="content" class="scrollable">
+			<div data-role="navbar">
+        <ul>
+    		  <li><a href="#info" data-role="button">Back</a></li>
+        </ul>
+      </div>
+    	<div data-role="content" class="scrollable">
 				<div id="region-popup" data-role="popup"></div>
 				<div id="region-map"></div>
     	</div>
