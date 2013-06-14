@@ -520,7 +520,8 @@ function getWageInfo(soc) {
 							var width = $(window).width();
 							var height = $(window).height();
 							var regions = topojson.feature(uk, uk.objects.uk_regions);
-							var projection = d3.geo.albers()
+							var color = d3.scale.linear().domain([-1,1]).range(['red','orange']);
+              var projection = d3.geo.albers()
 							.center([2.1, 54.4])
 							.rotate([4.4, 0])
 							.parallels([50, 60])
@@ -536,12 +537,16 @@ function getWageInfo(soc) {
 						svg.selectAll(".region")
 							.data(topojson.feature(uk, uk.objects.uk_regions).features)
 							.enter().append("path")
+              .style("fill", function(d) { return color(
+								trends[d.id.toLowerCase()].trend);})
+              
+              /**
 							.attr("class", function(d) { 
 								// Calculate trend class here - better to use d3 scale?
 								var trend = trends[d.id.toLowerCase()].trend,
 								trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
 							return "region trend" + trendClass; 
-							})
+							})**/
 						.attr("d", path).on('click', function(d){
 							showPopup(getTrendOutput(d.id));
 						});
