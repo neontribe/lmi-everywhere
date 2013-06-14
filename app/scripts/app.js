@@ -255,7 +255,7 @@ function getWageInfo(soc) {
                     }
                 }).done(function(data){
                     app.search_results = data;
-                    render($page.find('.ui-listview'), 'list_content', {jobs: data});
+                    render($page.find('.content'), 'list_content', {jobs: data});
                     $page.find('.ui-listview').listview('refresh');
                     d.resolve();
                 }).fail(function(){
