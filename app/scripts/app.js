@@ -115,7 +115,11 @@ function getWageInfo(soc) {
         app.region = region;
       }
       render($('#search').find('#region'), 'region_select', {regions: regions, sel: app.region});
-      $('#search').find('select').selectmenu('refresh');
+      if ($('#search').find('.ui-select').length) {
+        $('#search').find('select').selectmenu('refresh');
+      } else {
+        $('#search').find('select').selectmenu();
+      }
     }
 
     $(document).ready(function() {
@@ -262,8 +266,8 @@ function getWageInfo(soc) {
                     }
                 }).done(function(data){
                     app.search_results = data;
-                    render($page.find('.content'), 'list_content', {jobs: data});
-                    $page.find('.ui-listview').listview('refresh');
+                    render($page.find('div[data-role="content"]'), 'list_content', {jobs: data});
+                    $page.find('div[data-role="content"] ul').listview();
                     d.resolve();
                 }).fail(function(){
                     d.reject();
