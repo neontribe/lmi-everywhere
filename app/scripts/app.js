@@ -199,6 +199,7 @@ function getWageInfo(soc) {
     function showMessage(message, timeout) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
 				// Hide after delay.
 				if (timeout) {
 					setTimeout( $.mobile.hidePageLoadingMsg, timeout );
@@ -321,6 +322,11 @@ function getWageInfo(soc) {
                           trends[k] = calculateTrend(v);
                           raw_trends[k] = calculateTrend(v, true);
                         });
+
+                        if (!app.search_term) {
+                          app.search_term = app.cache[app.soc].title;
+                        }
+
                         // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
@@ -471,16 +477,18 @@ function getWageInfo(soc) {
 						function getTrendOutput(name){
 							var trend = trends[name.toLowerCase()];
 							var rtrend = (trend.trend > 0)? 'increasing':'decreasing'; 
+							var currentemp = (Math.round((trend.data[0].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
 							var output  = '<div class ="' + rtrend + '">';
 									output += '<h3>' + name + '</h3>';
+									output += 'Current workers: est. ' + currentemp + '<br />';
 									output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 								if (trend.wage.wage) {
 									output += trend.wage.year + ' Avg weekly wage: &pound;'
-										+ trend.wage.wage + '</div>';
+										+ trend.wage.wage + '</p></div>';
 								} else {
-								  output += 'No wage info available.</div>';
+								  output += 'No wage info available.</p></div>';
 								}
-							return '</p>' + output;
+							return output;
 						}
 
 						// Connect a resizer
