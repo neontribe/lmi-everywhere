@@ -1,12 +1,12 @@
 (function($, undefined){
 
     var tag = _.template([
-         '<script>',
+         '<script id="lmi-loader-0.22">',
          '(function() {',
          '  var script = document.createElement("script");',
          '  script.src = "<%= src %>";',
          '  script.async = true;',
-         '   var entry = document.getElementsByTagName("script")[0];',
+         '   var entry = document.getElementById("lmi-loader-0.22");',
          '   entry.parentNode.insertBefore(script, entry);',
          '})();',
          '</script>'

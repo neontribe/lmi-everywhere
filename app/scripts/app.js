@@ -235,7 +235,8 @@ function getWageInfo(soc) {
                     method: 'GET',
                     dataType: 'jsonp',
                     data: {
-                        q: app.search_term
+                        // Format our query as an instersected AND
+                        q: app.search_term.split(' ').join(' AND ')
                     }
                 }).done(function(data){
                     app.search_results = data;
@@ -439,8 +440,8 @@ function getWageInfo(soc) {
 
 						// Connect a resizer
 						// Can we not replace this mechanism with cunning CSS?
-						d3.select(window)
-							.on("resize", sizeChange);
+						//d3.select(window)
+							//.on("resize", sizeChange);
 
 						// Add title with job title info
 						var pagetitle = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2>';
@@ -453,13 +454,15 @@ function getWageInfo(soc) {
 
 						// Fetch a topojson file of UK EU regions
 						d3.json("uk_euregions.json", function(error, uk) {
+							var width = $(window).width();
+							var height = $(window).height();
 							var regions = topojson.feature(uk, uk.objects.uk_regions);
 							var projection = d3.geo.albers()
-							.center([0, 55.4])
+							.center([2.1, 54.4])
 							.rotate([4.4, 0])
 							.parallels([50, 60])
-							.scale(2100);
-						//.translate([width / 2, height / 2]);
+							.scale(4.1 * height)
+						  .translate([width/2, height/2]);
 						var path = d3.geo.path()
 							.projection(projection);
 
