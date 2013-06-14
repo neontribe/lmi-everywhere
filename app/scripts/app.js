@@ -435,6 +435,9 @@ function getWageInfo(soc) {
 						// Build our base svg
 						var svg = d3.select("#region-map").append("svg").append("g");
 
+            // Resize svg element to show widget correctly in Firefox browser.
+            $('svg', '#region-map').attr("width", window.innerWidth).attr("height", window.innerHeight)
+
 						// Fetch a topojson file of UK EU regions
 						d3.json("uk_euregions.json", function(error, uk) {
 							var width = $(window).width();
