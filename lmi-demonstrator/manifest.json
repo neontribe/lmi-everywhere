@@ -8,7 +8,9 @@
             "matches": [
                 "http://www.rightmove.co.uk/property-to-rent/property*",
                 "http://www.rightmove.co.uk/property-to-buy/property*",
-                "http://www.rightmove.co.uk/property-for-sale/property*"
+                "http://www.rightmove.co.uk/property-for-sale/property*",
+                "http://www.rightmove.co.uk/commercial-property-for-sale/property*",
+                "http://www.rightmove.co.uk/commercial-property-to-let/property*"
             ],
             "permissions": [
                 "http://mapit.mysociety.org/*"
