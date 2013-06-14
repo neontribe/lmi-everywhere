@@ -133,7 +133,6 @@ function getWageInfo(soc) {
           });
         };
 
-
         // Pick a starting page TODO: de-uglify this.
         if (app.search_term) {
           window.location.hash = 'list';
@@ -141,7 +140,6 @@ function getWageInfo(soc) {
         if (app.soc) {
           window.location.hash = 'info';
         }
-
         if (!app.soc && !app.search_term) {
           window.location.hash = 'search';
         }
@@ -201,6 +199,7 @@ function getWageInfo(soc) {
     function showMessage(message, timeout) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
 				// Hide after delay.
 				if (timeout) {
 					setTimeout( $.mobile.hidePageLoadingMsg, timeout );
@@ -323,6 +322,11 @@ function getWageInfo(soc) {
                           trends[k] = calculateTrend(v);
                           raw_trends[k] = calculateTrend(v, true);
                         });
+
+                        if (!app.search_term) {
+                          app.search_term = app.cache[app.soc].title;
+                        }
+
                         // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
@@ -346,7 +350,7 @@ function getWageInfo(soc) {
 												   wage: wage
                         });
                         
-                        var chart_data, chart, axes;
+                        var chart_data, chart, xaxis, yaxis;
 
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(trendByRegion[regionID], function(v){
@@ -372,7 +376,14 @@ function getWageInfo(soc) {
                                 data: chart_data
                               }]
                           });
-                          axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          xaxis = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          yaxis = new Rickshaw.Graph.Axis.Y({
+                            graph: chart,
+                            orientation: 'right',
+                            tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                            element: document.getElementById('y_axis'),
+                          });
+
                           chart.render();
                         }
                         else {

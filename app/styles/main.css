@@ -12,6 +12,19 @@
 
 h2 {
   color: #FF6600;
+  margin-top: 0;
+}
+
+#info h2 {
+  /*
+  padding: 4px;
+  background: rgba(255, 255, 255, .6);
+
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  */
+  color: #222;
 }
 
 .ui-header .ui-btn-hover-a {
@@ -52,6 +65,7 @@ div.ui-input-text textarea.ui-input-text,
 .rubric > p {
   font-size: 0.95em;
   line-height: 1.3;
+  text-align: right;
 }
 
 footer.ui-footer {
@@ -84,6 +98,7 @@ footer.ui-footer {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 5;
 
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -354,10 +369,6 @@ footer.ui-footer {
   }
 }
 
-#info .content {
-  height: 100%;
-}
-
 #info .rubric {
   position: absolute;
   z-index: 999;
@@ -365,7 +376,7 @@ footer.ui-footer {
 }
 
 #info .chart {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
 }
