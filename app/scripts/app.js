@@ -82,7 +82,14 @@ function getWageInfo(soc) {
 			wagesByRegion.breakdown[v.region] = v.estpay;
     });
     var sum = wagesByRegion.breakdown.reduce(function(a,b) { return a+b });
-    var avg = sum/(wagesByRegion.breakdown.length - 1);
+		var numofvalues = 0;
+		$.each(wagesByRegion.breakdown, function (k, v) {
+		// Count only regions with wage info
+			if (v !=0) {
+			  numofvalues++;
+			}
+		});
+    var avg = sum/(numofvalues - 1);
     wagesByRegion.breakdown[0] = Math.round(avg); // Avg for all UK.
     d.resolve(wagesByRegion);
   });
