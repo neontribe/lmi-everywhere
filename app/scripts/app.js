@@ -349,7 +349,7 @@ function getWageInfo(soc) {
                           // Use Rickshaw for supported browsers.
                           chart = new Rickshaw.Graph( {
                               element: $page.find('.chart')[0],
-                              min: 'auto',
+                              min: 0, //'auto',
                               width: $('body').width(),
                               height: $(window).height() * 0.45,
                               series: [{
