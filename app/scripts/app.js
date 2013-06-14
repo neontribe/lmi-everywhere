@@ -175,14 +175,16 @@ function getWageInfo(soc) {
         }
     }
 
-    function showMessage(message) {
+    function showMessage(message, timeout) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
-
-        // Hide after delay.
-        setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
-    }
-
+				// Hide after delay.
+				if (timeout) {
+					setTimeout( $.mobile.hidePageLoadingMsg, timeout );
+				} else {
+          setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
+				}
+		}
     /**
      * Set app.search_term when the search button is clicked
      */
@@ -445,8 +447,8 @@ function getWageInfo(soc) {
 							//.on("resize", sizeChange);
 
 						// Add title with job title info
-						var pagetitle = '<h2>Compare opportunities for ' 
-							+ app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2>';
+						var pagetitle = '<h2>Trends&#58; ' 
+							+ app.cache[app.soc].title.toLowerCase() + '</h2>';
 					
 						// Clear existing html and add page title to regionmap div
 						$("#region-map").html(pagetitle);
@@ -482,7 +484,7 @@ function getWageInfo(soc) {
 							return "region trend" + trendClass; 
 							})
 						.attr("d", path).on('click', function(d){
-							showMessage(getTrendOutput(d.id));
+							showMessage(getTrendOutput(d.id), 3000);
 						});
 						// Draw some boundaries
 						svg.append("path")
