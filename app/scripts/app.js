@@ -195,7 +195,7 @@ function getWageInfo(soc) {
 		}
 
 		function showPopup(message) {
-			message += '<a href="#" onclick="$(\'#region-popup\').popup(\'close\')" class="region-popup-close">X</a>';
+			message += '<a href="#" onclick="$(\'#region-popup\').popup(\'close\')" class="popup-close">X</a>';
 		  $('#region-popup').html(message).popup("open");
 			
 		}
@@ -255,7 +255,7 @@ function getWageInfo(soc) {
                     }
                 }).done(function(data){
                     app.search_results = data;
-                    render($page.find('.ui-listview'), 'list_content', {jobs: data});
+                    render($page.find('.content'), 'list_content', {jobs: data});
                     $page.find('.ui-listview').listview('refresh');
                     d.resolve();
                 }).fail(function(){
@@ -453,14 +453,14 @@ function getWageInfo(soc) {
 							var rtrend = (trend.trend > 0)? 'increasing':'decreasing'; 
 							var output  = '<div class ="' + rtrend + '">';
 									output += '<h3>' + name + '</h3>';
-									output += '<p>Opportunities: '	+ rtrend + '</p>';
+									output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 								if (trend.wage.wage) {
-									output += '<p>' + trend.wage.year + ' Avg weekly wage: &pound;'
-										+ trend.wage.wage + '</p></div>';
+									output += trend.wage.year + ' Avg weekly wage: &pound;'
+										+ trend.wage.wage + '</div>';
 								} else {
-								  output += '<p>No wage info available.</p></div>';
+								  output += 'No wage info available.</div>';
 								}
-							return output;
+							return '</p>' + output;
 						}
 
 						// Connect a resizer
@@ -469,7 +469,7 @@ function getWageInfo(soc) {
 							//.on("resize", sizeChange);
 
 						// Add title with job title info
-						var pagetitle = '<h2>Trends&#58; ' 
+						var pagetitle = '<h2>Trends&#58;<br />' 
 							+ app.cache[app.soc].title.toLowerCase() + '</h2>';
 					
 						// Clear existing html and add page title to regionmap div

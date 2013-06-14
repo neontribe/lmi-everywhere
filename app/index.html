@@ -61,19 +61,26 @@
           <li><a href="#search" data-role="button">Search</a></li>
         </ul>
       </div>
-      <div data-role="content" class="scrollable">
-        <ul data-role="listview"></ul>
-      </div>
+      <div data-role="content" class="scrollable content"></div>
     </section>
     <script id="list_content" type="text/template">
-      <% _.each(jobs, function(job, index){ %>
-        <li>
-          <a href="#info" data-transition="flow" data-soc="<%= job.soc %>">
-            <h2><%= job.title %></h2>
-            <p><%= job.description %></p>
-          </a>
-        </li>
-      <% }) %>
+      <% if (jobs.length) { %>
+        <ul data-role="listview">
+          <% _.each(jobs, function(job, index){ %>
+            <li>
+              <a href="#info" data-transition="flow" data-soc="<%= job.soc %>">
+                <h2><%= job.title %></h2>
+                <p><%= job.description %></p>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <div class="noresults">
+          <p>Sorry, no jobs match "<%= app.search_term %>"</p>
+          <a href="#search" data-role="button">New Search</a>
+        </div>
+      <% } %>
     </script>
 
     <section id="info" data-role="page" data-theme="a">
