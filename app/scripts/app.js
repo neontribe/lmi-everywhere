@@ -133,7 +133,6 @@ function getWageInfo(soc) {
           });
         };
 
-
         // Pick a starting page TODO: de-uglify this.
         if (app.search_term) {
           window.location.hash = 'list';
@@ -141,7 +140,6 @@ function getWageInfo(soc) {
         if (app.soc) {
           window.location.hash = 'info';
         }
-
         if (!app.soc && !app.search_term) {
           window.location.hash = 'search';
         }
@@ -346,7 +344,7 @@ function getWageInfo(soc) {
 												   wage: wage
                         });
                         
-                        var chart_data, chart, axes;
+                        var chart_data, chart, xaxis, yaxis;
 
                         // mangle the data for the rickshaw chart
                         chart_data = $.map(trendByRegion[regionID], function(v){
@@ -372,7 +370,14 @@ function getWageInfo(soc) {
                                 data: chart_data
                               }]
                           });
-                          axes = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          xaxis = new Rickshaw.Graph.Axis.Time( { graph: chart } );
+                          yaxis = new Rickshaw.Graph.Axis.Y({
+                            graph: chart,
+                            orientation: 'right',
+                            tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                            element: document.getElementById('y_axis'),
+                          });
+
                           chart.render();
                         }
                         else {
