@@ -469,7 +469,7 @@ function getWageInfo(soc) {
 							var currentemp = (Math.round((trend.data[0].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
 							var output  = '<div class ="' + rtrend + '">';
 									output += '<h3>' + name + '</h3>';
-									output += 'Current workers: est. ' + currentemp + '<br />';
+									output += 'Workers: approx. ' + currentemp + '<br />';
 									output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 								if (trend.wage.wage) {
 									output += trend.wage.year + ' Avg weekly wage: &pound;'
