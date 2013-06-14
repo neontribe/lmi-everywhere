@@ -185,6 +185,12 @@ function getWageInfo(soc) {
           setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
 				}
 		}
+
+		function showPopup(message) {
+			message += '<a href="#" onclick="$(\'#region-popup\').popup(\'close\')" class="region-popup-close">X</a>';
+		  $('#region-popup').html(message).popup("open");
+			
+		}
     /**
      * Set app.search_term when the search button is clicked
      */
@@ -431,12 +437,15 @@ function getWageInfo(soc) {
 
 						function getTrendOutput(name){
 							var trend = trends[name.toLowerCase()];
-							var output  = 'Opportunities in ' + name + ' are ' 
-								+ ((trend.trend > 0)? 'increasing':'decreasing') + '. '
+							var rtrend = (trend.trend > 0)? 'increasing':'decreasing'; 
+							var output  = '<div class ="' + rtrend + '">';
+									output += '<h3>' + name + '</h3>';
+									output += '<p>Opportunities: '	+ rtrend + '</p>';
 								if (trend.wage.wage) {
-									output += 'The average weekly wage in ' + trend.wage.year + ' was £' + trend.wage.wage;
+									output += '<p>' + trend.wage.year + ' Avg weekly wage: &pound;'
+										+ trend.wage.wage + '</p></div>';
 								} else {
-								  output += 'No wage info available.';
+								  output += '<p>No wage info available.</p></div>';
 								}
 							return output;
 						}
@@ -484,7 +493,7 @@ function getWageInfo(soc) {
 							return "region trend" + trendClass; 
 							})
 						.attr("d", path).on('click', function(d){
-							showMessage(getTrendOutput(d.id), 3000);
+							showPopup(getTrendOutput(d.id));
 						});
 						// Draw some boundaries
 						svg.append("path")
