@@ -136,10 +136,14 @@ function getWageInfo(soc) {
 
         // Pick a starting page TODO: de-uglify this.
         if (app.search_term) {
-            window.location.hash = 'list';
+          window.location.hash = 'list';
         }
         if (app.soc) {
-            window.location.hash = 'info';
+          window.location.hash = 'info';
+        }
+
+        if (!app.soc && !app.search_term) {
+          window.location.hash = 'search';
         }
 
         // Init jQM
