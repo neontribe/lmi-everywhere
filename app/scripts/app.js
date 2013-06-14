@@ -469,7 +469,7 @@ function getWageInfo(soc) {
 							//.on("resize", sizeChange);
 
 						// Add title with job title info
-						var pagetitle = '<h2>Trends&#58; ' 
+						var pagetitle = '<h2>Trends&#58;<br />' 
 							+ app.cache[app.soc].title.toLowerCase() + '</h2>';
 					
 						// Clear existing html and add page title to regionmap div

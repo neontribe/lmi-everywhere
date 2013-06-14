@@ -138,6 +138,13 @@ footer.ui-footer {
   color: #000;
 }
 
+/* Region map */
+
+#region-map h2 {
+  position: absolute;
+  margin: 0;
+}
+
 /* Region popup */
 #region-popup {
   position: relative;
