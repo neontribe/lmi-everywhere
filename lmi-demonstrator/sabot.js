@@ -40,6 +40,7 @@
         iframe.attr('height', "400");
         iframe.attr('frameborder', "0");
         iframe.attr('scrolling', 'no');
+        iframe.style.border = '3px solid #222';
         iframe.prependTo('div.secondarycontent');
     }
 
