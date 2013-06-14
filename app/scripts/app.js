@@ -201,6 +201,7 @@ function getWageInfo(soc) {
     function showMessage(message, timeout) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
 				// Hide after delay.
 				if (timeout) {
 					setTimeout( $.mobile.hidePageLoadingMsg, timeout );
