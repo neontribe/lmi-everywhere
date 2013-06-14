@@ -420,22 +420,23 @@ function getWageInfo(soc) {
 							$.each(out, function(k,v) {
 								v.trend = calculateTrend(v.data);
                 getWageInfo(v.soc).then(function(wdata){
-                  wages = wdata;
-                  return wages;
-                }); // TODO get wages for next step!
-                console.log(wages, 'wgs');
-                v.wage = {year:wages.year, wage:wages.breakdown[v.id]};
+ 									var wages = wdata;             
+                  v.wage = {year:wages.year, wage:wages.breakdown[v.id]};
+							 });
 							});
-              console.log(out, 'out');
 							return out;
 						}(data);
 
 						function getTrendOutput(name){
 							var trend = trends[name.toLowerCase()];
-              getWageInfo(trend.soc).then(function(wdata){
-                var wageInfo = wdata;
-              });
-							return name + ' ' + trend.trend + ' '  +  trend.soc;
+							var output  = 'Opportunities in ' + name + ' are ' 
+								+ ((trend.trend > 0)? 'increasing':'decreasing') + '. '
+								if (trend.wage.wage) {
+									output += 'The average weekly wage in ' + trend.wage.year + ' was £' + trend.wage.wage;
+								} else {
+								  output += 'No wage info available.';
+								}
+							return output;
 						}
 
 						// Connect a resizer
@@ -444,7 +445,8 @@ function getWageInfo(soc) {
 							//.on("resize", sizeChange);
 
 						// Add title with job title info
-						var pagetitle = '<h2>Compare opportunities for ' + app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2>';
+						var pagetitle = '<h2>Compare opportunities for ' 
+							+ app.cache[app.soc].title.toLowerCase()  + ' across the UK</h2>';
 					
 						// Clear existing html and add page title to regionmap div
 						$("#region-map").html(pagetitle);
@@ -493,35 +495,8 @@ function getWageInfo(soc) {
 								$("svg").height($("#region-map").height());
 							};
 
-						getWageInfo(app.soc).then(function(wdata){
-
-							var region_years = regionTrendData(data);
-							var region_trends = [];
-							var region_wages = wdata.breakdown;
-
-							$.each(regions, function(k, v){
-								region_trends[v] = calculateTrend(region_years[v.toString()]);
-							});
-							var html = '<ul>';
-							$.each(regions, function(name, id){
-								var trend = ((region_trends[id] > 0) ? 'increasing' : 'decreasing');
-
-								html += '<li>Opportunities in <strong>' + getRegionName(id) + '</strong> ';
-								html += 'are <span class="' + trend + '">' + trend + '</span>. ';
-
-								if (region_wages[id]) {
-									html += 'The average weekly wage in ' + wdata.year + ' was £' + region_wages[id] + '.';
-								}
-								else {
-									html += 'No wage info available.';
-								}
-							});
-							html += '</li></ul>';
-
-							$('#trends-text').html(html);
-
 							d.resolve();
-						});
+					
 					});
 				});
 			}).promise();
