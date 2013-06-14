@@ -132,10 +132,67 @@ footer.ui-footer {
 #list .ui-li-aside {
   color: #990099;
 }
+
 /* Graph */
 .rickshaw_graph .x_tick .title {
   color: #000;
 }
+
+/* Region popup */
+#region-popup {
+  position: relative;
+  padding: 10px;
+  border-color: #FF6600;
+  border-width: 2px;
+
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+}
+
+#region-popup h3 {
+  margin: 0;
+  width: 90%;
+  color: #FF6600;
+}
+
+#region-popup p {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+#region-popup .increasing,
+#region-popup .decreasing {
+  color: #222;
+}
+
+#region-popup span {
+  text-transform: uppercase;
+}
+
+#region-popup .increasing span { color: #FF6600; }
+#region-popup .decreasing span { color: #F74040; }
+
+#region-popup .popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-transform: lowercase;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  background: #FF6600;
+  padding: 1px 6px;
+
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
+
 /* First breakpoint is 768px. 3 column layout. Tiles 250x250 pixels at the breakpoint. */
 @media all and (min-width: 768px){
   #list .ui-content {
