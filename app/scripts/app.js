@@ -103,15 +103,25 @@ function getWageInfo(soc) {
         $.mobile.touchOverflowEnabled = true;
     });
 
+    function updateRegion(region){
+      if (region) {
+        app.region = region;
+      }
+      render($('#search').find('#region'), 'region_select', {regions: regions, sel: app.region});
+      $('#search').find('select').selectmenu('refresh');
+    }
+
     $(document).ready(function() {
         $.mobile.defaultPageTransition = 'flow';
         // Grab config from our URL
         $.extend(true, app, $.deparam.querystring(true));
-        if (app.region !== null) {
-            app.region = app.region || getUsersLocation(function(region){
-                app.region = region;
-            });
-        }
+
+        if (!app.region) {
+          getUserLocation(function(region){
+              updateRegion(region);
+          });
+        };
+
 
         // Pick a starting page TODO: de-uglify this.
         if (app.search_term) {
@@ -123,9 +133,6 @@ function getWageInfo(soc) {
 
         // Init jQM
         $.mobile.initializePage();
-
-        // Add region information.
-        render($('p#region_information'), 'region_info', {regionName: getRegionName(app.region) });
     });
 
 
@@ -161,6 +168,7 @@ function getWageInfo(soc) {
         );
         target.html(content);
     }
+    window.render = render;
 
     function validateString(value, message) {
         if (value.length > 0 && value.match(/[a-z]/gi)) {
@@ -228,8 +236,7 @@ function getWageInfo(soc) {
      */
     $('#search').on('pageinit', function(){
         var $page = $(this);
-        render($page.find('select'), 'region_select', {regions: regions});
-        $page.find('select').selectmenu('refresh');
+        updateRegion();
     });
 
     /**
@@ -303,8 +310,14 @@ function getWageInfo(soc) {
                         });
                         // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                         var regionID = ((app.region) ? app.region : 0);
-                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
-                        var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
+                        var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
+                        var explain = 'Currently there are approximately ' 
+													+ (Math.round((raw_trends[regionID][1][0])/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
+													+ ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) 
+													+ ' this is expected to '+((trends[regionID] > 0)? 'increase':'decrease')
+													+' to approximately ' 
+													+ (Math.round((_.last(raw_trends[regionID][1]))/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
+													+ ' workers.';
  											  var wages = wdata.breakdown;
 
                         var wage = 'No wage info available.';
