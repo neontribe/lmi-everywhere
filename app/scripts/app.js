@@ -201,6 +201,7 @@ function getWageInfo(soc) {
     function showMessage(message, timeout) {
         // Show error message.
         $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
+
 				// Hide after delay.
 				if (timeout) {
 					setTimeout( $.mobile.hidePageLoadingMsg, timeout );
@@ -323,6 +324,11 @@ function getWageInfo(soc) {
                           trends[k] = calculateTrend(v);
                           raw_trends[k] = calculateTrend(v, true);
                         });
+
+                        if (!app.search_term) {
+                          app.search_term = app.cache[app.soc].title;
+                        }
+
                         // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                         var regionID = ((app.region) ? app.region : 0);
                         var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
