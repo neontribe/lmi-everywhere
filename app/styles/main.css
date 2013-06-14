@@ -7,7 +7,7 @@
 
 #list ul li a {
   display: block;
-  background: url('images/hIEfix.png') repeat; /* Fix result listing anchors for IE8 */
+  background-image: url('images/hIEfix.png'); /* Fix result listing anchors for IE8 */
 }
 
 h2 {
@@ -80,7 +80,7 @@ footer.ui-footer {
 /* Vertical scroll fix */
 .scrollable {
   position: absolute;
-  top: 41px;
+  top: 80px;
   bottom: 0;
   left: 0;
   right: 0;
