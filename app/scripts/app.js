@@ -303,8 +303,14 @@ function getWageInfo(soc) {
                         });
                         // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                         var regionID = ((app.region) ? app.region : 0);
-                        var header = 'Opportunties for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
-                        var explain = 'Currently there are approximately ' + Math.ceil(raw_trends[regionID][1][0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) + ' this will '+((trends[regionID] > 0)? 'increase':'decrease')+' to approximately ' + Math.ceil(_.last(raw_trends[regionID][1])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' workers.';
+                        var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
+                        var explain = 'Currently there are approximately ' 
+													+ (Math.round((raw_trends[regionID][1][0])/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
+													+ ' workers. By ' + Math.ceil(_.last(raw_trends[regionID][0])) 
+													+ ' this is expected to '+((trends[regionID] > 0)? 'increase':'decrease')
+													+' to approximately ' 
+													+ (Math.round((_.last(raw_trends[regionID][1]))/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
+													+ ' workers.';
  											  var wages = wdata.breakdown;
 
                         var wage = 'No wage info available.';
