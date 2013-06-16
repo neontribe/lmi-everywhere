@@ -520,7 +520,12 @@ function getWageInfo(soc) {
 							var width = $(window).width();
 							var height = $(window).height();
 							var regions = topojson.feature(uk, uk.objects.uk_regions);
-							var projection = d3.geo.albers()
+							var dcolor = d3.scale.linear().domain([-1,0])
+                            .range(['#ff0000', '#ff9999']);
+	            var icolor = d3.scale.linear().domain([0,1])
+                            .range(['#ffa500', '#ffdb99']);
+
+              var projection = d3.geo.albers()
 							.center([2.1, 54.4])
 							.rotate([4.4, 0])
 							.parallels([50, 60])
@@ -536,12 +541,41 @@ function getWageInfo(soc) {
 						svg.selectAll(".region")
 							.data(topojson.feature(uk, uk.objects.uk_regions).features)
 							.enter().append("path")
-							.attr("class", function(d) { 
+              .style("fill", function(d) { 
+                var trendCalc = trends[d.id.toLowerCase()].trend;
+                if (trendCalc > 0) {  // trend increasing
+                  return icolor(trendCalc);
+                }
+                if (trendCalc < 0) { // trend increasing
+                  return dcolor(trendCalc);
+                }
+                if (trendCalc === 0) { // trend stable
+                  return 'green'; // TODO What do we want to do with stable?
+                }
+              })
+              .on("mouseover", function(){d3.select(this)
+                .style("fill", "#cccc99");})
+              .on("mouseout", function(){d3.select(this)
+                  .style("fill", function(d) {
+                    var trendCalc = trends[d.id.toLowerCase()].trend;
+                    if (trendCalc > 0) {  // trend increasing
+                      return icolor(trendCalc);
+                    }
+                    if (trendCalc < 0) { // trend increasing
+                      return dcolor(trendCalc);
+                    }
+                    if (trendCalc === 0) { // trend stable
+                      return 'green'; // TODO What do we want to do with stable?
+                    }
+                  }
+                  );})
+                  /**
+                    .attr("class", function(d) { 
 								// Calculate trend class here - better to use d3 scale?
 								var trend = trends[d.id.toLowerCase()].trend,
 								trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
 							return "region trend" + trendClass; 
-							})
+							})**/
 						.attr("d", path).on('click', function(d){
 							showPopup(getTrendOutput(d.id));
 						});
