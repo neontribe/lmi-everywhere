@@ -553,8 +553,24 @@ function getWageInfo(soc) {
                   return 'green'; // TODO What do we want to do with stable?
                 }
               })
-              /**
-							.attr("class", function(d) { 
+              .on("mouseover", function(){d3.select(this)
+                .style("fill", "#cccc99");})
+              .on("mouseout", function(){d3.select(this)
+                  .style("fill", function(d) {
+                    var trendCalc = trends[d.id.toLowerCase()].trend;
+                    if (trendCalc > 0) {  // trend increasing
+                      return icolor(trendCalc);
+                    }
+                    if (trendCalc < 0) { // trend increasing
+                      return dcolor(trendCalc);
+                    }
+                    if (trendCalc === 0) { // trend stable
+                      return 'green'; // TODO What do we want to do with stable?
+                    }
+                  }
+                  );})
+                  /**
+                    .attr("class", function(d) { 
 								// Calculate trend class here - better to use d3 scale?
 								var trend = trends[d.id.toLowerCase()].trend,
 								trendClass = (trend === 0) ? 'Stable' : (trend > 0 ? 'Increasing' : 'Decreasing');
