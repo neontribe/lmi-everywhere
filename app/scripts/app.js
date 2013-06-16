@@ -556,7 +556,21 @@ function getWageInfo(soc) {
 								$("svg").height($("#region-map").height());
 							};
 
-							d.resolve();
+//Getting closer - need to get all path elements from dom and see if that works.
+//circle does show when coords in scope.
+var elements  = d3.selectAll("path");
+var node = elements.node();
+var bbox = node.getBBox();
+var centrecoords = 
+  [(bbox.x + bbox.width/2), (bbox.y + bbox.height/2)];
+console.log(centrecoords, 'cc');
+
+svg.append("circle").attr("cx", centrecoords[0])
+  .attr("cy", centrecoords[1])
+  .attr("r", 200)
+  .style("fill", 'red');
+
+              d.resolve();
 					
 					});
 				});
