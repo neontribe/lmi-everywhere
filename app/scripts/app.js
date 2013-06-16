@@ -577,32 +577,32 @@ function getWageInfo(soc) {
 							return "region trend" + trendClass; 
 							})**/
 						.attr("d", path).on('click', function(d){
-							showPopup(getTrendOutput(d.id));
-						});
-						// Draw some boundaries
+              showPopup(getTrendOutput(d.id));
+            });
+
+              svg.selectAll(".trend-icon")
+                .data(topojson.feature(uk, uk.objects.uk_regions).features)
+                .enter().append("circle").style("fill", 'blue')
+                // .attr("translate", function(d) { 
+                // var center = path.centroid(d); 
+                // return center; })
+                .attr("cx", function(d) { var coord = path.centroid(d); return coord[0]; })
+                .attr("cy", function(d) { var coord = path.centroid(d); return coord[1]; })
+                .attr("r", 5);
+
+              // Draw some boundaries
 						svg.append("path")
 							.datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
 							.attr("d", path)
 							.attr("class", "region-boundary");
 						});
+
+
+
 							function sizeChange() {
 								d3.select("g").attr("transform", "scale(" + $("#region-map").width()/900 + ")");
 								$("svg").height($("#region-map").height());
 							};
-
-//Getting closer - need to get all path elements from dom and see if that works.
-//circle does show when coords in scope.
-var elements  = d3.selectAll("path");
-var node = elements.node();
-var bbox = node.getBBox();
-var centrecoords = 
-  [(bbox.x + bbox.width/2), (bbox.y + bbox.height/2)];
-console.log(centrecoords, 'cc');
-
-svg.append("circle").attr("cx", centrecoords[0])
-  .attr("cy", centrecoords[1])
-  .attr("r", 200)
-  .style("fill", 'red');
 
               d.resolve();
 					
