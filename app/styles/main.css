@@ -56,9 +56,17 @@ div.ui-input-text textarea.ui-input-text,
 }
 
 .rubric > p {
+  display: none;
   font-size: 0.95em;
   line-height: 1.3;
   text-align: right;
+}
+
+#info_btn_desc {
+  position: absolute;
+  z-index: 100;
+  top: 80px;
+  right: 20px;
 }
 
 footer.ui-footer {
@@ -221,6 +229,14 @@ footer.ui-footer {
 
 /* First breakpoint is 768px. 3 column layout. Tiles 250x250 pixels at the breakpoint. */
 @media all and (min-width: 768px){
+  #info_btn_desc {
+    display: none;
+  }
+
+  .rubric >p {
+    display: block;
+  }
+
   #list .ui-listview .job-description{
     display: block;
     position: absolute;

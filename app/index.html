@@ -64,7 +64,7 @@
       <header data-role="header" data-position="fixed">
         <h1>LMI</h1>
       </header>
-      <div data-role="content">
+      <div data-role="content"> 
         <span id="search_form_intro">Discover your future. Type your dream job here:</span>
         <input type="text" placeholder="I want to be a..."/>
         <label for="region" class="select">Search in:</label>
@@ -101,7 +101,7 @@
               <a class="result-view" href="#info" data-transition="flow" data-soc="<%= job.soc %>">
                 <h2><%= job.title %></h2>
               </a>
-              <a href="#" data-role="button" data-icon="info" title="Show job description" onclick="$(this).parent().find('.job-description').toggle();"></a>
+              <a href="#" data-role="button" data-icon="info" title="Show job description" onclick="$(this).parent().find('.job-description').slideToggle();"></a>
               <p class="job-description">
                 <%= job.description %>
               </p>
@@ -126,13 +126,16 @@
           <li><a href="#moreinfo" data-role="button">Compare regions</a></li>
         </ul>
       </div>
+
+      <a id="info_btn_desc" href="#abc" data-role="button" data-icon="info" data-iconpos="notext">Info</a>
+
       <div class="content scrollable" data-role="content"></div>
     </section>
     <script id="info_content" type="text/template">
       <div class="rubric">
         <h2><%= header %></h2>
-				<p><%= explain %></p>
-				<p><%= wage %></p>
+  		  <p><%= explain %></p>
+  		  <p><%= wage %></p>
       </div>
       <div class="chart"></div>
     </script>

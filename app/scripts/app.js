@@ -119,6 +119,12 @@ function getWageInfo(soc) {
     }
 
     $(document).ready(function() {
+
+        // Toggle info display over graph.
+        $('#info_btn_desc').on('click', function() {
+          $('.rubric > p').slideToggle();
+        });
+
         $.mobile.defaultPageTransition = 'flow';
         // Grab config from our URL
         $.extend(true, app, $.deparam.querystring(true));
@@ -200,9 +206,13 @@ function getWageInfo(soc) {
 			}
 		}
 
-		function showPopup(message) {
+		function showPopup(message, elem) {
+      if (!elem) {
+        elem = '#region-popup';
+      }
+
 			message += '<a href="#" onclick="$(\'#region-popup\').popup(\'close\')" class="popup-close">X</a>';
-		  $('#region-popup').html(message).popup('open');
+		  $(elem).html(message).popup().popup('open');
 		}
     /**
      * Set app.searchTerm when the search button is clicked
