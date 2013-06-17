@@ -1,3 +1,4 @@
+'use strict';
 var regions = {
     'London': 1,
     'East Midlands': 6,
@@ -11,7 +12,7 @@ var regions = {
     'Wales': 10,
     'West Midlands': 5,
     'Yorkshire and the Humber': 7
-};
+  };
 
 var mapitRegions = {
     '11806': 1,
@@ -26,7 +27,7 @@ var mapitRegions = {
     '11813': 10,
     '11809': 5,
     '11810': 7
-   };
+  };
 
 
 var saneRegions = {
@@ -42,36 +43,30 @@ var saneRegions = {
     'Wales': 10,
     'the West Midlands': 5,
     'Yorkshire and the Humber': 7
-};
-
-function euroRegionToLMIregion(region) {
-    return regions[region];
-}
+  };
 
 function getRegionName(id) {
     if (id) {
-        return _.invert(saneRegions)[id.toString()];
+      return _.invert(saneRegions)[id.toString()];
     } else {
-        return "the UK";
+      return 'the UK';
     }
-
-}
+  }
 
 function getUserLocation(cb) {
-    if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(function(pos){
-            $.ajax({
-                url: 'http://mapit.mysociety.org/point/4326/'+pos.coords.longitude+','+pos.coords.latitude+'?type=EUR',
-                dataType: 'json'
-            }).done(function(data){
-                var mcode = $.map(data, function(loc,code){ return code; })[0];
-                cb(mapitRegions[mcode]);
-            });
-
-        }, function(error){
-            cb(null);
-        });
-    } else {
-        cb(null);
-    }
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(function(pos){
+      $.ajax({
+        url: 'http://mapit.mysociety.org/point/4326/'+pos.coords.longitude+','+pos.coords.latitude+'?type=EUR',
+        dataType: 'json'
+      }).done(function(data){
+        var mcode = $.map(data, function(loc,code){ return code; })[0];
+        cb(mapitRegions[mcode]);
+      });
+    }, function(){
+      cb(null);
+    });
+  } else {
+    cb(null);
+  }
 }
