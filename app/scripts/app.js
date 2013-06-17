@@ -381,7 +381,7 @@ function getWageInfo(soc) {
                       graph: chart,
                       orientation: 'right',
                       tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-                      element: document.getElementById('y_axis'),
+                      element: document.getElementById('y_axis')
                     });
 
                     chart.render();

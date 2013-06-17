@@ -92,6 +92,16 @@ footer.ui-footer {
   box-shadow: none;
 }
 
+/* IE7 */
+/* Hide 'Compare regions' button */
+.lt-ie8 #btn_moreinfo {
+  display: none;
+}
+
+.lt-ie8 .ui-navbar li {
+  width: 100%;
+}
+
 /* Vertical scroll fix */
 .scrollable {
   position: absolute;
@@ -120,6 +130,10 @@ footer.ui-footer {
 .flot-chart {
   height: 250px;
   width: 100%;
+}
+
+.lt-ie8 .flot-chart {
+  width: 300px;
 }
 
 .flot-chart div {
