@@ -580,23 +580,41 @@ function getWageInfo(soc) {
               showPopup(getTrendOutput(d.id));
             });
 
-              svg.selectAll(".trend-icon")
-                .data(topojson.feature(uk, uk.objects.uk_regions).features)
-                .enter().append("circle").style("fill", 'blue')
-                // .attr("translate", function(d) { 
-                // var center = path.centroid(d); 
-                // return center; })
-                .attr("cx", function(d) { var coord = path.centroid(d); return coord[0]; })
-                .attr("cy", function(d) { var coord = path.centroid(d); return coord[1]; })
-                .attr("r", 5);
+		  			// Add plus 
+			  		svg.selectAll(".trend-icon")
+				  		.data(topojson.feature(uk, uk.objects.uk_regions).features)
+			  			.call(function(){
+								//var trend = trends[d.id.toLowerCase()].trend;
+								//if (trend < 0) {
+								.enter().append("rect").style("fill", "white").style("stroke", "#7a7a5b")
+								.attr("x", function(d) { var coord = path.centroid(d); return coord[0]; })
+								.attr("y", function(d) { var coord = path.centroid(d); return coord[1]; })
+								.attr("width", 10)
+								.attr("height", 4);
+								//}
+							});
+							//.append("path").style("fill", 'white').style("stroke", "7a7a5b";
+				
+						
 
-              // Draw some boundaries
+						/*
+						if (true) { 
+						icon.attr("transform", function(d) { 
+					  		var coord = path.centroid(d);
+						  	return "translate(" + coord[0] + "," + coord[1] +")"; 
+				  		})
+					  .attr("d", d3.svg.symbol().type('cross'));
+				    }
+						*/
+
+							// Draw some boundaries
 						svg.append("path")
 							.datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
 							.attr("d", path)
 							.attr("class", "region-boundary");
 						});
-
+						
+					
 
 
 							function sizeChange() {
