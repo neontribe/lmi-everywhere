@@ -224,7 +224,6 @@ footer.ui-footer {
   #list .ui-listview .job-description{
     display: block;
     position: absolute;
-    bottom: 0;
   }
 
   #list .ui-content {
@@ -296,6 +295,10 @@ footer.ui-footer {
     bottom: 20px;
     line-height: 1.5;
     overflow: hidden;
+  }
+  #list .ui-listview li:hover .ui-li-desc {
+    overflow-y: scroll;
+    margin-right: 20px;
   }
   /* Semi transparent background and different position if there is a thumb */
   .ui-listview .ui-li-has-thumb .ui-li-heading,
