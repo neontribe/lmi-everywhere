@@ -180,6 +180,11 @@ footer.ui-footer {
   margin: 0;
 }
 
+#region-map path,
+#region-map rect {
+  cursor: pointer;
+}
+
 /* Region popup */
 #region-popup {
   position: relative;
