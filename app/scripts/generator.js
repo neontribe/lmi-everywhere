@@ -14,7 +14,7 @@
 
 	function gen(params){
 		// get our own host
-		var path = window.location.origin,
+		var path = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : ''),
 			loader = '/lmi-everywhere.js',
 			src = $.param.querystring(path + loader, params);
 		return tag({src: src});
