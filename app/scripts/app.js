@@ -500,9 +500,9 @@ function getWageInfo(soc) {
 							var height = $(window).height();
 							var regions = topojson.feature(uk, uk.objects['uk_regions']);
 							var dcolor = d3.scale.linear().domain([-1,0])
-                            .range(['#ff0000', '#ff9999']);
+                            .range(['#ff0000', '#ffc1c1']);
 	            var icolor = d3.scale.linear().domain([0,1])
-                            .range(['#ffa500', '#ffdb99']);
+                            .range(['#ffdb99', '#ff9900']);
 
               var projection = d3.geo.albers()
 							 .center([2.1, 54.4])
@@ -529,7 +529,7 @@ function getWageInfo(soc) {
                   return dcolor(trendCalc);
                 }
                 if (trendCalc === 0) { // trend stable
-                  return 'green'; // TODO What do we want to do with stable?
+                  return 'white'; // TODO What do we want to do with stable?
                 }
               })
               .on('mouseover', function(){
@@ -546,7 +546,7 @@ function getWageInfo(soc) {
                       return dcolor(trendCalc);
                     }
                     if (trendCalc === 0) { // trend stable
-                      return 'green'; // TODO What do we want to do with stable?
+                      return 'white'; // TODO What do we want to do with stable?
                     }
                   }
                 );
