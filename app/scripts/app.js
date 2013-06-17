@@ -522,7 +522,7 @@ function getWageInfo(soc) {
 							var regions = topojson.feature(uk, uk.objects.uk_regions);
 							var dcolor = d3.scale.linear().domain([-1,0])
                             .range(['#ff0000', '#ff9999']);
-	            var icolor = d3.scale.linear().domain([0,1])
+	            var icolor = d3.scale.linear().domain([1,0])
                             .range(['#ffa500', '#ffdb99']);
 
               var projection = d3.geo.albers()
@@ -540,8 +540,10 @@ function getWageInfo(soc) {
 
 						svg.selectAll(".region")
 							.data(topojson.feature(uk, uk.objects.uk_regions).features)
-							.enter().append("path")
-              .style("fill", function(d) { 
+							.enter()
+							.append("path")
+							.classed('region', true)
+							.style("fill", function(d) { 
                 var trendCalc = trends[d.id.toLowerCase()].trend;
                 if (trendCalc > 0) {  // trend increasing
                   return icolor(trendCalc);
@@ -553,6 +555,7 @@ function getWageInfo(soc) {
                   return 'green'; // TODO What do we want to do with stable?
                 }
               })
+
               .on("mouseover", function(){d3.select(this)
                 .style("fill", "#cccc99");})
               .on("mouseout", function(){d3.select(this)
@@ -579,44 +582,34 @@ function getWageInfo(soc) {
 						.attr("d", path).on('click', function(d){
               showPopup(getTrendOutput(d.id));
             });
+							
+				    // Append plus and minus to regions	
+						d3.selectAll('.region').each(function(reg){
+							var trend = trends[reg.id.toLowerCase()].trend;
+							var centre = path.centroid(reg.geometry);
+							if (trend < 0) {
+								svg.append("rect").style("fill", "white").style("stroke", "#7a7a5b")
+									.attr("x", function(reg) { return centre[0]-5; })
+									.attr("y", function(reg) { return centre[1]-2; })
+									.attr("width", 10)
+									.attr("height", 4);
+							}
+							if (trend > 0) {
+								svg.append("path").style("fill", 'white').style("stroke", "7a7a5b")
+									.attr("transform", function() { 
+										return "translate(" + centre[0] + "," + centre[1] +")"; 
+									})
+								.attr("d", d3.svg.symbol().type('cross'));
+							}
+						});
 
-		  			// Add plus 
-			  		svg.selectAll(".trend-icon")
-				  		.data(topojson.feature(uk, uk.objects.uk_regions).features)
-			  			.call(function(){
-								//var trend = trends[d.id.toLowerCase()].trend;
-								//if (trend < 0) {
-								.enter().append("rect").style("fill", "white").style("stroke", "#7a7a5b")
-								.attr("x", function(d) { var coord = path.centroid(d); return coord[0]; })
-								.attr("y", function(d) { var coord = path.centroid(d); return coord[1]; })
-								.attr("width", 10)
-								.attr("height", 4);
-								//}
-							});
-							//.append("path").style("fill", 'white').style("stroke", "7a7a5b";
-				
-						
-
-						/*
-						if (true) { 
-						icon.attr("transform", function(d) { 
-					  		var coord = path.centroid(d);
-						  	return "translate(" + coord[0] + "," + coord[1] +")"; 
-				  		})
-					  .attr("d", d3.svg.symbol().type('cross'));
-				    }
-						*/
-
-							// Draw some boundaries
+						// Draw some boundaries
 						svg.append("path")
 							.datum(topojson.mesh(uk, uk.objects.uk_regions, function(a, b) { return a !== b; }))
 							.attr("d", path)
 							.attr("class", "region-boundary");
 						});
 						
-					
-
-
 							function sizeChange() {
 								d3.select("g").attr("transform", "scale(" + $("#region-map").width()/900 + ")");
 								$("svg").height($("#region-map").height());
