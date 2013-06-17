@@ -320,13 +320,13 @@ function getWageInfo(soc) {
                   // Re-assign null region (all UK) to 0 to correspond with regionTrendData array.
                   var regionID = ((app.region) ? app.region : 0);
                   var header = 'Opportunities for '+app.cache[app.soc].title.toLowerCase()+' in '+ getRegionName(app.region) +' are '+((trends[regionID] > 0)? 'increasing':'decreasing');
-                  var explain = 'Currently there are approximately ' /
-                    + (Math.round((rawTrends[regionID][1][0])/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') /
-                    + ' workers. By ' + Math.ceil(_.last(rawTrends[regionID][0])) /
-                    + ' this is expected to '+((trends[regionID] > 0)? 'increase':'decrease') /
-                    +' to approximately ' /
-                    + (Math.round((_.last(rawTrends[regionID][1]))/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') /
-                    + ' workers.';
+                  var explain = 'Currently there are approximately ' +
+                    (Math.round((rawTrends[regionID][1][0])/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+                    ' workers. By ' + Math.ceil(_.last(rawTrends[regionID][0])) +
+                    ' this is expected to '+((trends[regionID] > 0)? 'increase':'decrease') +
+                    ' to approximately ' +
+                    (Math.round((_.last(rawTrends[regionID][1]))/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+                    ' workers.';
                   var wages = wdata.breakdown;
 
                   var wage = 'No wage info available.';
@@ -473,8 +473,8 @@ function getWageInfo(soc) {
 							output += 'Workers: approx. ' + currentemp + '<br />';
 							output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 						  if (trend.wage.wage) {
-								output += trend.wage.year + ' Avg weekly wage: &pound;' /
-									+ trend.wage.wage + '</p></div>';
+								output += trend.wage.year + ' Avg weekly wage: &pound;' +
+									trend.wage.wage + '</p></div>';
 							} else {
 							  output += 'No wage info available.</p></div>';
 							}
@@ -482,8 +482,8 @@ function getWageInfo(soc) {
 						}
 
 						// Add title with job title info
-						var pagetitle = '<h2>Trends&#58;<br />' /
-							+ app.cache[app.soc].title.toLowerCase() + '</h2>';
+						var pagetitle = '<h2>Trends&#58;<br />' +
+							app.cache[app.soc].title.toLowerCase() + '</h2>';
 
 						// Clear existing html and add page title to regionmap div
 						$('#region-map').html(pagetitle);
