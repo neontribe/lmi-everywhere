@@ -20,16 +20,6 @@ h2 {
   color: #222;
 }
 
-.job-description {
-  display: none;
-  padding: 0 53px 5px 15px;
-  text-overflow: clip;
-  overflow: visible;
-  white-space: normal;
-  font-size: 0.8em;
-  line-height: 1.5;
-}
-
 .ui-header .ui-btn-hover-a {
   border: 0;
   margin: 2px 0 0;
@@ -219,10 +209,34 @@ footer.ui-footer {
   border-radius: 50px;
 }
 
+#list .job-description {
+  display: none;
+  padding: 0 53px 5px 15px;
+  text-overflow: clip;
+  overflow: visible;
+  white-space: normal;
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
 /* First breakpoint is 768px. 3 column layout. Tiles 250x250 pixels at the breakpoint. */
 @media all and (min-width: 768px){
+  #list .ui-listview .job-description{
+    display: block;
+    position: absolute;
+    bottom: 0;
+  }
+
   #list .ui-content {
     padding: 9px;
+  }
+  
+  #list .ui-listview .ui-li.ui-btn {
+    float: left;
+    width: 30.9333%; /* 33.3333% incl. 2 x 1.2% margin */
+    height: 232px;
+    margin: 9px 1.2%;
+    border-width: 0; /* The 1px border would break the layout so we set it on .ui-btn-inner instead. */
   }
   /* If you don't want a border at all, just set "border: none;" here to negate the semi white top border */
   #list .ui-listview .ui-li.ui-btn-inner {
@@ -259,6 +273,10 @@ footer.ui-footer {
     left: 0;
     z-index: -1;
   }
+  /* Hide the icon */
+  #list .ui-listview .ui-btn-icon-notext {
+    display: none;
+  }
   /* Make text wrap. */
   #list .ui-listview .ui-li-heading,
   #list .ui-listview .ui-li-desc {
@@ -270,6 +288,14 @@ footer.ui-footer {
   #list .ui-listview .ui-li-heading {
     margin: 0;
     padding: 20px;
+  }
+  #list .ui-listview .ui-li-desc {
+    margin: 0;
+    padding: 0 20px;
+    height: 110px;
+    bottom: 20px;
+    line-height: 1.5;
+    overflow: hidden;
   }
   /* Semi transparent background and different position if there is a thumb */
   .ui-listview .ui-li-has-thumb .ui-li-heading,
@@ -330,6 +356,13 @@ footer.ui-footer {
   #list .ui-content {
     padding: 10px;
   }
+  /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
+-  but we stick to percentage values for demo purposes. */
+-  #list .ui-listview .ui-li.ui-btn {
+-    width: 23%;
+-    height: 230px;
+-    margin: 10px 1%;
+-  }
   /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
   By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
   #list .ui-listview {
