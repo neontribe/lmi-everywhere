@@ -18,6 +18,7 @@ h2 {
 
 #info h2 {
   color: #222;
+  max-width: 98%; /* Avoid overlapping info button on smaller displays */
 }
 
 .ui-header .ui-btn-hover-a {
@@ -62,11 +63,15 @@ div.ui-input-text textarea.ui-input-text,
   text-align: right;
 }
 
+.rubric > p:last-child {
+  margin-bottom: 20px;
+}
+
 #info_btn_desc {
   position: absolute;
   z-index: 100;
   top: 80px;
-  right: 20px;
+  right: 10px;
 }
 
 footer.ui-footer {
@@ -111,7 +116,7 @@ footer.ui-footer {
   right: 0;
   z-index: 5;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 

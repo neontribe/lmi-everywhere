@@ -250,8 +250,12 @@ function getWageInfo(soc) {
      * Initialise region selection on pageinit.
      */
     $(document).on('pageinit', '#search', function(){
-        updateRegion();
-      });
+      updateRegion();
+    });
+
+    $('a[data-role="button"]', '#list').on('click', function(){
+      $(this).parent().find('.job-description').slideToggle();
+    });
 
     /**
      * Fetch search results and render a template before showing the list view
