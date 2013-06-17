@@ -567,7 +567,8 @@ function getWageInfo(soc) {
                   }
                 );
               })
-						.attr("d", path).on('click', function(d){
+						.attr("d", path)
+            .on('click', function(d){
               showPopup(getTrendOutput(d.id));
             });
 							
@@ -575,20 +576,27 @@ function getWageInfo(soc) {
 						d3.selectAll('.region').each(function(reg){
 							var trend = trends[reg.id.toLowerCase()].trend;
 							var centre = path.centroid(reg.geometry);
+
 							if (trend < 0) {
 								svg.append("rect").style("fill", "white").style("stroke", "#7a7a5b")
 									.attr("x", function(reg) { return centre[0]-5; })
 									.attr("y", function(reg) { return centre[1]-2; })
 									.attr("width", 10)
-									.attr("height", 4);
+									.attr("height", 4)
+                  .on('click', function() {
+                    showPopup(getTrendOutput(reg.id));
+                  });
 							}
-							if (trend > 0) {
+							else if (trend > 0) {
 								svg.append("path").style("fill", 'white').style("stroke", "7a7a5b")
 									.attr("transform", function() { 
 										return "translate(" + centre[0] + "," + centre[1] +")"; 
 									})
-								.attr("d", d3.svg.symbol().type('cross'));
-							}
+								.attr("d", d3.svg.symbol().type('cross'))
+                .on('click', function() {
+                  showPopup(getTrendOutput(reg.id));
+                });
+ 							}
 						});
 
 						// Draw some boundaries
