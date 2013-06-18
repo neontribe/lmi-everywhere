@@ -519,77 +519,76 @@ function getWageInfo(soc) {
                             .range(['#ffa500', '#ffdb99']);
 
               var projection = d3.geo.albers()
-							.center([2.1, 54.4])
-							.rotate([4.4, 0])
-							.parallels([50, 60])
-							.scale(4.1 * height)
-						  .translate([width/2, height/2]);
-						var path = d3.geo.path()
-							.projection(projection);
+							 .center([2.1, 54.4])
+							 .rotate([4.4, 0])
+							 .parallels([50, 60])
+							 .scale(4.1 * height)
+						    .translate([width/2, height/2]);
+						  var path = d3.geo.path()
+							 .projection(projection);
 
-						svg.append("path")
-							.datum(regions)
-							.attr("d", path);
+						  svg.append('path')
+							 .datum(regions)
+							 .attr('d', path);
 
-						svg.selectAll(".region")
-							.data(topojson.feature(uk, uk.objects.uk_regions).features)
-							.enter()
-							.append("path")
-							.classed('region', true)
-							.style("fill", function(d) { 
-               var trendCalc = trends[d.id.toLowerCase()].trend;
-                if (trendCalc > 0) {  // trend increasing
-                  return icolor(trendCalc);
-                }
-                if (trendCalc < 0) { // trend increasing
-                  return dcolor(trendCalc);
-                }
-                if (trendCalc === 0) { // trend stable
-                  return 'white'; // TODO What do we want to do with stable?
-                }
-              })
-              .on('mouseover', function(){
-                d3.select(this).style('fill', '#cccc99');
-              })
-              .on('mouseout', function(){
-                d3.select(this)
-                  .style('fill', function(d) {
-                    var trendCalc = trends[d.id.toLowerCase()].trend;
-                    if (trendCalc > 0) {  // trend increasing
-                      return icolor(trendCalc);
-                    }
-                    if (trendCalc < 0) { // trend increasing
-                      return dcolor(trendCalc);
-                    }
-                    if (trendCalc === 0) { // trend stable
-                      return 'white'; // TODO What do we want to do with stable?
-                    }
+						  svg.selectAll('.region')
+							 .data(topojson.feature(uk, uk.objects['uk_regions']).features)
+							 .enter()
+							 .append('path')
+							 .classed('region', true)
+							 .style('fill', function(d) {
+                  var trendCalc = trends[d.id.toLowerCase()].trend;
+                  if (trendCalc > 0) {  // trend increasing
+                    return icolor(trendCalc);
                   }
-                );
-              })
-						.attr("d", path).on('click', function(d){
-              showPopup(getTrendOutput(d.id));
-            });
-							
-				    // Append plus and minus to regions	
-						d3.selectAll('.region').each(function(reg){
-							var trend = trends[reg.id.toLowerCase()].trend;
-							var centre = path.centroid(reg.geometry);
-							if (trend < 0) {
-								svg.append("rect").style("fill", "white").style("stroke", "#7a7a5b")
-									.attr("x", function(reg) { return centre[0]-5; })
-									.attr("y", function(reg) { return centre[1]-2; })
-									.attr("width", 10)
-									.attr("height", 4);
-							}
-							if (trend > 0) {
-								svg.append("path").style("fill", 'white').style("stroke", "7a7a5b")
-									.attr("transform", function() { 
-										return "translate(" + centre[0] + "," + centre[1] +")"; 
+                  if (trendCalc < 0) { // trend increasing
+                    return dcolor(trendCalc);
+                  }
+                  if (trendCalc === 0) { // trend stable
+                    return 'white'; // TODO What do we want to do with stable?
+                  }
+                })
+                .on('mouseover', function(){
+                  d3.select(this).style('fill', '#cccc99');
+                })
+                .on('mouseout', function(){
+                  d3.select(this)
+                    .style('fill', function(d) {
+                      var trendCalc = trends[d.id.toLowerCase()].trend;
+                      if (trendCalc > 0) {  // trend increasing
+                        return icolor(trendCalc);
+                      }
+                      if (trendCalc < 0) { // trend increasing
+                        return dcolor(trendCalc);
+                      }
+                      if (trendCalc === 0) { // trend stable
+                        return 'white'; // TODO What do we want to do with stable?
+                      }
+                    }
+                    );
+                })
+						  .attr('d', path).on('click', function(d){
+                showPopup(getTrendOutput(d.id));
+              });
+				      // Append plus and minus to regions
+						  d3.selectAll('.region').each(function(reg){
+							  var trend = trends[reg.id.toLowerCase()].trend;
+							  var centre = path.centroid(reg.geometry);
+							  if (trend < 0) {
+								  svg.append('rect').style('fill', 'white').style('stroke', '#7a7a5b')
+									 .attr('x', function(reg) { return centre[0]-5; })
+									 .attr('y', function(reg) { return centre[1]-2; })
+									 .attr('width', 10)
+									 .attr('height', 4);
+							  }
+							  if (trend > 0) {
+								  svg.append('path').style('fill', 'white').style('stroke', '#7a7a5b')
+									 .attr('transform', function() {
+										return 'translate(' + centre[0] + ',' + centre[1] + ')';
 									})
-								.attr("d", d3.svg.symbol().type('cross'));
-							}
-						});
+								.attr('d', d3.svg.symbol().type('cross'));
+							  }
+						  });
 
 						// Draw some boundaries
 						  svg.append('path')
@@ -597,14 +596,7 @@ function getWageInfo(soc) {
 							 .attr('d', path)
 							 .attr('class', 'region-boundary');
 						});
-						
-							function sizeChange() {
-								d3.select("g").attr("transform", "scale(" + $("#region-map").width()/900 + ")");
-								$("svg").height($("#region-map").height());
-							};
-
-              d.resolve();
-					
+            d.resolve();
 					});
 				});
 			}).promise();
