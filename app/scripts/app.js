@@ -229,7 +229,7 @@ function getWageInfo(soc) {
         $.mobile.changePage('#list');
       }
     });
-    $(document).on('click', '#search a', function(evt){
+    $(document).on('click', '#search .ui-content a', function(evt){
       var val = $(evt.delegateTarget).find('input[type=text]').val();
       if (!validateString(val, 'Invalid search term.')) {
         return false;
