@@ -21,6 +21,10 @@ h2 {
   max-width: 98%; /* Avoid overlapping info button on smaller displays */
 }
 
+#info .ui-btn-up-a .ui-icon {
+  color: #333 !important;
+}
+
 .ui-header .ui-btn-hover-a {
   border: 0;
   margin: 2px 0 0;
