@@ -1,8 +1,8 @@
 {
-    "name": "LMI Demonstrator",
+    "name": "Career Trax Demonstrator",
     "version": "0.2",
     "manifest_version": 2,
-    "description": "Demonstrate the LMI widget on rightmove property pages",
+    "description": "Demonstrate the Career Trax widget on rightmove property pages",
     "content_scripts": [
         {
             "matches": [
