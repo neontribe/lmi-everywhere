@@ -229,7 +229,7 @@ function getWageInfo(soc) {
         $.mobile.changePage('#list');
       }
     });
-    $(document).on('click', '#search a', function(evt){
+    $(document).on('click', '#search .ui-content a', function(evt){
       var val = $(evt.delegateTarget).find('input[type=text]').val();
       if (!validateString(val, 'Invalid search term.')) {
         return false;
@@ -384,7 +384,10 @@ function getWageInfo(soc) {
                     yaxis = new Rickshaw.Graph.Axis.Y({
                       graph: chart,
                       orientation: 'right',
-                      tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                      //tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                      tickFormat: function(y) {
+                        return y.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      },
                       element: document.getElementById('y_axis')
                     });
 
@@ -602,8 +605,53 @@ function getWageInfo(soc) {
 						  // Draw some boundaries
 						  svg.append('path')
 							 .datum(topojson.mesh(uk, uk.objects['uk_regions'], function(a, b) { return a !== b; }))
+               .attr('id', 'mysvg')
 							 .attr('d', path)
 							 .attr('class', 'region-boundary');
+
+              // Draw key.
+              var colours = [['#ff0000', '#ff9999'], ['#ffa500', '#ffdb99']];
+              var texts   = [['High Decrease', 'Low Decrease'], ['High Increase', 'Low Increase']];
+
+              var i = 1,
+                  size = 12, // color block size
+                  offset = { x: 0, y: 210 },
+                  key = svg.append('g');
+
+              $.each(colours, function(k, v) {
+                var a = v[0];
+                var b = v[1];
+
+                key.append('rect')
+                  .attr('x', offset.x)
+                  .attr('y', offset.y + i * size + (i * 5))
+                  .attr('height', size)
+                  .attr('width', size)
+                  .style('fill', a);
+
+                key.append('text')
+                  .attr('x', offset.x + size + 3)
+                  .attr('y', offset.y + i * size + (i * 5) + 11)
+                  .attr('font-size', '0.8em')
+                  .text(texts[k][0]);
+
+                i++;
+
+                key.append('rect')
+                  .attr('x', offset.x)
+                  .attr('y', offset.y + i * size + (i * 5))
+                  .attr('height', size)
+                  .attr('width', size)
+                  .style('fill', b);
+
+                key.append('text')
+                  .attr('x', offset.x + size + 3)
+                  .attr('y', offset.y + i * size + (i * 5) + 11)
+                  .attr('font-size', '0.8em')
+                  .text(texts[k][1]);
+
+                i++;
+              });
 						});
             d.resolve();
 					});

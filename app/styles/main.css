@@ -5,6 +5,13 @@
   zoom: 1;
 }
 
+.note {
+  display: block;
+  font-size: 0.8em;
+  text-align: center;
+  line-height: 1.5;
+}
+
 #list ul li a {
   display: block;
   background-image: url('images/hIEfix.png'); /* Fix result listing anchors for IE8 */
@@ -13,6 +20,11 @@
 
 h2 {
   color: #FF6600;
+  margin-top: 0;
+}
+
+#about .ui-content > p {
+  line-height: 1.5;
   margin-top: 0;
 }
 
@@ -95,10 +107,15 @@ footer.ui-footer {
   border: 0;
 }
 
+/* Search page */
 #search .ui-btn {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+#search label {
+  text-align: center;
 }
 
 /* IE7 */
