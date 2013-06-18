@@ -347,7 +347,7 @@ footer.ui-footer {
     overflow: hidden;
   }
   #list .ui-listview li:hover .ui-li-desc {
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-right: 20px;
   }
   /* Semi transparent background and different position if there is a thumb */
