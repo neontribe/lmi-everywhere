@@ -115,6 +115,7 @@ footer.ui-footer {
   left: 0;
   right: 0;
   z-index: 5;
+  margin: 1px;
 
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
