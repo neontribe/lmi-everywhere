@@ -411,12 +411,13 @@ footer.ui-footer {
     padding: 10px;
   }
   /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
--  but we stick to percentage values for demo purposes. */
--  #list .ui-listview .ui-li.ui-btn {
--    width: 23%;
--    height: 230px;
--    margin: 10px 1%;
--  }
+  but we stick to percentage values for demo purposes. */
+  #list .ui-listview .ui-li.ui-btn {
+    width: 23%;
+    height: 230px;
+    margin: 10px 1%;
+  }
+
   /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
   By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
   #list .ui-listview {
@@ -447,4 +448,18 @@ footer.ui-footer {
   stroke: #777;
   stroke-dasharray: 2,2;
   stroke-linejoin: round;
+}
+
+.ui-bar-a {
+  border: 1px solid #b3b3b3 /*{a-bar-border}*/;
+  background: #FF6600 /*{a-bar-background-color}*/;
+  color: #fff /*{a-bar-color}*/;
+  font-weight: bold;
+  text-shadow: 0 /*{a-bar-shadow-x}*/ 0px /*{a-bar-shadow-y}*/ 0 /*{a-bar-shadow-radius}*/ #ffffff /*{a-bar-shadow-color}*/;
+  background-image: -webkit-gradient(linear, left top, left bottom, from( #FF6d00 /*{a-bar-background-start}*/), to( #ed5e00 /*{a-bar-background-end}*/)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient( #FF6d00 /*{a-bar-background-start}*/, #ed5e00 /*{a-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient( #FF6d00 /*{a-bar-background-start}*/, #ed5e00 /*{a-bar-background-end}*/); /* FF3.6 */
+  background-image:     -ms-linear-gradient( #FF6d00 /*{a-bar-background-start}*/, #ed5e00 /*{a-bar-background-end}*/); /* IE10 */
+  background-image:      -o-linear-gradient( #FF6d00 /*{a-bar-background-start}*/, #ed5e00 /*{a-bar-background-end}*/); /* Opera 11.10+ */
+  background-image:         linear-gradient( #FF6d00 /*{a-bar-background-start}*/, #ed5e00 /*{a-bar-background-end}*/);
 }

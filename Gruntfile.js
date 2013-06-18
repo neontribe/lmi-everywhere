@@ -6,7 +6,7 @@ var mountFolder = function (connect, dir) {
 
 module.exports = function (grunt) {
   // load all grunt tasks
-  require('matchdep').filterDev('grunt-*').concat(['gruntacular']).forEach(grunt.loadNpmTasks);
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   // configurable paths
   var yeomanConfig = {
@@ -83,11 +83,18 @@ module.exports = function (grunt) {
       }
     },
     concat: {
+      options: {
+        separator: ';'
+      },
       dist: {
         files: {
           '<%= yeoman.dist %>/scripts/scripts.js': [
             '.tmp/scripts/*.js',
-            '<%= yeoman.app %>/scripts/*.js'
+            '<%= yeoman.app %>/scripts/geolocation.js',
+            '<%= yeoman.app %>/scripts/app.js'
+          ],
+          '<%= yeoman.dist %>/scripts/vis.js': [
+            '.tmp/scripts/*.js'
           ]
         }
       }
@@ -109,16 +116,16 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.app %>/images',
+          cwd: '<%= yeoman.app %>/styles/images',
           src: '{,*/}*.{png,jpg,jpeg}',
-          dest: '<%= yeoman.dist %>/images'
+          dest: '<%= yeoman.dist %>/styles/images'
         }]
       }
     },
     cssmin: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/styles/main.css': [
+          '<%= yeoman.dist %>/styles/trax.css': [
             '.tmp/styles/{,*/}*.css',
             '<%= yeoman.app %>/styles/{,*/}*.css'
           ]
@@ -160,6 +167,17 @@ module.exports = function (grunt) {
         }
       }
     },
+    rev: {
+      dist: {
+        files: {
+          src: [
+            '<%= yeoman.dist %>/scripts/{,*/}*.js',
+            '<%= yeoman.dist %>/styles/{,*/}*.css',
+            '<%= yeoman.dist %>/styles/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+          ]
+        }
+      }
+    },
     copy: {
       dist: {
         files: [{
@@ -170,6 +188,7 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,txt}',
             '.htaccess',
+            '*.json',
             'components/**/*'
           ]
         }]
@@ -205,9 +224,10 @@ module.exports = function (grunt) {
     'htmlmin',
     'concat',
     'copy',
-    'cdnify',
-    'usemin',
-    'uglify'
+    //'cdnify',
+    'uglify',
+    'rev',
+    'usemin'
   ]);
 
   grunt.registerTask('default', ['build']);
