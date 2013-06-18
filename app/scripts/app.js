@@ -359,7 +359,7 @@ function getWageInfo(soc) {
                   // mangle the data for the rickshaw chart
                   chartData = $.map(trendByRegion[regionID], function(v){
                     return {
-                      x: new Date(v.year.toString()).getTime() / 1000,
+                      x: new Date(v.year.toString(), '').getTime() / 1000,
                       y: v.employment
                     };
                   });
