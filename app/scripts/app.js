@@ -128,7 +128,7 @@ function getWageInfo(soc) {
         // Grab config from our URL
         $.extend(true, app, $.deparam.querystring(true));
 
-        if (!app.region) {
+        if (app.region === '' || app.region === undefined) {
           getUserLocation(function(region){
               updateRegion(region);
             });
