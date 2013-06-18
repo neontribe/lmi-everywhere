@@ -21,6 +21,10 @@ h2 {
   max-width: 98%; /* Avoid overlapping info button on smaller displays */
 }
 
+#info .ui-btn-up-a .ui-icon {
+  color: #333 !important;
+}
+
 .ui-header .ui-btn-hover-a {
   border: 0;
   margin: 2px 0 0;
@@ -115,6 +119,7 @@ footer.ui-footer {
   left: 0;
   right: 0;
   z-index: 5;
+  margin: 1px;
 
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -168,6 +173,11 @@ footer.ui-footer {
   color: #990099;
 }
 
+#list .noresults {
+  color: #fff;
+  text-align: center;
+}
+
 /* Graph */
 .rickshaw_graph .x_tick .title {
   color: #000;
@@ -178,6 +188,11 @@ footer.ui-footer {
 #region-map h2 {
   position: absolute;
   margin: 0;
+}
+
+#region-map path,
+#region-map rect {
+  cursor: pointer;
 }
 
 /* Region popup */
