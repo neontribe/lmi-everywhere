@@ -175,6 +175,7 @@ footer.ui-footer {
 
 #list .noresults {
   color: #fff;
+  background-image: url(images/icons-18-black.png) !important;
   text-align: center;
 }
 
