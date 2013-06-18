@@ -119,7 +119,6 @@ function getWageInfo(soc) {
     }
 
     $(document).ready(function() {
-
         // Toggle info display over graph.
         $('#info_btn_desc').on('click', function() {
           $('.rubric > p').slideToggle();
@@ -482,9 +481,11 @@ function getWageInfo(soc) {
 							var trend = trends[name.toLowerCase()];
 							var rtrend = (trend.trend > 0)? 'increasing':'decreasing';
 							var currentemp = (Math.round((trend.data[0].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              var lasttemp   = (Math.round((trend.data[trend.data.length - 1].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							var output  = '<div class ="' + rtrend + '">';
 							output += '<h3>' + name + '</h3>';
-							output += 'Workers: approx. ' + currentemp + '<br />';
+							output += 'Workers ' + trend.data[0].year + ': approx. ' + currentemp + '<br />';
+              output += 'Workers ' + trend.data[trend.data.length - 1].year + ': approx. ' + lasttemp + '<br />';
 							output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 						  if (trend.wage.wage) {
 								output += trend.wage.year + ' Avg weekly wage: &pound;' +
@@ -492,6 +493,7 @@ function getWageInfo(soc) {
 							} else {
 							  output += 'No wage info available.</p></div>';
 							}
+ 
 							return output;
 						}
 
