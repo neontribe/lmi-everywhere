@@ -23,6 +23,11 @@ h2 {
   margin-top: 0;
 }
 
+#about .ui-content > p {
+  line-height: 1.5;
+  margin-top: 0;
+}
+
 #info h2 {
   color: #222;
   max-width: 98%; /* Avoid overlapping info button on smaller displays */
