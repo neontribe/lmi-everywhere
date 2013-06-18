@@ -31,11 +31,12 @@
     <!-- endbuild -->
     
     <!--[if (!IE)|(gte IE 9)]>-->
-    <!-- build:js scripts/vis.js -->
+    <!-- build:js scripts/viz.js -->
     <script src="components/d3/d3.js"></script>
     <script src="components/topojson/topojson.js"></script>
-    <script src="components/rickshaw/rickshaw.js"></script>
     <!-- endbuild -->
+    <!-- Uglify chokes on Rickshaw -->
+    <script src="components/rickshaw/rickshaw.min.js"></script>
     <!--<![endif]-->
 
     <!--[if lt IE 9]>

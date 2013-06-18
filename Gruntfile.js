@@ -117,7 +117,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/styles/images',
-          src: '{,*/}*.{png,jpg,jpeg}',
+          src: '{,*/}*.{png,jpg,jpeg,gif}',
           dest: '<%= yeoman.dist %>/styles/images'
         }]
       }
@@ -189,7 +189,8 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess',
             '*.json',
-            'components/**/*'
+            'components/**/*',
+            'styles/images/ajax-loader.gif'
           ]
         }]
       }
