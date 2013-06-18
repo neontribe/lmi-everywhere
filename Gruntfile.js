@@ -190,7 +190,8 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.json',
             'components/**/*',
-            'styles/images/ajax-loader.gif'
+            'styles/images/ajax-loader.gif',
+            'lmi-everywhere.js'
           ]
         }]
       }
