@@ -384,7 +384,10 @@ function getWageInfo(soc) {
                     yaxis = new Rickshaw.Graph.Axis.Y({
                       graph: chart,
                       orientation: 'right',
-                      tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                      //tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                      tickFormat: function(y) {
+                        return y.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      },
                       element: document.getElementById('y_axis')
                     });
 
