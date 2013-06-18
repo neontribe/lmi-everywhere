@@ -169,6 +169,11 @@ footer.ui-footer {
   color: #990099;
 }
 
+#list .noresults {
+  color: #fff;
+  text-align: center;
+}
+
 /* Graph */
 .rickshaw_graph .x_tick .title {
   color: #000;

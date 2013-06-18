@@ -274,6 +274,7 @@ function getWageInfo(soc) {
               app.searchResults = data;
               render($page.find('div[data-role="content"]'), 'list_content', {jobs: data});
               $page.find('div[data-role="content"] ul').listview();
+              $page.find('.noresults a').button();
               d.resolve();
             }).fail(function(){
               d.reject();
