@@ -151,16 +151,6 @@ module.exports = function (grunt) {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
-    ngmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.dist %>/scripts',
-          src: '*.js',
-          dest: '<%= yeoman.dist %>/scripts'
-        }]
-      }
-    },
     uglify: {
       dist: {
         files: {
@@ -217,7 +207,6 @@ module.exports = function (grunt) {
     'copy',
     'cdnify',
     'usemin',
-    'ngmin',
     'uglify'
   ]);
 
