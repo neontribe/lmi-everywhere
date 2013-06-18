@@ -119,7 +119,6 @@ function getWageInfo(soc) {
     }
 
     $(document).ready(function() {
-
         // Toggle info display over graph.
         $('#info_btn_desc').on('click', function() {
           $('.rubric > p').slideToggle();
@@ -482,9 +481,11 @@ function getWageInfo(soc) {
 							var trend = trends[name.toLowerCase()];
 							var rtrend = (trend.trend > 0)? 'increasing':'decreasing';
 							var currentemp = (Math.round((trend.data[0].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              var lasttemp   = (Math.round((trend.data[trend.data.length - 1].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							var output  = '<div class ="' + rtrend + '">';
 							output += '<h3>' + name + '</h3>';
-							output += 'Workers: approx. ' + currentemp + '<br />';
+							output += 'Workers ' + trend.data[0].year + ': approx. ' + currentemp + '<br />';
+              output += 'Workers ' + trend.data[trend.data.length - 1].year + ': approx. ' + lasttemp + '<br />';
 							output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
 						  if (trend.wage.wage) {
 								output += trend.wage.year + ' Avg weekly wage: &pound;' +
@@ -492,6 +493,7 @@ function getWageInfo(soc) {
 							} else {
 							  output += 'No wage info available.</p></div>';
 							}
+ 
 							return output;
 						}
 
@@ -541,10 +543,10 @@ function getWageInfo(soc) {
                   if (trendCalc > 0) {  // trend increasing
                     return icolor(trendCalc);
                   }
-                  if (trendCalc < 0) { // trend increasing
+                  else if (trendCalc < 0) { // trend increasing
                     return dcolor(trendCalc);
                   }
-                  if (trendCalc === 0) { // trend stable
+                  else if (trendCalc === 0) { // trend stable
                     return 'white'; // TODO What do we want to do with stable?
                   }
                 })
@@ -579,18 +581,24 @@ function getWageInfo(soc) {
 									 .attr('x', function(reg) { return centre[0]-5; })
 									 .attr('y', function(reg) { return centre[1]-2; })
 									 .attr('width', 10)
-									 .attr('height', 4);
+									 .attr('height', 4)
+                   .on('click', function() {
+                     showPopup(getTrendOutput(reg.id));
+                   });
 							  }
 							  if (trend > 0) {
 								  svg.append('path').style('fill', 'white').style('stroke', '#7a7a5b')
 									 .attr('transform', function() {
 										return 'translate(' + centre[0] + ',' + centre[1] + ')';
 									})
-								.attr('d', d3.svg.symbol().type('cross'));
+								.attr('d', d3.svg.symbol().type('cross'))
+                .on('click', function() {
+                    showPopup(getTrendOutput(reg.id));
+                  });
 							  }
 						  });
 
-						// Draw some boundaries
+						  // Draw some boundaries
 						  svg.append('path')
 							 .datum(topojson.mesh(uk, uk.objects['uk_regions'], function(a, b) { return a !== b; }))
 							 .attr('d', path)
