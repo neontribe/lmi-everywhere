@@ -197,12 +197,21 @@ function getWageInfo(soc) {
       // Show error message.
       $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, message, true );
 
+      // Create temporary semi-transparent background overlay.
+      $('body').append('<div class="custom-overlay" />');
+
 			// Hide after delay.
 			if (timeout) {
-				setTimeout( $.mobile.hidePageLoadingMsg, timeout );
+				setTimeout(hideMessage, timeout);
 			} else {
-        setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
+        setTimeout(hideMessage, 1500);
 			}
+
+      // Hide overlay and message.
+      function hideMessage() {
+        $('.custom-overlay').remove();
+        $.mobile.hidePageLoadingMsg();
+      }
 		}
 
 		function showPopup(message, elem) {
@@ -485,19 +494,26 @@ function getWageInfo(soc) {
 							var trend = trends[name.toLowerCase()];
 							var rtrend = (trend.trend > 0)? 'increasing':'decreasing';
 							var currentemp = (Math.round((trend.data[0].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-              var lasttemp   = (Math.round((trend.data[trend.data.length - 1].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              var lastemp   = (Math.round((trend.data[trend.data.length - 1].employment)/10)*10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+              // Show percentage increase/decrease.
+              var a = parseInt(currentemp.replace(/,/g, ''));
+              var b = parseInt(lastemp.replace(/,/g, ''));
+              var change = Math.abs((((b - a) / a) * 100)).toFixed(2);
+              rtrend += ' ' + change + '%';
+
 							var output  = '<div class ="' + rtrend + '">';
 							output += '<h3>' + name + '</h3>';
-							output += 'Workers ' + trend.data[0].year + ': approx. ' + currentemp + '<br />';
-              output += 'Workers ' + trend.data[trend.data.length - 1].year + ': approx. ' + lasttemp + '<br />';
-							output += '<p>Opportunities: <span>'	+ rtrend + '</span><br />';
+							output += 'Workers ' + trend.data[0].year + ': approx. <b>' + currentemp + '</b><br />';
+              output += 'Workers ' + trend.data[trend.data.length - 1].year + ': approx. <b>' + lastemp + '</b><br />';
+							output += '<p>Opportunities:<br /><span>'	+ rtrend + '</span></p><p>';
+
 						  if (trend.wage.wage) {
-								output += trend.wage.year + ' Avg weekly wage: &pound;' +
-									trend.wage.wage + '</p></div>';
+								output += trend.wage.year + ' Avg weekly wage: <b>&pound;' + trend.wage.wage + '</b></p></div>';
 							} else {
 							  output += 'No wage info available.</p></div>';
 							}
-
+ 
               // Link region popup header to #info page in selected region.
               $(document).on('click', '#moreinfo h3', function() {
                 app.region = regions[$(this).text()];
