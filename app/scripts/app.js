@@ -31,6 +31,17 @@ function calculateTrend(data, raw) {
   return ((a - b) / (c - d));
 }
 
+function capitaliseWords(str) {
+  var pieces = str.split(' ');
+
+  for (var i = 0; i < pieces.length; i++) {
+    var j = pieces[i].charAt(0).toUpperCase();
+    pieces[i] = j + pieces[i].substr(1);
+  }
+
+  return pieces.join(' ');
+}
+
 function regionTrendData(data) {
   'use strict';
   var regions = [],
@@ -524,14 +535,13 @@ function getWageInfo(soc) {
 						}
 
 						// Add title with job title info
-						var pagetitle = '<h2>Trends&#58;<br />' +
-							app.cache[app.soc].title.toLowerCase() + '</h2>';
+						var pagetitle = '<h2>' + capitaliseWords(app.cache[app.soc].title) + '</h2>';
 
 						// Clear existing html and add page title to regionmap div
 						$('#region-map').html(pagetitle);
 
 						// Build our base svg
-						var svg = d3.select('#region-map').append('svg').append('g');
+						var svg = d3.select('#region-map').append('svg').attr('id', 'svg-map').append('g');
 
             // Resize svg element to show widget correctly in Firefox browser.
             $('svg', '#region-map').attr('width', window.innerWidth).attr('height', window.innerHeight);
@@ -633,25 +643,25 @@ function getWageInfo(soc) {
 
               // Draw key.
               var colours = [['#ff0000', '#ff9999'], ['#ffa500', '#ffdb99']];
-              var texts   = [['High Decrease', 'Low Decrease'], ['High Increase', 'Low Increase']];
+              var texts   = [['High -', 'Low -'], ['High +', 'Low +']];
 
               var i = 1,
                   size = 12, // color block size
-                  offset = { x: 0, y: 210 },
-                  key = svg.append('g');
+                  offset = { x: $('#svg-map').attr('width') - 100, y: 90 },
+                  legend = svg.append('g');
 
               $.each(colours, function(k, v) {
                 var a = v[0];
                 var b = v[1];
 
-                key.append('rect')
+                legend.append('rect')
                   .attr('x', offset.x)
                   .attr('y', offset.y + i * size + (i * 5))
                   .attr('height', size)
                   .attr('width', size)
                   .style('fill', a);
 
-                key.append('text')
+                legend.append('text')
                   .attr('x', offset.x + size + 3)
                   .attr('y', offset.y + i * size + (i * 5) + 11)
                   .attr('font-size', '0.8em')
@@ -659,14 +669,14 @@ function getWageInfo(soc) {
 
                 i++;
 
-                key.append('rect')
+                legend.append('rect')
                   .attr('x', offset.x)
                   .attr('y', offset.y + i * size + (i * 5))
                   .attr('height', size)
                   .attr('width', size)
                   .style('fill', b);
 
-                key.append('text')
+                legend.append('text')
                   .attr('x', offset.x + size + 3)
                   .attr('y', offset.y + i * size + (i * 5) + 11)
                   .attr('font-size', '0.8em')
