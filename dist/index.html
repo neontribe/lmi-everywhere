@@ -10,13 +10,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="stylesheet" href="styles/3ea453b8.trax.css">
+    <link rel="stylesheet" href="styles/69e44733.trax.css">
     
 
-    <script src="scripts/b1e87d64.scripts.js"></script>
+    <script src="scripts/702d3248.scripts.js"></script>
     
     <!--[if (!IE)|(gte IE 9)]>-->
-    <script src="scripts/7911d870.viz.js"></script>
+    <script src="scripts/acde75e3.viz.js"></script>
     <!-- Uglify chokes on Rickshaw -->
     <script src="components/rickshaw/rickshaw.min.js"></script>
     <!--<![endif]-->
@@ -44,12 +44,13 @@
 
     <section id="search" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <h1>Career trax</h1>
-        <a href="#about" data-role="button" data-icon="info" data-iconpos="notext" data-transition="flow">Read more about Career trax</a>
+        <h1>Career Trax</h1>
+        <a href="#about" data-role="button" data-icon="info" data-iconpos="notext" data-transition="flow">Read more about Career Trax</a>
       </header>
       <div data-role="content"> 
         <span id="search_form_intro">
-          Discover your future.<br>
+          <span class="discover">Discover your future.</span>
+          <span class="note">Find out what the UK-wide picture looks like and compare by region to help you make the best decisions for your career.</span>
           <span class="note">Type in your dream career to find out average income and future demand.</span>
         </span>
         <input type="text" placeholder="I want to be a...">
@@ -61,8 +62,7 @@
             <option value="<%= id %>" <%= (id === sel) ? 'selected' : ''%>><%= region %></option>
           <% }) %>
         </script>
-        <a href="#list" data-role="button" data-transition="flow">Search</a>
-        <span class="note">Find out what the UK-wide picture looks like and compare by region to help you make the best decisions for your career.</span>
+        <a href="#list" data-role="button" data-icon="search" data-transition="flow">Search</a>
       </div>
       <footer data-role="footer" data-position="fixed">
         <a id="powered-by" href="http://api.lmiforall.org.uk" title="Visit the LMI For All API">Powered by LMI For All</a>
@@ -71,7 +71,7 @@
 
     <section id="about" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <h1>Career trax</h1>
+        <h1>Career Trax</h1>
       </header>
       <div data-role="navbar">
         <ul>
@@ -79,7 +79,7 @@
         </ul>
       </div>
       <div data-role="content" class="scrollable">
-        <p>Career trax uses data from LMI for All, an online data portal that has been developed by the
+        <p>Career Trax uses data from LMI for All, an online data portal that has been developed by the
            UK Commission for Employment and Skills. The first pilot version of this was released in May
            2013.</p>
         <p>LMI for All brings together various robust national sources of labour market information (LMI)
@@ -91,24 +91,23 @@
            Employer Skills Survey and Working Futures.</p>
         <p>At heart, LMI for All is part of the open data agenda. The aim is to support individuals and
            businesses to make better and more informed decisions about careers and learning options.</p>
-        <p>Career trax has been developed to demonstrate the potential of LMI for All, and to encourage
+        <p>Career Trax has been developed to demonstrate the potential of LMI for All, and to encourage
            use of the data in new and innovative ways. It should be noted that it draws on only part of
            the data and functionality available from LMI for All and that there is scope to tap into the
            portal in a whole host of additional ways.</p>
         <p>Development of LMI for All is ongoing. Functionality will be improved and further data sets added,
            and different iterations will be released until the final version is due in March 2015. Feedback
            from developers and other stakeholders will help to inform this development.</p>
-        <p>To access the API, please visit http://api.lmiforall.org.uk/</p>
+        <p>To access the API, please visit <a href="http://api.lmiforall.org.uk" title="Visit the LMI API">http://api.lmiforall.org.uk/</a></p>
         <p>For more information about LMI for All, please contact <a href="mailto:lmiforall@ukces.org.uk">lmiforall@ukces.org.uk</a></p>
         <p><a href="http://www.lmiforall.org.uk">www.lmiforall.org.uk</a></p>
         <p><a href="http://www.ukces.org.uk/ourwork/research/lmi/lmi-for-all">http://www.ukces.org.uk/ourwork/research/lmi/lmi-for-all</a></p>
-      
       </div>
     </section>
 
     <section id="list" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <h1>Career trax</h1>
+        <h1>Career Trax - Results</h1>
       </header>
       <div data-role="navbar">
         <ul>
@@ -142,7 +141,7 @@
 
     <section id="info" data-role="page" data-theme="a">
       <header data-role="header" data-position="fixed">
-        <h1>Career trax</h1>
+        <h1>Career Trax - Opportunities</h1>
       </header>
       <div data-role="navbar">
         <ul>
@@ -151,7 +150,7 @@
         </ul>
       </div>
 
-      <a id="info_btn_desc" href="#abc" data-role="button" data-icon="info" data-iconpos="notext">Info</a>
+      <a id="info_btn_desc" href="#" data-role="button" data-icon="info" data-iconpos="notext">Info</a>
 
       <div class="content scrollable" data-role="content"></div>
     </section>
@@ -166,7 +165,7 @@
 
     <section id="moreinfo" data-role="page" data-position="fixed" data-theme="a">
     	<header data-role="header" data-position="fixed">
-    	  <h1>Career trax</h1>
+    	  <h1>Career Trax - Trends</h1>
     	</header>
 
 			<div data-role="navbar">
