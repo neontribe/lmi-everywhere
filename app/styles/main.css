@@ -271,6 +271,7 @@ footer.ui-footer {
   margin: 0;
   width: 90%;
   color: #FF6600;
+  cursor: pointer;
 }
 
 #region-popup p {

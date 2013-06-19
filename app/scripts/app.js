@@ -497,6 +497,12 @@ function getWageInfo(soc) {
 							} else {
 							  output += 'No wage info available.</p></div>';
 							}
+
+              // Link region popup header to #info page in selected region.
+              $(document).on('click', '#moreinfo h3', function() {
+                app.region = regions[$(this).text()];
+                $.mobile.changePage('#info');
+              });
  
 							return output;
 						}
