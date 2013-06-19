@@ -287,13 +287,15 @@ function getWageInfo(soc) {
 		$(document).on('keyup', '#search input', function(evt) {
 			if (evt.which === 13) {
 				var val = $(evt.delegateTarget).find('input[type=text]').val();
-
-				if (!validateString(val, 'Invalid search term.')) {
-					return false;
-				}
-
+				
 				app.searchTerm = val;
 				app.region = $(evt.delegateTarget).find('select[name=region]').val();
+
+        /*
+        if (!validateString(val, 'Invalid search term.')) {
+					return false;
+				}
+        */
 
 				$.mobile.changePage('#list');
 			}
@@ -302,9 +304,11 @@ function getWageInfo(soc) {
 		$(document).on('click', '#search .ui-content a', function(evt) {
 			var val = $(evt.delegateTarget).find('input[type=text]').val();
 
+      /*
 			if (!validateString(val, 'Invalid search term.')) {
 				return false;
 			}
+      */
 
 			app.searchTerm = val;
 			app.region = $(evt.delegateTarget).find('select[name=region]').val() || '';
