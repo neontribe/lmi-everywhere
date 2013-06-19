@@ -506,7 +506,7 @@ function getWageInfo(soc) {
 							output += '<h3>' + name + '</h3>';
 							output += 'Workers ' + trend.data[0].year + ': approx. <b>' + currentemp + '</b><br />';
               output += 'Workers ' + trend.data[trend.data.length - 1].year + ': approx. <b>' + lastemp + '</b><br />';
-							output += '<p>Opportunities:<br /><span>'	+ rtrend + '</span></p><p>';
+							output += '<p class="opportunities">Opportunities:<br /><span>'	+ rtrend + '</span></p><p>';
 
 						  if (trend.wage.wage) {
 								output += trend.wage.year + ' Avg weekly wage: <b>&pound;' + trend.wage.wage + '</b></p></div>';

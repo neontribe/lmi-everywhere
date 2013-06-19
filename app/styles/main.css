@@ -273,6 +273,10 @@ footer.ui-footer {
   background-color: #000;
 }
 
+#region-popup .opportunities {
+  text-align: center;
+}
+
 #region-popup {
   position: relative;
   padding: 10px;
