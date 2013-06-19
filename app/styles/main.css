@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Kreon);
+
 * {
   font-family: Arial, Sans-Serif;
   letter-spacing: 0;
@@ -72,6 +74,17 @@ div.ui-input-text textarea.ui-input-text,
   text-align: center;
 }
 
+#search_form_intro {
+  background: #fff;
+  padding: 6px 5px;
+  border: 1px solid #aaa;
+  opacity: 0.9;
+
+  -moz-border-radius: 1em;
+  -webkit-borde-radius: 1em;
+  border-radius: 1em;
+}
+
 .rubric > p {
   display: none;
   font-size: 0.95em;
@@ -108,6 +121,27 @@ footer.ui-footer {
 }
 
 /* Search page */
+#search {
+  background: url('images/map3.jpg') no-repeat center center fixed;
+
+   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map3.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/map3.jpg', sizingMethod='scale')";
+}
+
+#search footer {
+  border: 0;
+  background: none;
+}
+
+#search .ui-content {
+  max-width: 800px;
+}
+
 #search .ui-btn {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
@@ -115,7 +149,16 @@ footer.ui-footer {
 }
 
 #search label {
+  font-family: 'Kreon', sans-serif;
+  font-size: 1.2em;
   text-align: center;
+  line-height: 0.9;
+}
+
+#search .discover {
+  font-family: 'Kreon', sans-serif;
+  font-size: 1.2em;
+  display: block;
 }
 
 /* IE7 */
@@ -188,12 +231,6 @@ footer.ui-footer {
 }
 #list .ui-li-aside {
   color: #990099;
-}
-
-#list .noresults {
-  color: #fff;
-  background-image: url(images/icons-18-black.png) !important;
-  text-align: center;
 }
 
 /* Graph */
@@ -285,8 +322,12 @@ footer.ui-footer {
     display: none;
   }
 
-  .rubric >p {
+  .rubric > p {
     display: block;
+  }
+
+  #search .ui-content {
+    margin: 2em auto;
   }
 
   #list .ui-listview .job-description{
@@ -428,12 +469,12 @@ footer.ui-footer {
     padding: 10px;
   }
   /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
--  but we stick to percentage values for demo purposes. */
--  #list .ui-listview .ui-li.ui-btn {
--    width: 23%;
--    height: 230px;
--    margin: 10px 1%;
--  }
+  but we stick to percentage values for demo purposes. */
+  #list .ui-listview .ui-li.ui-btn {
+    width: 23%;
+    height: 230px;
+    margin: 10px 1%;
+  }
   /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
   By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
   #list .ui-listview {
