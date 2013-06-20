@@ -11,7 +11,7 @@ var regions = {
     'South West': 4,
     'Wales': 10,
     'West Midlands': 5,
-    'Yorkshire and the Humber': 7
+    'Yorkshire and The Humber': 7
   };
 
 var mapitRegions = {
@@ -42,7 +42,7 @@ var saneRegions = {
     'the South West': 4,
     'Wales': 10,
     'the West Midlands': 5,
-    'Yorkshire and the Humber': 7
+    'Yorkshire and The Humber': 7
   };
 
 function getRegionName(id) {
