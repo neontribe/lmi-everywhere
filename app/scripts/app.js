@@ -600,7 +600,7 @@ function getWageInfo(soc) {
 								else {
 									output += 'No wage info available.</p></div>';
 								}
-	 									 
+
 								return output;
 							}
 
