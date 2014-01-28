@@ -1,6 +1,6 @@
 {
     "name": "Career Trax Demonstrator",
-    "version": "0.2",
+    "version": "0.3",
     "manifest_version": 2,
     "description": "Demonstrate the Career Trax widget on rightmove property pages",
     "content_scripts": [

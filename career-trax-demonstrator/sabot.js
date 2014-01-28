@@ -18,7 +18,7 @@
     var base = "http://career-trax.herokuapp.com";
 
     //make an attempt to sniff the lat/lon from the google  map
-    var map = $('#minimapwrapper img'), point;
+    var map = $('.minimap a[href="#map"] img'), point;
     if (map) {
         point = $.deparam.querystring(map.attr('src')).center.split(',').reverse().join(',');
         $.ajax({
@@ -40,7 +40,7 @@
         iframe.attr('height', "400");
         iframe.attr('scrolling', 'no');
         iframe.css('border', '3px solid #222');
-        iframe.prependTo('div.secondarycontent');
+        iframe.prependTo('div.secondary-content');
     }
 
 
